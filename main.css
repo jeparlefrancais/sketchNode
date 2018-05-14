@@ -1,0 +1,140 @@
+* {
+    --primarycolor: rgb(25, 113, 214);
+    --primarycolorHover: rgb(30, 68, 172);
+    --secondarycolor: rgb(252, 252, 252);
+    --secondarycolorHover: rgb(230, 230, 230);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+}
+
+body {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: var(--secondarycolor);
+    font-family: 'Arapey';
+    font-size: 1.2em;
+}
+
+.header {
+    width: 100%;
+    border: 0px;
+    padding: 0;
+    background: linear-gradient(to bottom, rgb(48, 138, 241), var(--primarycolor));
+    box-sizing: border-box;
+}
+
+.title {
+    font-family: 'Reenie Beanie';
+    text-transform: uppercase;
+    color: white;
+    padding: 5vw;
+    text-align: center;
+    font-size: 10vw;
+    letter-spacing: .35em;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+nav ul {
+    align-items: center;
+    list-style: none;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+}
+
+nav ul li {
+    display: inline-flex;
+    color: white;
+    width: 12em;
+    height: 5em;
+    text-align: center;
+    padding: 0 1.5em 0 1.5em;
+    align-items: center;
+    justify-content: center;
+}
+
+nav ul li a {
+    width: 100%;
+    color: white;
+    font-size: 2.5em;
+    text-decoration: none;
+    text-transform: uppercase;
+    position: relative;
+}
+
+nav ul li a.active {
+    color: white;
+}
+
+.content {
+    position: relative;
+    top: 2.5em;
+    padding: 30px;
+}
+
+li {
+    list-style-type: none;
+    list-style-position: outside;
+}
+
+.classList {
+    font-size: 1.3em;
+}
+
+.classList li {
+    padding: 8px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, td, th {
+    border: 1px solid rgb(199, 199, 199);
+}
+
+td {
+    padding: 15px;
+}
+
+tr {
+    background-color: rgb(242, 242, 242);
+}
+
+tr:nth-child(even) {
+    background-color: rgb(255, 255, 255);
+}
+
+.methodTypeColumn {
+    text-align: right;
+    width: 10%;
+}
+
+.methodNameColumn {
+    text-align: left;
+    width: 50%;
+}
+
+.methodDescriptionColumn {
+    text-align: left;
+}
+
+.typeString {
+    color: rgb(75, 144, 223)
+}
+
+.methodName {
+    color: rgb(0, 99, 212);
+    font-weight: bold;
+}
