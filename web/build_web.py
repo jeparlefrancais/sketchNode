@@ -1,7 +1,7 @@
 import os
 from jinja2 import Environment, FileSystemLoader
 
-from web_api_classes import getApi
+from web_classes import getApi
 
 ROOT_FOLDER = 'web/'
 BUILD_FOLDER = ROOT_FOLDER + 'build'
