@@ -1,0 +1,23 @@
+language: python
+python:
+  - "3.6"
+
+branches:
+  - dev
+
+before_script:
+  - pip install -r requirements.txt
+
+script:
+  - python ./web/build_web.py
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  local-dir: web/build
+  on:
+    branch: master
+  repo: jeparlefrancais/sketchNode
+  target_branch: gh-pages
