@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="main.css">
+    <link href='https://fonts.googleapis.com/css?family=Arapey' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Reenie Beanie' rel='stylesheet'>
+    <title>SketchNode</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body style="height: 100%">
+
+    <div class="header">
+        <h1 class="title noselect">SketchNode</h1>
+        <nav>
+            <ul>
+                {% for name, link in pages.items() %}
+                    {% if pageName == name %}
+                        <li class="noselect active"><a href="{{ link }}.html" class="active">{{ name }}</a></li>
+                    {% else %}
+                        <li class="noselect"><a href="{{ link }}.html">{{ name }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+    <div class="content">
+        <div>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>
