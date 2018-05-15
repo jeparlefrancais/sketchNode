@@ -34,10 +34,10 @@
     <div class="content">
         <div>
             
-<h1>Argument</h1>
+<h1>BaseObject</h1>
 <br>
 <p>
-    An argument is a TypedVariable with a default value. 
+    Add a description
 </p>
 
 <br>
@@ -49,14 +49,6 @@
 <br>
 
 <table class="methodTable">
-    
-        <tr>
-            <td class="methodTypeColumn typeString">any</td>
-            
-                <td class="methodNameColumn"><span class="methodName">GetDefaultValue</span>()</td>
-            
-            <td class="methodDescriptionColumn">Returns the default value of the argument.</td>
-        </tr>
     
         <tr>
             <td class="methodTypeColumn typeString">table</td>
@@ -72,7 +64,7 @@
             <td class="methodTypeColumn typeString">table</td>
             
                 <td class="methodNameColumn">
-                    <span class="methodName">New</span>(<span class="typeString">string</span> name, <span class="typeString">string</span> typeString, <span class="typeString">any</span> defaultValue, <span class="typeString">boolean</span> canBeNil=false)
+                    <span class="methodName">New</span>(<span class="typeString">string</span> name)
                 </td>
             
             <td class="methodDescriptionColumn"></td>
@@ -86,69 +78,9 @@
             <td class="methodDescriptionColumn">Serializes all the object data in a table to be reloaded using the Load method.</td>
         </tr>
     
-        <tr>
-            <td class="methodTypeColumn typeString">void</td>
-            
-                <td class="methodNameColumn"><span class="methodName">SetDefaultValue</span>()</td>
-            
-            <td class="methodDescriptionColumn">Sets the default value of the argument.</td>
-        </tr>
-    
 </table>
 
 
-    
-        
-            <br>
-
-            <h3>Inherited from <a href="api_TypedVariable.html">TypedVariable</a></h3>
-
-            <br>
-
-            <table class="methodTable">
-                
-                    <tr>
-                        <td class="methodTypeColumn typeString">boolean</td>
-                        
-                            <td class="methodNameColumn"><span class="methodName">Check</span>()</td>
-                        
-                        <td class="methodDescriptionColumn">Returns true if the given object matches with the variable type.</td>
-                    </tr>
-                
-                    <tr>
-                        <td class="methodTypeColumn typeString">boolean</td>
-                        
-                            <td class="methodNameColumn"><span class="methodName">GetCanBeNil</span>()</td>
-                        
-                        <td class="methodDescriptionColumn">Returns true if the variable is allowed to be nil.</td>
-                    </tr>
-                
-                    <tr>
-                        <td class="methodTypeColumn typeString">string</td>
-                        
-                            <td class="methodNameColumn"><span class="methodName">GetType</span>()</td>
-                        
-                        <td class="methodDescriptionColumn">Returns the type of the variable.</td>
-                    </tr>
-                
-                    <tr>
-                        <td class="methodTypeColumn typeString">void</td>
-                        
-                            <td class="methodNameColumn"><span class="methodName">SetCanBeNil</span>()</td>
-                        
-                        <td class="methodDescriptionColumn">Sets if the variable is allowed to be nil.</td>
-                    </tr>
-                
-                    <tr>
-                        <td class="methodTypeColumn typeString">void</td>
-                        
-                            <td class="methodNameColumn"><span class="methodName">SetType</span>()</td>
-                        
-                        <td class="methodDescriptionColumn">Changes the type of the variable.</td>
-                    </tr>
-                
-            </table>
-        
     
         
             <br>
@@ -180,6 +112,58 @@
             </table>
         
     
+        
+            <br>
+
+            <h3>Inherited from <a href="api_Node.html">Node</a></h3>
+
+            <br>
+
+            <table class="methodTable">
+                
+                    <tr>
+                        <td class="methodTypeColumn typeString">Vector2</td>
+                        
+                            <td class="methodNameColumn"><span class="methodName">GetPosition</span>()</td>
+                        
+                        <td class="methodDescriptionColumn">Returns the position of the node.</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="methodTypeColumn typeString">void</td>
+                        
+                            <td class="methodNameColumn">
+                                <span class="methodName">SetPosition</span>(<span class="typeString">number</span> x, <span class="typeString">number</span> y)
+                            </td>
+                        
+                        <td class="methodDescriptionColumn">Sets the position of the node.</td>
+                    </tr>
+                
+            </table>
+        
+    
+        
+            <br>
+
+            <h3>Inherited from <a href="api_PropertyContainer.html">PropertyContainer</a></h3>
+
+            <br>
+
+            <table class="methodTable">
+                
+                    <tr>
+                        <td class="methodTypeColumn typeString">void</td>
+                        
+                            <td class="methodNameColumn">
+                                <span class="methodName">AddProperty</span>(<span class="typeString">any</span> property)
+                            </td>
+                        
+                        <td class="methodDescriptionColumn">Adds a property to the container.</td>
+                    </tr>
+                
+            </table>
+        
+    
 
 
 <br>
@@ -189,54 +173,8 @@
 <br>
 
 
-    <table class="methodTable">
-        
-            <tr>
-                <td class="methodTypeColumn typeString"></td>
-                
-                    <td class="methodNameColumn">
-                        <span class="methodName">DefaultValueChanged</span>(<span class="typeString">any</span> newDefaultValue)
-                    </td>
-                
-                <td class="methodDescriptionColumn"></td>
-            </tr>
-        
-    </table>
 
 
-
-    
-        
-            <br>
-
-            <h3>Inherited from <a href="api_TypedVariable.html">TypedVariable</a></h3>
-
-            <br>
-
-            <table class="methodTable">
-                
-                    <tr>
-                        <td class="methodTypeColumn typeString"></td>
-                        
-                            <td class="methodNameColumn">
-                                <span class="methodName">CanBeNilChanged</span>(<span class="typeString">boolean</span> canBeNil)
-                            </td>
-                        
-                        <td class="methodDescriptionColumn"></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="methodTypeColumn typeString"></td>
-                        
-                            <td class="methodNameColumn">
-                                <span class="methodName">TypeChanged</span>(<span class="typeString">string</span> newTypeString)
-                            </td>
-                        
-                        <td class="methodDescriptionColumn"></td>
-                    </tr>
-                
-            </table>
-        
     
         
             <br>
@@ -260,6 +198,50 @@
             </table>
         
     
+        
+            <br>
+
+            <h3>Inherited from <a href="api_Node.html">Node</a></h3>
+
+            <br>
+
+            <table class="methodTable">
+                
+                    <tr>
+                        <td class="methodTypeColumn typeString"></td>
+                        
+                            <td class="methodNameColumn">
+                                <span class="methodName">PositionChanged</span>(<span class="typeString">number</span> x, <span class="typeString">number</span> y)
+                            </td>
+                        
+                        <td class="methodDescriptionColumn"></td>
+                    </tr>
+                
+            </table>
+        
+    
+        
+            <br>
+
+            <h3>Inherited from <a href="api_PropertyContainer.html">PropertyContainer</a></h3>
+
+            <br>
+
+            <table class="methodTable">
+                
+                    <tr>
+                        <td class="methodTypeColumn typeString"></td>
+                        
+                            <td class="methodNameColumn">
+                                <span class="methodName">PropertyAdded</span>(<span class="typeString">any</span> newProperty)
+                            </td>
+                        
+                        <td class="methodDescriptionColumn"></td>
+                    </tr>
+                
+            </table>
+        
+    
 
 
 
@@ -271,7 +253,11 @@
         <ul class="classList">
             
             <li>
-                <a href="api_Property.html">Property</a>
+                <a href="api_Class.html">Class</a>
+            </li>
+            
+            <li>
+                <a href="api_Module.html">Module</a>
             </li>
             
         </ul>

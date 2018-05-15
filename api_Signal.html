@@ -34,10 +34,10 @@
     <div class="content">
         <div>
             
-<h1>Enumeration</h1>
+<h1>Signal</h1>
 <br>
 <p>
-    Add a description
+    Use this class to add signals into other classes.
 </p>
 
 <br>
@@ -54,46 +54,28 @@
             <td class="methodTypeColumn typeString">void</td>
             
                 <td class="methodNameColumn">
-                    <span class="methodName">AddElement</span>(<span class="typeString">string</span> element)
+                    <span class="methodName">Connect</span>(<span class="typeString">function</span> func)
                 </td>
             
-            <td class="methodDescriptionColumn">Adds a new element to the enumeration</td>
-        </tr>
-    
-        <tr>
-            <td class="methodTypeColumn typeString">boolean</td>
-            
-                <td class="methodNameColumn"><span class="methodName">Exists</span>()</td>
-            
-            <td class="methodDescriptionColumn">Returns true if the given string exists</td>
+            <td class="methodDescriptionColumn">Connects a function to the signal.</td>
         </tr>
     
         <tr>
             <td class="methodTypeColumn typeString">table</td>
             
                 <td class="methodNameColumn">
-                    <span class="methodName">Load</span>(<span class="typeString">table</span> data)
+                    <span class="methodName">New</span>(<span class="typeString">table</span> typeInfos)
                 </td>
             
-            <td class="methodDescriptionColumn">Creates a new object with the given table.</td>
+            <td class="methodDescriptionColumn">Creates a new signal.</td>
         </tr>
     
         <tr>
-            <td class="methodTypeColumn typeString">table</td>
+            <td class="methodTypeColumn typeString">void</td>
             
-                <td class="methodNameColumn">
-                    <span class="methodName">New</span>(<span class="typeString">string</span> name, <span class="typeString">table</span> elements)
-                </td>
+                <td class="methodNameColumn"><span class="methodName">SetSignals</span>()</td>
             
             <td class="methodDescriptionColumn"></td>
-        </tr>
-    
-        <tr>
-            <td class="methodTypeColumn typeString">table</td>
-            
-                <td class="methodNameColumn"><span class="methodName">Serialize</span>()</td>
-            
-            <td class="methodDescriptionColumn">Serializes all the object data in a table to be reloaded using the Load method.</td>
         </tr>
     
 </table>
