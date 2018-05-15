@@ -6,6 +6,12 @@ local class = {
 
 function class.Init()
 	class.__super = nil
+	class.__signals = {
+		PositionChanged = {
+			'number', -- x
+			'number', -- y
+		}
+	}
 end
 
 function class.New(o, x, y) --\ReturnType: table
@@ -15,7 +21,7 @@ function class.New(o, x, y) --\ReturnType: table
     )
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
-	local o = class.Package.Inherit(class)
+	class.Package.Utils.Signal.SetSignals(class, o)
 
 	o.position = Vector2.new(x, y)
 
@@ -24,10 +30,13 @@ end
 
 function class.Load(o, data) --\ReturnType: table
     --\Doc: Creates a new object with the given table.
-	if o == class then
-		o = class.Package.Utils.Inherit(class)
-	end
+    data = class.Package.Utils.Tests.GetArguments(
+        {'table', data} -- Data from the Serialize method.
+    )
+	if o == class then o = class.Package.Utils.Inherit(class) end
 
+	class.Package.Utils.Signal.SetSignals(class, o)
+	
 	o.position = Vector2.new(data.x, data.y)
 
 	return o
@@ -56,6 +65,7 @@ function class:SetPosition(x, y)
         {'number', y} -- A list of the arguments.
     )
 	self.position = Vector2.new(x, y)
+	self.PositionChanged:Fire(x, y)
 end
 
 return class

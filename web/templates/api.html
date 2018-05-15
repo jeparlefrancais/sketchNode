@@ -13,4 +13,17 @@
     {% endfor %}
 </ul>
 
+<br>
+
+<h1>Modules</h1>
+<br>
+
+<ul class="classList">
+    {% for module in modules %}
+    <li>
+        <a href="api_{{ module.getName() }}.html">{{ module.getName() }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
 {% endblock %}

@@ -5,7 +5,15 @@ local class = {
 }
 
 function class.Init()
-    class.__super = nil
+    class.__super = {class.Package.Classes.Named}
+	class.__signals = {
+		TypeChanged = {
+			'string' -- newTypeString
+		},
+		CanBeNilChanged = {
+			'boolean' -- canBeNil
+		}
+	}
 end
 
 function class.New(o, name, typeString, canBeNil) --\ReturnType: table
@@ -16,7 +24,7 @@ function class.New(o, name, typeString, canBeNil) --\ReturnType: table
     )
     if o == class then o = class.Package.Utils.Inherit(class) end
 
-    o.name = name
+    class.Package.Classes.Named.New(o, name)
     o.typeString = typeString
     o.canBeNil = canBeNil
 
@@ -30,6 +38,7 @@ function class.Load(o, data) --\ReturnType: table
     )
     if o == class then o = class.Package.Utils.Inherit(class) end
 
+    class.Package.Classes.Named.Load(o, data.superNamed)
 	o.name = data.name
 	o.typeString = data.typeString
     o.canBeNil = data.canBeNil
@@ -40,9 +49,9 @@ end
 function class:Serialize() --\ReturnType: table
     --\Doc: Serializes all the object data in a table to be reloaded using the Load method.
 	return {
-		name = self.defaultValue,
 		typeString = self.typeString,
-		canBeNil = self.canBeNil
+		canBeNil = self.canBeNil,
+		superNamed = class.Package.Classes.Named.Serialize(self)
 	}
 end
 
@@ -50,11 +59,6 @@ function class:Check(object) --\ReturnType: boolean
     --\Doc: Returns true if the given object matches with the variable type.
 	local objectType = typeof(object)
 	return objectType == self.typeString or (self.canBeNil and object == nil) or (objectType == 'Instance' and object:IsA(self.typeString))
-end
-
-function class:GetName() --\ReturnType: string
-    --\Doc: Returns the name of the variable.
-	return self.name
 end
 
 function class:GetType() --\ReturnType: string
@@ -67,24 +71,18 @@ function class:GetCanBeNil() --\ReturnType: boolean
     return self.canBeNil
 end
 
-function class:SetName(name)
-    --\Doc: Renames the variable.
-    name = self.Package.Utils.Tests.GetArguments(
-        {'string', name} -- The new name of the variable.
-    )
-    self.name = name
-end
-
 function class:SetType(typeString)
     --\Doc: Changes the type of the variable.
     typeString = self.Package.Utils.Tests.GetArguments('string', typeString)
     self.typeString = typeString
+    self.TypeChanged:Fire(typeString)
 end
 
 function class:SetCanBeNil(canBeNil)
     --\Doc: Sets if the variable is allowed to be nil.
     canBeNil = self.Package.Utils.Tests.GetArguments('boolean', canBeNil)
     self.canBeNil = canBeNil
+    self.CanBeNilChanged:Fire(canBeNil)
 end
 
 return class

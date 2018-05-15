@@ -16,24 +16,16 @@ end
 function module.GetArguments(...)
 	local args = {...}
 	local returnArgs = {}
-	print('')
 	for i=1, #args do
---	for i, tuple in pairs(args) do
 		local argType, arg, defaultValue = unpack(args[i])
-		print('getting tuple', argType, arg, defaultValue, i)
 		if arg == nil and defaultValue ~= nil then
-			print('Setting default value from', argType, arg, defaultValue, i)
 			arg = defaultValue
 		end
 		if argType ~= nil and argType ~= '' then
 			module.Test(arg, argType)
 		end
-		print(' ->', arg)
 		returnArgs[i] = arg
-		--table.insert(returnArgs, arg)
-		print('Now t=', unpack(returnArgs))
 	end
-	print('')
 	return unpack(returnArgs)
 end
 

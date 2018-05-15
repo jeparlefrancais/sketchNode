@@ -5,16 +5,25 @@ local class = {
 }
 
 function class.Init()
-	class.__super = {class.Package.Classes.PropertyContainer}
+	class.__super = {
+		class.Package.Classes.BaseObject
+	}
+	class.__signals = {
+		MethodAdded = {
+			'' -- newMethod
+		}
+	}
 end
 
 function class.New(o, name) --\ReturnType: table
-    name = self.Package.Utils.Tests.GetArguments(
+    name = class.Package.Utils.Tests.GetArguments(
         {'string', name} -- The new name of the variable.
     )
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
-	class.Package.Classes.PropertyContainer.New(o)
+	class.Package.Utils.Signal.SetSignals(class, o)
+
+	class.Package.Classes.BaseObject.New(o, name)
 	
 	o.name = name
 	o.methods = {}
@@ -31,9 +40,10 @@ function class.Load(o, data) --\ReturnType: table
     )
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
-	class.Package.Classes.PropertyContainer.Load(o, data.superPropertyContainer)
+	class.Package.Utils.Signal.SetSignals(class, o)
 
-	o.name = name
+	class.Package.Classes.BaseObject.Load(o, data.superBaseObject)
+	
 	o.methods = class.Package.LoadTable(data.methods, class.Package.Classes.Method)
 	o.inherits = {}
 	o.inherited = {}
@@ -44,9 +54,8 @@ end
 function class:Serialize() --\ReturnType: table
     --\Doc: Serializes all the object data in a table to be reloaded using the Load method.
 	return {
-		name = self.name,
 		methods = class.Package.SerializeTable(self.methods),
-		superPropertyContainer = class.Package.Classes.PropertyContainer.Serialize(self)
+		superBaseObject = class.Package.Classes.BaseObject.Serialize(self)
 	}
 end
 
@@ -76,6 +85,7 @@ end
 function class:AddMethod(method)
 	--\Doc: Adds a method to the class.
 	table.insert(self.methods, method)
+	self.MethodAdded:Fire(method)
 end
 
 function class:Inherits(parentClass)
@@ -90,11 +100,6 @@ end
 function class:GetMethods() --\ReturnType: list
 	--\Doc: Returns a list of all the methods.
 	return self.methods
-end
-
-function class:GetName() --\ReturnType: string
-	--\Doc: Returns the name of the class.
-	return self.name
 end
 
 return class

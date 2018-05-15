@@ -5,7 +5,7 @@ local class = {
 }
 
 function class.Init()
-    class.__super = nil
+    class.__super = {class.Package.Classes.Named}
 end
 
 function class.New(o, name, args, returnValues) --\ReturnType: table
@@ -16,7 +16,8 @@ function class.New(o, name, args, returnValues) --\ReturnType: table
     )
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
-	o.name = name
+	class.Package.Classes.Named.New(o, name)
+
 	o.args = args -- Argument
 	o.returnValues = returnValues -- TypedVariable
 	o.source = ''
@@ -31,7 +32,8 @@ function class.Load(o, data) --\ReturnType: table
     )
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
-	o.name = data.name
+	class.Package.Classes.Named.Load(o, data.superNamed)
+
 	o.args = class.Package.LoadTable(data.args, class.Package.Classes.Argument) -- Argument
 	o.returnValues = class.Package.LoadTable(data.returnValues, class.Package.Classes.TypedVariable) -- TypedVariable
 	o.source = data.source
@@ -42,10 +44,10 @@ end
 function class:Serialize() --\ReturnType: table
     --\Doc: Serializes all the object data in a table to be reloaded using the Load method.
 	return {
-		name = self.name,
 		args = class.Package.SerializeTable(self.args),
 		returnValues = class.Package.SerializeTable(self.returnValues),
-		source = self.source
+		source = self.source,
+		superNamed = class.Package.Classes.Named.Serialize(self)
 	}
 end
 
@@ -71,11 +73,6 @@ function class:CheckReturnedValues(...) --\ReturnType: boolean
 	return true
 end
 
-function class:GetName() --\ReturnType: string
-	--\Doc: Returns the name of the function.
-	return self.name
-end
-
 function class:GetArguments() --\ReturnType: table
 	--\Doc: Returns the list of the arguments.
 	return self.args
@@ -84,14 +81,6 @@ end
 function class:GetSource() --\ReturnType: string
 	--\Doc: Returns the source code of the function.
 	return self.source
-end
-
-function class:SetName(name)
-	--\Doc: Sets the name of the function.
-    name = class.Package.Utils.Tests.GetArguments(
-        {'string', name}
-    )
-	self.name = name
 end
 
 function class:SetSource(source)

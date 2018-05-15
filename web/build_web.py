@@ -25,23 +25,42 @@ with open('{}/main.css'.format(BUILD_FOLDER), 'w+') as file:
     file.write(css)
 
 classes = []
+modules = []
 # Generate the api
 for (folder, dirnames, filenames) in os.walk('sketchNode'):
     for filename in filenames:
         with open('{}/{}'.format(folder, filename)) as file:
             content = ''.join(file.readlines())
             apiObject = getApi(content, filename)
-            if apiObject is not None and apiObject.getType() == 'Class':
-                classes.append(apiObject)
-                with open('{}/api_{}.html'.format(BUILD_FOLDER, apiObject.getName()), 'w+') as newPage:
-                    newPage.write(env.get_template('api_class.html').render(pages=PAGES, obj=apiObject))
-                #print('Page', filename, 'created.')
+            if apiObject is not None:
+                if apiObject.getClass() == 'Class':
+                    classes.append(apiObject)
+                elif apiObject.getClass() == 'Module':
+                    modules.append(apiObject)
+
+for classObject in classes:
+    for otherClass in classes:
+        if classObject != otherClass:
+            if otherClass.getName() in classObject.getParentClassNames():
+                classObject.addParentClass(otherClass)
+
+modules.sort(key=lambda x: x.getName().lower())
+
+for classObject in classes:
+    with open('{}/api_{}.html'.format(BUILD_FOLDER, classObject.getName()), 'w+') as newPage:
+        newPage.write(env.get_template('api_class.html').render(pages=PAGES, obj=classObject))
+        #print('Page', filename, 'created.')
+
+for moduleObject in modules:
+    with open('{}/api_{}.html'.format(BUILD_FOLDER, moduleObject.getName()), 'w+') as newPage:
+        newPage.write(env.get_template('api_module.html').render(pages=PAGES, obj=moduleObject))
+        #print('Page', filename, 'created.')
 
 # Create the main pages
 for page, fileName in PAGES.items():
     with open('{}/{}.html'.format(BUILD_FOLDER, fileName), 'w+') as file:
         if page == 'Reference':
-            file.write(env.get_template('{}.html'.format(fileName)).render(pages=PAGES, pageName=page, classes=classes))
+            file.write(env.get_template('{}.html'.format(fileName)).render(pages=PAGES, pageName=page, classes=classes, modules=modules))
         else:
             file.write(env.get_template('{}.html'.format(fileName)).render(pages=PAGES, pageName=page))
 

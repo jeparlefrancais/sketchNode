@@ -1,48 +1,86 @@
-{% extends "core.html" %}
+{% extends "api_module.html" %}
 
-{% block content %}
-<h1>{{ obj.getName() }}</h1>
-<br>
-<p>
-    {{ obj.getDescription() }}
-</p>
 
-<br>
+{% block inheritedMethods %}
+    {% for parent in obj.getParentClasses() %}
+        {% if obj.getInheritedMethods(parent)|length > 0 %}
+            <br>
 
-<!-- Maybe add link to the github file-->
+            <h3>Inherited from <a href="api_{{ parent.getName() }}.html">{{ parent.getName() }}</a></h3>
 
-<h2>Methods</h2>
+            <br>
 
-<br>
-
-<table class="methodTable">
-    {% for method in obj.getMethods() %}
-        <tr>
-            <td class="methodTypeColumn typeString">{{ method.getReturnType() }}</td>
-            {% if method.getArguments()|length == 0 %}
-                <td class="methodNameColumn"><span class="methodName">{{ method.getName() }}</span>()</td>
-            {% elif method.getArguments()|length == 1 %}
-                <td class="methodNameColumn">
-                    <span class="methodName">{{ method.getName() }}</span>({% for arg in method.getArguments() %}<span class="typeString">{{ arg.getType() }}</span> {{ arg.getName() }}{% if arg.getDefaultValue()|length > 0 %}={{ arg.getDefaultValue() }}{% endif %}{% endfor %})
-                </td>
-            {% else %}
-                <td class="methodNameColumn">
-                    <span class="methodName">{{ method.getName() }}</span>({% for arg in method.getArguments() %}{% if loop.index > 1 %}, {% endif %}<span class="typeString">{{ arg.getType() }}</span> {{ arg.getName() }}{% if arg.getDefaultValue()|length > 0 %}={{ arg.getDefaultValue() }}{% endif %}{% endfor %})
-                </td>
-            {% endif %}
-            <td class="methodDescriptionColumn">{{ method.getDescription() }}</td>
-        </tr>
+            <table class="methodTable">
+                {% for method in obj.getInheritedMethods(parent) %}
+                    <tr>
+                        <td class="methodTypeColumn typeString">{{ method.getReturnType() }}</td>
+                        {% if method.getArguments()|length == 0 %}
+                            <td class="methodNameColumn"><span class="methodName">{{ method.getName() }}</span>()</td>
+                        {% elif method.getArguments()|length == 1 %}
+                            <td class="methodNameColumn">
+                                <span class="methodName">{{ method.getName() }}</span>({% for arg in method.getArguments() %}<span class="typeString">{{ arg.getType() }}</span> {{ arg.getName() }}{% if arg.getDefaultValue()|length > 0 %}={{ arg.getDefaultValue() }}{% endif %}{% endfor %})
+                            </td>
+                        {% else %}
+                            <td class="methodNameColumn">
+                                <span class="methodName">{{ method.getName() }}</span>({% for arg in method.getArguments() %}{% if loop.index > 1 %}, {% endif %}<span class="typeString">{{ arg.getType() }}</span> {{ arg.getName() }}{% if arg.getDefaultValue()|length > 0 %}={{ arg.getDefaultValue() }}{% endif %}{% endfor %})
+                            </td>
+                        {% endif %}
+                        <td class="methodDescriptionColumn">{{ method.getDescription() }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
     {% endfor %}
-</table>
+{% endblock %}
 
-<br>
+{% block inheritedSignals %}
+    {% for parent in obj.getParentClasses() %}
+        {% if obj.getInheritedSignals(parent)|length > 0 %}
+            <br>
 
-<h2>Events</h2>
+            <h3>Inherited from <a href="api_{{ parent.getName() }}.html">{{ parent.getName() }}</a></h3>
 
-<br>
+            <br>
 
-<p>
-    Coming soon?!?
-</p>
+            <table class="methodTable">
+                {% for signal in obj.getInheritedSignals(parent) %}
+                    <tr>
+                        <td class="methodTypeColumn typeString"></td>
+                        {% if signal.getValues()|length == 0 %}
+                            <td class="methodNameColumn"><span class="methodName">{{ signal.getName() }}</span>()</td>
+                        {% elif signal.getValues()|length == 1 %}
+                            <td class="methodNameColumn">
+                                <span class="methodName">{{ signal.getName() }}</span>({% for val in signal.getValues() %}<span class="typeString">{{ val.getType() }}</span> {{ val.getName() }}{% endfor %})
+                            </td>
+                        {% else %}
+                            <td class="methodNameColumn">
+                                <span class="methodName">{{ signal.getName() }}</span>({% for val in signal.getValues() %}{% if loop.index > 1 %}, {% endif %}<span class="typeString">{{ val.getType() }}</span> {{ val.getName() }}{% endfor %})
+                            </td>
+                        {% endif %}
+                        <td class="methodDescriptionColumn">{{ signal.getDescription() }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
 
+
+
+{% block inheritedClasses %}
+    {% if obj.getChildClasses()|length > 0 %}
+        <br>
+        <h2>Inherited Classes</h2>
+        <br>
+
+        <ul class="classList">
+            {% for class in obj.getChildClasses() %}
+            <li>
+                <a href="api_{{ class.getName() }}.html">{{ class.getName() }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <br>
+    {% endif %}
 {% endblock %}

@@ -6,17 +6,20 @@ local class = {
 
 function class.Init()
 	class.__super = {class.Package.Classes.TypedVariable}
+	class.__signals = {
+		DefaultValueChanged = {
+			'', -- newDefaultValue
+		}
+	}
 end
 
 function class.New(o, name, typeString, defaultValue, canBeNil) --\ReturnType: table
-	print('Core arguments : ', name, typeString, defaultValue, canBeNil)
 	name, typeString, defaultValue, canBeNil = class.Package.Utils.Tests.GetArguments(
         {'string', name}, -- The name given to the argument.
         {'string', typeString}, -- The type of the argument.
         {'', defaultValue}, -- The default value of the argument.
         {'boolean', canBeNil, false} -- Allows the argument to be nil.
 	)
-	print('Arguments now : ', name, typeString, defaultValue, canBeNil)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
 	class.Package.Classes.TypedVariable.New(o, name, typeString, canBeNil)
@@ -54,7 +57,8 @@ end
 
 function class:SetDefaultValue(defaultValue)
 	--\Doc: Sets the default value of the argument.
-    self.defaultValue = defaultValue
+	self.defaultValue = defaultValue
+	self.DefaultValueChanged:Fire(defaultValue)
 end
 
 return class

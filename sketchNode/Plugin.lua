@@ -30,12 +30,5 @@ Engine.Utils = Utils
 local View = LoadPackage(script.Parent:WaitForChild('View'))
 View.Utils = Utils
 
-local var = Engine.Classes.Argument:New('var_test', 'string')
-
-print('VAR:', var:GetName())
-print('    ', var:GetType())
-print('    ', var:GetCanBeNil())
-print('    ', var:GetDefaultValue())
-
 Engine.SketchEngine.Start()
 View.Main.Start(plugin, Engine)

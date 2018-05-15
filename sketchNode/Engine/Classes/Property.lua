@@ -5,7 +5,10 @@ local class = {
 }
 
 function class.Init()
-	class.__super = {class.Package.Classes.Argument}
+	class.__super = {
+		class.Package.Classes.Argument,
+		class.Package.Classes.AccessRestricted
+	}
 end
 
 function class.New(o, name, typeString, defaultValue, canBeNil, access) --\ReturnType: table
@@ -17,10 +20,9 @@ function class.New(o, name, typeString, defaultValue, canBeNil, access) --\Retur
 		{'string', access, 'Private'} -- Public or private.
     )
 	if o == class then o = class.Package.Utils.Inherit(class) end
-	if access == nil then access = 'Private' end
 
-	class.Package.Classes.Arg.New(o, name, typeString, defaultValue, canBeNil)
-	o.access = access
+	class.Package.Classes.Argument.New(o, name, typeString, defaultValue, canBeNil)
+	class.Package.Classes.AccessRestricted.New(o, access)
 
 	return o
 end
@@ -33,7 +35,7 @@ function class.Load(o, data) --\ReturnType: table
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
 	class.Package.Classes.Argument.Load(o, data.superArgument)
-	o.access = data.access
+	class.Package.Classes.AccessRestricted.Load(o, data.superAccessRestricted)
 
 	return o
 end
@@ -41,14 +43,9 @@ end
 function class:Serialize() --\ReturnType: table
     --\Doc: Serializes all the object data in a table to be reloaded using the Load method.
 	return {
-		access = self.access,
+		superAccessRestricted = class.Package.Classes.AccessRestricted.Serialize(self),
 		superArgument = class.Package.Classes.Argument.Serialize(self)
 	}
-end
-
-function class:GetAccess() --\ReturnType: string
-	--\Doc: Returns the access of the property.
-	return self.access
 end
 
 return class

@@ -5,7 +5,15 @@ local class = {
 }
 
 function class.Init()
-	class.__super = {class.Package.Classes.Function}
+	class.__super = {
+		class.Package.Classes.Function,
+		class.Package.Classes.AccessRestricted
+	}
+	class.__signals = {
+		AbstractChanged = {
+			'boolean' -- isAbstract
+		}
+	}
 end
 
 function class.New(o, name, args, returnValues, access, abstract) --\ReturnType: table
@@ -18,8 +26,11 @@ function class.New(o, name, args, returnValues, access, abstract) --\ReturnType:
     )
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
-    class.Package.Classes.Function.New(o, name, args, returnValues)
-	o.access = access
+	class.Package.Utils.Signal.SetSignals(class, o)
+
+	class.Package.Classes.Function.New(o, name, args, returnValues)
+    class.Package.Classes.AccessRestricted.Load(o, data.superAccessRestricted)
+	
 	o.abstract = abstract
 
 	return o
@@ -32,8 +43,10 @@ function class.Load(o, data) --\ReturnType: table
     )
 	if o == class then o = class.Package.Utils.Inherit(class) end
 	
+	class.Package.Utils.Signal.SetSignals(class, o)
+
     class.Package.Classes.Function.Load(o, data.superFunction)
-	o.access = data.access
+    class.Package.Classes.AccessRestricted.Load(o, data.superAccessRestricted)
 	o.abstract = data.abstract
 
 	return o
@@ -42,9 +55,9 @@ end
 function class:Serialize() --\ReturnType: table
     --\Doc: Serializes all the object data in a table to be reloaded using the Load method.
 	return {
-		access = self.access,
 		abstract = self.abstract,
-		superFunction = class.Package.Classes.Function.Serialize(self)
+		superFunction = class.Package.Classes.Function.Serialize(self),
+		superAccessRestricted = class.Package.Classes.AccessRestricted.Serialize(self)
 	}
 end
 
@@ -53,9 +66,13 @@ function class:IsAbstract() --\ReturnType: boolean
 	return self.abstract
 end
 
-function class:GetAccess() --\ReturnType: string
-	--\Doc: Returns the access of the method.
-	return self.access
+function class:SetAbstract(isAbstract)
+    --\Doc: Changes if the method is abstract or not.
+    isAbstract = class.Package.Utils.Tests.GetArguments(
+        {'boolean', isAbstract} -- The new value.
+	)
+	self.asbtract = isAbstract
+	self.AbstractChanged:Fire(isAbstract)
 end
 
 return class

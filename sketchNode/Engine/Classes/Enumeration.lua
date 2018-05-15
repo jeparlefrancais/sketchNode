@@ -14,8 +14,8 @@ function class.New(o, name, elements) --\ReturnType: table
         {'table', elements} -- The list of strings in the enumeration.
     )
 	if o == class then o = class.Package.Utils.Inherit(class) end
-    
-	o.name = name
+	
+	class.Package.Classes.Named.New(o, name)
 	o.elements = elements
 
 	return o
@@ -28,7 +28,8 @@ function class.Load(o, data) --\ReturnType: table
     )
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
-	o.name = data.name
+	class.Package.Classes.Named.Load(o, data.superNamed)
+	
 	o.elements = data.elements
 
 	return o
@@ -37,8 +38,8 @@ end
 function class:Serialize() --\ReturnType: table
     --\Doc: Serializes all the object data in a table to be reloaded using the Load method.
 	return {
-		name = self.name,
-		elements = self.elements
+		elements = self.elements,
+		superNamed = class.Package.Classes.Named.Serialize(self)
 	}
 end
 
@@ -66,11 +67,6 @@ function class:AddElement(element)
 		end
 	end
 	table.insert(self.elements, element)
-end
-
-function class:GetName() --\ReturnType: string
-	--\Doc: Returns the name of the enumeration.
-	return self.name
 end
 
 return class

@@ -2,7 +2,7 @@ local module = {}
 
 function module.Start(plugin, Engine)
     -- build the actual UI
-    module.gui = plugin:CreateDockWidgetPluginGui("SketchEngineView", module.Package.Settings.DockWidgetInfo)
+    module.gui = plugin:CreateDockWidgetPluginGui("SketchEngineView", module.Package.ViewSettings.DockWidgetInfo)
 
     -- read the current content from the Engine
 
