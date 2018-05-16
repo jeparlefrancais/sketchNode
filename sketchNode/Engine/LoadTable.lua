@@ -6,7 +6,7 @@ return function(data, class)
 	end
 	local content = {}
 	for _, element in ipairs(data) do
-		table.insert(content, class.Load(element))
+		table.insert(content, class:Load(element))
 	end
 	return content
 end

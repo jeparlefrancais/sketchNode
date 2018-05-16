@@ -31,7 +31,9 @@ function class:Fire(...)
     --\Doc: Fires all the connected functions.
     local values = {...}
     for i, value in pairs(values) do
-        class.Package.Tests.Test(value, self.typeInfos[i])
+        if self.typeInfos[i] ~= '' then
+            class.Package.Tests.Test(value, self.typeInfos[i])
+        end
     end
     for _, func in ipairs(self.connectedFunctions) do
         func(...)

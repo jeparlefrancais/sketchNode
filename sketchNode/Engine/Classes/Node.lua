@@ -44,9 +44,6 @@ end
 
 function class:Serialize() --\ReturnType: table
     --\Doc: Serializes all the object data in a table to be reloaded using the Load method.
-    data = class.Package.Utils.Tests.GetArguments(
-        {'table', data} -- Data from the Serialize method.
-    )
 	return {
 		x = self.position.X,
 		y = self.position.Y

@@ -81,7 +81,7 @@ end
 
 function module.Load(json)
 	--\Doc: Loads a SketchNode project from the given json string.
-	json = class.Package.Utils.Tests.GetArguments(
+	json = module.Package.Utils.Tests.GetArguments(
         {'string', json} -- The json string with the project data.
 	)
 	local data = HTTP:JSONDecode(json)
@@ -92,7 +92,7 @@ end
 
 function module.Compile(flags)
 	--\Doc: Compiles the SketchNode project into the place. Overwrites the actual compiled version.
-	flags = class.Package.Utils.Tests.GetArguments(
+	flags = module.Package.Utils.Tests.GetArguments(
         {'table', flags} -- Dictionary of flags.
 	)
 	-- generate the game files

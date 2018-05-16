@@ -33,7 +33,7 @@ end
 
 function class.Load(o, data) --\ReturnType: table
     --\Doc: Creates a new object with the given table.
-    data = self.Package.Utils.Tests.GetArguments(
+    data = class.Package.Utils.Tests.GetArguments(
         {'table', data} -- Data from the Serialize method.
     )
     if o == class then o = class.Package.Utils.Inherit(class) end
