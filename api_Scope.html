@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="main.css">
+    <link href='https://fonts.googleapis.com/css?family=Arapey' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Reenie Beanie' rel='stylesheet'>
+    <title>SketchNode</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body style="height: 100%">
+
+    <div class="header">
+        <h1 class="title noselect">SketchNode</h1>
+        <nav>
+            <ul>
+                
+                    
+                        <li class="noselect"><a href="index.html">Home</a></li>
+                    
+                
+                    
+                        <li class="noselect"><a href="api.html">Reference</a></li>
+                    
+                
+                    
+                        <li class="noselect"><a href="about.html">About</a></li>
+                    
+                
+            </ul>
+        </nav>
+    </div>
+    <div class="content">
+        <div>
+            
+<h1>Scope</h1>
+<br>
+<p>
+    Add a description
+</p>
+
+<br>
+
+<!-- Maybe add link to the github file-->
+
+<h2>Methods</h2>
+
+<br>
+
+<table class="methodTable">
+    
+        <tr>
+            <td class="methodTypeColumn typeString">void</td>
+            
+                <td class="methodNameColumn"><span class="methodName">AddVariable</span>()</td>
+            
+            <td class="methodDescriptionColumn">Adds a variable to the scope variables list.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">table</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">CreateLocal</span>(<span class="typeString">string</span> name)
+                </td>
+            
+            <td class="methodDescriptionColumn">Adds a local variable to the scope local variables list. Only the variables created with the local keyword in that scope will be in that list.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">table</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">GetLocal</span>(<span class="typeString">string</span> name)
+                </td>
+            
+            <td class="methodDescriptionColumn">Gets the local variable with the given name.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">table</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">New</span>(<span class="typeString">table</span> parent)
+                </td>
+            
+            <td class="methodDescriptionColumn">Creates a Scope that has not any parent.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">void</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">Rename</span>(<span class="typeString">string</span> name, <span class="typeString">string</span> newName)
+                </td>
+            
+            <td class="methodDescriptionColumn">Renames a variable.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">table</td>
+            
+                <td class="methodNameColumn"><span class="methodName">TopScope</span>()</td>
+            
+            <td class="methodDescriptionColumn">Creates a Scope that has not any parent.</td>
+        </tr>
+    
+</table>
+
+
+    
+
+
+<br>
+
+<h2>Events</h2>
+
+<br>
+
+
+
+
+    
+
+
+
+    
+
+
+
+        </div>
+    </div>
+</body>
+</html>
