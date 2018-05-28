@@ -142,6 +142,16 @@
                     <tr>
                         <td class="methodTypeColumn typeString">void</td>
                         
+                            <td class="methodNameColumn">
+                                <span class="methodName">AddArgument</span>(<span class="typeString">Argument</span> argument)
+                            </td>
+                        
+                        <td class="methodDescriptionColumn">Adds a new argument.</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="methodTypeColumn typeString">void</td>
+                        
                             <td class="methodNameColumn"><span class="methodName">EditSource</span>()</td>
                         
                         <td class="methodDescriptionColumn">Opens a script to edit this function</td>
@@ -177,6 +187,16 @@
                             <td class="methodNameColumn"><span class="methodName">GetSource</span>()</td>
                         
                         <td class="methodDescriptionColumn">Returns the source code of the function.</td>
+                    </tr>
+                
+                    <tr>
+                        <td class="methodTypeColumn typeString">boolean</td>
+                        
+                            <td class="methodNameColumn">
+                                <span class="methodName">RemoveArgument</span>(<span class="typeString">Argument</span> argument)
+                            </td>
+                        
+                        <td class="methodDescriptionColumn">Removes the argument. Returns true if the argument was removed.</td>
                     </tr>
                 
                     <tr>
@@ -268,6 +288,36 @@
             </table>
         
     
+        
+            <br>
+
+            <h3>Inherited from <a href="api_Function.html">Function</a></h3>
+
+            <br>
+
+            <table class="methodTable">
+                
+                    <tr>
+                        <td class="methodTypeColumn typeString"></td>
+                        
+                            <td class="methodNameColumn">
+                                <span class="methodName">ArgumentAdded</span>(<span class="typeString">Argument</span> newArgument)
+                            </td>
+                        
+                        <td class="methodDescriptionColumn"></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="methodTypeColumn typeString"></td>
+                        
+                            <td class="methodNameColumn">
+                                <span class="methodName">ArgumentOrderChanged</span>(<span class="typeString">table</span> argumentList)
+                            </td>
+                        
+                        <td class="methodDescriptionColumn"></td>
+                    </tr>
+                
+            </table>
         
     
         
