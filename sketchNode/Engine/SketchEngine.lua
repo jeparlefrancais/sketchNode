@@ -5,8 +5,20 @@ local HTTP = game:GetService('HttpService')
 
 local module = {}
 
+function module.Init()
+	module.__signals = {
+		ClassAdded = {
+			'Class' -- newClass
+		},
+		ModuleAdded = {
+			'Module' -- newModule
+		}
+	}
+end
+
 function module.Start()
-	print('SketchEngine init.')
+	module.Package.Utils.Signal.SetSignals(module, module)
+	
 	module.dataFolder = STO:FindFirstChild(module.Package.EngineSettings.DataFolderName)
 	if module.dataFolder then
 		-- reload data
@@ -17,8 +29,7 @@ end
 
 function module.Setup()
 	--\Doc: This function setups the place to be able to use this plugin. It creates the necessary folder(s).
-	module.dataFolder =
-		module.Package.Utils.Create'Folder'{
+	module.dataFolder = module.Package.Utils.Create'Folder'{
 		Name = module.Package.EngineSettings.DataFolderName,
 		Parent = STO
 	}
@@ -38,8 +49,7 @@ function module.Save(comment) --\ReturnType: boolean
 	if not module.saving then
 		module.saving = true
 
-		local data =
-			module.Package.Utils.Create'StringValue'{
+		local data = module.Package.Utils.Create'StringValue'{
 			Name = module.GetVersion(),
 			Value = module.Serialize(),
 			Parent = module.dataFolder

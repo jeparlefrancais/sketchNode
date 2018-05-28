@@ -91,4 +91,53 @@ function class:SetSource(source)
 	self.source = source
 end
 
+function class:GetScriptHeader(escapeChars) --\ReturnType: string
+	--\Doc: Returns the header used when opening the script in the editor.
+	escapeChars = class.Package.Utils.Tests.GetArguments(
+        {'boolean', escapeChars, false}
+    )
+	local arguments = {}
+	local totalArguments = #self.args
+	for i, arg in pairs(self.args) do
+		table.insert(arguments, arg:GetName() .. (i ~= totalArgument and ', ' or ''))
+	end
+	if escapeChars then
+		return 'function ' .. self:GetName() .. '%(' .. table.concat(arguments) .. '%)'
+	else
+		return string.format('function %s(%s)', self:GetName(), table.concat(arguments))
+	end
+end
+
+function class:GetEditingSource() --\ReturnType: string
+	local arguments = {}
+	local totalArguments = #self.args
+	for i, arg in pairs(self.args) do
+		table.insert(arguments, arg:GetName() .. (i ~= totalArgument and ', ' or ''))
+	end
+	return string.format([[%s
+%s
+end
+]], self:GetScriptHeader(), self.source)
+end
+
+function class:EditSource()
+	--\Doc: Opens a script to edit this function
+	if self.editingScript == nil then
+		self.editingScript = Instance.new('Script')
+		self.editingScript.Source = self:GetEditingSource()
+		self.editingScript.Changed:Connect(function(property)
+			if property == 'Source' then
+				local source = string.match(self.editingScript.Source, '^' .. self:GetScriptHeader(true) .. '%s(.*)%send%s*$')
+				if source == nil then
+					self.editingScript.Source = self:GetEditingSource()
+				else
+					self:SetSource(source)
+				end
+			end
+		end)
+	end
+	self.editingScript.Name = self:GetName()
+	class.Package.ScriptEditor.OpenScript(self.editingScript, 2)
+end
+
 return class
