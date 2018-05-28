@@ -2,7 +2,7 @@ local module = {}
 
 function module.Check(arg, typeString)
 	local objectType = typeof(arg)
-	return objectType == typeString or (objectType == 'Instance' and arg:IsA(typeString)) or (objectType == 'table' and typeof(object.IsA) == 'function' and object:IsA(typeString))
+	return objectType == typeString or (objectType == 'Instance' and arg:IsA(typeString)) or (objectType == 'table' and typeof(arg.IsA) == 'function' and arg:IsA(typeString))
 end
 
 function module.Test(arg, typeString)
