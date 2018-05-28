@@ -10,7 +10,7 @@ function class.Init()
 	}
 	class.__signals = {
 		MethodAdded = {
-			'' -- newMethod
+			'Method' -- newMethod
 		}
 	}
 end
@@ -84,8 +84,25 @@ end
 
 function class:AddMethod(method)
 	--\Doc: Adds a method to the class.
+    method = class.Package.Utils.Tests.GetArguments(
+        {'Method', method} -- Method to add.
+    )
 	table.insert(self.methods, method)
 	self.MethodAdded:Fire(method)
+end
+
+function class:RemoveMethod(method) --\ReturnType: boolean
+	--\Doc: Removes the method from the class. Returns true if the method was removed.
+    method = class.Package.Utils.Tests.GetArguments(
+        {'Method', method} -- Method to add.
+	)
+	for i, currentMethod in pairs(self.methods) do
+		if method == currentMethod then
+			table.remove(self.methods, i)
+			return true
+		end
+	end
+	return false
 end
 
 function class:Inherits(parentClass)

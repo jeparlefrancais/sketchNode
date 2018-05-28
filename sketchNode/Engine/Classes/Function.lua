@@ -5,7 +5,15 @@ local class = {
 }
 
 function class.Init()
-    class.__super = {class.Package.Classes.Named}
+	class.__super = {class.Package.Classes.Named}
+	class.__signals = {
+		ArgumentAdded = {
+			'Argument' -- newArgument
+		},
+		ArgumentOrderChanged = {
+			'table' -- argumentList
+		}
+	}
 end
 
 function class.New(o, name, args, returnValues) --\ReturnType: table
@@ -49,6 +57,30 @@ function class:Serialize() --\ReturnType: table
 		source = self.source,
 		superNamed = class.Package.Classes.Named.Serialize(self)
 	}
+end
+
+function class:AddArgument(argument)
+	--\Doc: Adds a new argument.
+    argument = class.Package.Utils.Tests.GetArguments(
+        {'Argument', argument} -- The argument to add.
+    )
+	table.insert(self.args, argument)
+	self.ArgumentAdded:Fire(argument)
+end
+
+function class:RemoveArgument(argument) --\ReturnType: boolean
+	--\Doc: Removes the argument. Returns true if the argument was removed.
+    argument = class.Package.Utils.Tests.GetArguments(
+        {'Argument', argument} -- The argument to add.
+    )
+	for i, arg in pairs(self.args) do
+		if arg == argument then
+			table.remove(self.args, i)
+			self.ArgumentOrderChanged:Fire(self:GetArguments())
+			return true
+		end
+	end
+	return false
 end
 
 function class:CheckArguments(...) --\ReturnType: boolean

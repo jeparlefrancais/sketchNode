@@ -8,7 +8,7 @@ function class.Init()
 	class.__super = {class.Package.Classes.BaseObject}
 	class.__signals = {
 		FunctionAdded = {
-			'' -- newFunction
+			'Function' -- newFunction
 		}
 	}
 end
@@ -57,12 +57,26 @@ function class:Serialize() --\ReturnType: table
 end
 
 function class:AddFunction(func)
-	func = class.Package.Utils.Tests.GetArguments(
-        {'', func} -- The name of the module.
-    )
 	--\Doc: Adds a function to the module.
+	func = class.Package.Utils.Tests.GetArguments(
+        {'Function', func} -- The function to add.
+    )
 	table.insert(self.functions, func)
 	self.FunctionAdded:Fire(func)
+end
+
+function class:RemoveFunction(func) --\ReturnType: boolean
+	--\Doc: Removes the function from the module. Returns true if the function was removed.
+	func = class.Package.Utils.Tests.GetArguments(
+        {'Function', func} -- The function to remove.
+	)
+	for i, currentFunc in pairs(self.functions) do
+		if func == currentFunc then
+			table.remove(self.functions, i)
+			return true
+		end
+	end
+	return false
 end
 
 function class:GetFunctions()

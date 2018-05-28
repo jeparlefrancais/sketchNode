@@ -117,6 +117,11 @@ function module.Load(json)
 	end
 end
 
+function module.Clear()
+	--\Doc: Clears all objects created from compiling the project.
+
+end
+
 function module.Compile(flags)
 	--\Doc: Compiles the SketchNode project into the place. Overwrites the actual compiled version.
 	flags = module.Package.Utils.Tests.GetArguments(
@@ -126,6 +131,7 @@ function module.Compile(flags)
 		module.compiling = true
 
 		spawn(function()
+			module.Clear()
 			-- generate the game files
 			-- obfuscate if flags.Obfuscate
 			if flags.Release then
