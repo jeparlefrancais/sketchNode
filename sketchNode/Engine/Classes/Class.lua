@@ -11,6 +11,12 @@ function class.Init()
 	class.__signals = {
 		MethodAdded = {
 			'Method' -- newMethod
+		},
+		AddInheritance = {
+			'Class' -- parentClass
+		},
+		AbstractChanged = {
+			'boolean' -- isAbstract
 		}
 	}
 end
@@ -86,9 +92,15 @@ function class:AddMethod(method)
 	--\Doc: Adds a method to the class.
     method = class.Package.Utils.Tests.GetArguments(
         {'Method', method} -- Method to add.
-    )
+	)
+	local wasAbstract = self:IsAbstract()
 	table.insert(self.methods, method)
 	self.MethodAdded:Fire(method)
+	if not wasAbstract then
+		if method:IsAbstract() then
+			self.AbstractChanged:Fire(true)
+		end
+	end
 end
 
 function class:RemoveMethod(method) --\ReturnType: boolean
@@ -96,9 +108,13 @@ function class:RemoveMethod(method) --\ReturnType: boolean
     method = class.Package.Utils.Tests.GetArguments(
         {'Method', method} -- Method to add.
 	)
+	local wasAbstract = self:IsAbstract()
 	for i, currentMethod in pairs(self.methods) do
 		if method == currentMethod then
 			table.remove(self.methods, i)
+			if wasAbstract and not self:IsAbstract() then
+				self.AbstractChanged:Fire(false)
+			end
 			return true
 		end
 	end
@@ -106,11 +122,20 @@ function class:RemoveMethod(method) --\ReturnType: boolean
 end
 
 function class:Inherits(parentClass)
+	--\Doc: The parent-child relation is set on each classes.
+    parentClass = class.Package.Utils.Tests.GetArguments(
+        {'Class', parentClass} -- Method to add.
+	)
 	table.insert(self.inherits, parentClass)
 	parentClass:AddChildClass(self)
+	self.AddInheritance:Fire(parentClass)
 end
 
 function class:AddChildClass(childClass)
+	--\Doc: The current class becomes a parent of the given class. This function should not be used, instead use Class:Inherits.
+	childClass = class.Package.Utils.Tests.GetArguments(
+		{'Class', childClass} -- The child class that inherits the actual class.
+	)
 	table.insert(self.inherited, childClass)
 end
 

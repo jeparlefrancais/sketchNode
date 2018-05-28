@@ -8,7 +8,8 @@ function class.Init()
 	class.__super = {class.Package.Classes.Named}
 	class.__signals = {
 		ArgumentAdded = {
-			'Argument' -- newArgument
+			'Argument', -- newArgument
+			'number' -- order
 		},
 		ArgumentOrderChanged = {
 			'table' -- argumentList
@@ -65,7 +66,7 @@ function class:AddArgument(argument)
         {'Argument', argument} -- The argument to add.
     )
 	table.insert(self.args, argument)
-	self.ArgumentAdded:Fire(argument)
+	self.ArgumentAdded:Fire(argument, #self.args)
 end
 
 function class:RemoveArgument(argument) --\ReturnType: boolean
