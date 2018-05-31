@@ -8,7 +8,7 @@ function class.Init()
 	class.__super = nil
 	class.__signals = {
 		PropertyAdded = {
-			'', -- newProperty
+			'Property', -- newProperty
 		}
 	}
 end
@@ -51,6 +51,25 @@ function class:AddProperty(property)
     )
 	table.insert(self.properties, property)
 	self.PropertyAdded:Fire(property)
+end
+
+function class:RemoveProperty(property) --\ReturnType: boolean
+	--\Doc: Removes the property from the container. Returns true if the property was removed.
+    property = class.Package.Utils.Tests.GetArguments(
+        {'', property} -- The property to remove.
+	)
+	for i, currentProperty in pairs(self.properties) do
+		if currentProperty == property then
+			table.remove(self.properties, i)
+			return true
+		end
+	end
+	return false
+end
+
+function class:GetProperties() --\ReturnType: table
+	--\Doc: Returns the list of properties.
+	return self.properties
 end
 
 return class

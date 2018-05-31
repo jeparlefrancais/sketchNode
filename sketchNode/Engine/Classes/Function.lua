@@ -5,7 +5,16 @@ local class = {
 }
 
 function class.Init()
-    class.__super = {class.Package.Classes.Named}
+	class.__super = {class.Package.Classes.Named}
+	class.__signals = {
+		ArgumentAdded = {
+			'Argument', -- newArgument
+			'number' -- order
+		},
+		ArgumentOrderChanged = {
+			'table' -- argumentList
+		}
+	}
 end
 
 function class.New(o, name, args, returnValues) --\ReturnType: table
@@ -51,6 +60,30 @@ function class:Serialize() --\ReturnType: table
 	}
 end
 
+function class:AddArgument(argument)
+	--\Doc: Adds a new argument.
+    argument = class.Package.Utils.Tests.GetArguments(
+        {'Argument', argument} -- The argument to add.
+    )
+	table.insert(self.args, argument)
+	self.ArgumentAdded:Fire(argument, #self.args)
+end
+
+function class:RemoveArgument(argument) --\ReturnType: boolean
+	--\Doc: Removes the argument. Returns true if the argument was removed.
+    argument = class.Package.Utils.Tests.GetArguments(
+        {'Argument', argument} -- The argument to add.
+    )
+	for i, arg in pairs(self.args) do
+		if arg == argument then
+			table.remove(self.args, i)
+			self.ArgumentOrderChanged:Fire(self:GetArguments())
+			return true
+		end
+	end
+	return false
+end
+
 function class:CheckArguments(...) --\ReturnType: boolean
 	--\Doc: Takes all the given objects and checks if they matches each argument.
 	local args = {...}
@@ -89,6 +122,50 @@ function class:SetSource(source)
         {'string', source}
     )
 	self.source = source
+end
+
+function class:GetScriptHeader(escapeChars) --\ReturnType: string
+	--\Doc: Returns the header used when opening the script in the editor.
+	escapeChars = class.Package.Utils.Tests.GetArguments(
+        {'boolean', escapeChars, false}
+    )
+	local arguments = {}
+	local totalArguments = #self.args
+	for i, arg in pairs(self.args) do
+		table.insert(arguments, arg:GetName())
+	end
+	if escapeChars then
+		return 'function ' .. self:GetName() .. '%(' .. table.concat(arguments, ', ') .. '%)'
+	else
+		return string.format('function %s(%s)', self:GetName(), table.concat(arguments, ', '))
+	end
+end
+
+function class:GetEditingSource() --\ReturnType: string
+	return string.format([[%s
+%s
+end
+]], self:GetScriptHeader(), self.source)
+end
+
+function class:EditSource()
+	--\Doc: Opens a script to edit this function
+	if self.editingScript == nil then
+		self.editingScript = Instance.new('Script')
+		self.editingScript.Source = self:GetEditingSource()
+		self.editingScript.Changed:Connect(function(property)
+			if property == 'Source' then
+				local source = string.match(self.editingScript.Source, '^' .. self:GetScriptHeader(true) .. '%s(.*)%send%s*$')
+				if source == nil then
+					self.editingScript.Source = self:GetEditingSource()
+				else
+					self:SetSource(source)
+				end
+			end
+		end)
+	end
+	self.editingScript.Name = self:GetName()
+	class.Package.ScriptEditor.OpenScript(self.editingScript, 2)
 end
 
 return class

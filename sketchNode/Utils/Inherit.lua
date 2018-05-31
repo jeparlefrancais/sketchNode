@@ -15,7 +15,20 @@ end
 
 return function(class)
 	return setmetatable(
-		{},
+		{
+			IsA = function(o, className)
+				if className == class.__name then
+					return true
+				else
+					for _, superClass in ipairs(class.__super or {}) do
+						if superClass.__name == className then
+							return true
+						end
+					end
+					return false
+				end
+			end
+		},
 		{
 			__index = function(t, key)
 				return IndexClass(class, key)

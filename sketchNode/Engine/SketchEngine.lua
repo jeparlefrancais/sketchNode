@@ -5,32 +5,50 @@ local HTTP = game:GetService('HttpService')
 
 local module = {}
 
+function module.Init()
+	module.__signals = {
+		ClassAdded = {
+			'Class' -- newClass
+		},
+		ModuleAdded = {
+			'Module' -- newModule
+		}
+	}
+end
+
 function module.Start()
-	print('SketchEngine init.')
+	module.Package.Utils.Signal.SetSignals(module, module)
+	
 	module.dataFolder = STO:FindFirstChild(module.Package.EngineSettings.DataFolderName)
 	if module.dataFolder then
 		-- reload data
 	end
 
 	module.saving = false
+	module.compiling = false
 end
 
 function module.Setup()
 	--\Doc: This function setups the place to be able to use this plugin. It creates the necessary folder(s).
-	module.dataFolder =
-		module.Package.Utils.Create'Folder'{
-		Name = module.Package.EngineSettings.DataFolderName,
-		Parent = STO
-	}
+	if not module.IsSetup() then
+		module.dataFolder = module.Package.Utils.Create'Folder'{
+			Name = module.Package.EngineSettings.DataFolderName,
+			Parent = STO
+		}
 
-	module.version = {
-		released = 0,
-		compiled = 0,
-		saved = 0
-	}
+		module.version = {
+			released = 0,
+			compiled = 0,
+			saved = 0
+		}
 
-	module.classes = {}
-	module.modules = {}
+		module.classes = {}
+		module.modules = {}
+	end
+end
+
+function module.IsSetup()
+	return module.dataFolder ~= nil
 end
 
 function module.Save(comment) --\ReturnType: boolean
@@ -38,30 +56,32 @@ function module.Save(comment) --\ReturnType: boolean
 	if not module.saving then
 		module.saving = true
 
-		local data =
+		spawn(function()
+			local data = module.Package.Utils.Create'StringValue'{
+				Name = module.GetVersion(),
+				Value = module.Serialize(),
+				Parent = module.dataFolder
+			}
+			module.Package.Utils.Create'IntValue'{
+				Name = 'Time',
+				Value = tick(),
+				Parent = data
+			}
+			module.Package.Utils.Create'IntValue'{
+				Name = 'UserId',
+				Value = plugin:GetStudioUserId(),
+				Parent = data
+			}
 			module.Package.Utils.Create'StringValue'{
-			Name = module.GetVersion(),
-			Value = module.Serialize(),
-			Parent = module.dataFolder
-		}
-		module.Package.Utils.Create'IntValue'{
-			Name = 'Time',
-			Value = tick(),
-			Parent = data
-		}
-		module.Package.Utils.Create'IntValue'{
-			Name = 'UserId',
-			Value = plugin:GetStudioUserId(),
-			Parent = data
-		}
-		module.Package.Utils.Create'StringValue'{
-			Name = 'Comment',
-			Value = comment,
-			Parent = data
-		}
+				Name = 'Comment',
+				Value = comment,
+				Parent = data
+			}
 
-		module.version.saved = module.version.saved + 1
-		module.saving = false
+			module.version.saved = module.version.saved + 1
+			module.saving = false
+		end)
+		
 		return true
 	else
 		return false
@@ -88,29 +108,114 @@ function module.Load(json)
 	module.version = data.version
 	module.classes = module.Package.LoadTable(data.classes, module.Package.Classes.Class)
 	module.modules = module.Package.LoadTable(data.modules, module.Package.Classes.Module)
+
+	for _, classObject in ipairs(module.classes) do
+		module.ClassAdded:Fire(classObject)
+	end
+	for _, moduleObject in ipairs(module.modules) do
+		module.ModuleAdded:Fire(moduleObject)
+	end
+end
+
+function module.Clear()
+	--\Doc: Clears all objects created from compiling the project.
+	for access, service in pairs(module.Package.EngineSettings.ServiceFromAccess) do
+		for sourceType, folder in pairs(module.Package.EngineSettings.FolderFromType) do
+			local folder = game:GetService(service):FindFirstChild(access .. sourceType)
+			if folder then
+				folder:Destroy()
+			end
+		end
+	end
 end
 
 function module.Compile(flags)
 	--\Doc: Compiles the SketchNode project into the place. Overwrites the actual compiled version.
 	flags = module.Package.Utils.Tests.GetArguments(
-        {'table', flags} -- Dictionary of flags.
+        {'table', flags} -- Dictionary of flags (Tests, Obfuscate, Release).
 	)
-	-- generate the game files
-	-- obfuscate if flags.Obfuscate
+	if not module.compiling then
+		module.compiling = true
+		if not module.IsSetup() then
+			module.Setup()
+		end
 
-	if flags.Release then
-		module.version.released = module.version.released + 1
-		module.version.compiled = 0
-		module.version.saved = 0
+		spawn(function()
+			module.Clear() -- clear previous compiled objects
+
+			local folders = {}
+			for access, service in pairs(module.Package.EngineSettings.ServiceFromAccess) do
+				folders[access] = {}
+				for sourceType, folder in pairs(module.Package.EngineSettings.FolderFromType) do
+					folders[access][sourceType] = module.Package.Utils.Create'Folder'{
+						Name = access .. sourceType,
+						Parent = game:GetService(service)
+					}
+				end
+			end
+
+			-- generate default files
+			if flags.Tests then
+				module.Package.Utils.Create'ModuleScript'{
+					Name = module.Package.EngineSettings.TestsScriptName,
+					Source = module.Package.DefaultSources.Tests,
+					Parent = folders.Shared.Function
+				}
+			end
+
+			-- generate the game files
+			for _, moduleObject in ipairs(module.modules) do
+				local source = module.Package.Compiler.CompileModule(moduleObject, flags.Tests)
+				if flags.Obfuscate then
+
+				end
+				module.Package.Utils.Create'ModuleScript'{
+					Name = moduleObject:GetName(),
+					Source = source,
+					Parent = folders[module:IsServer() and 'Server' or 'Client'].Module
+				}
+				-- for some functions in modules, create remotes events/functions
+			end
+
+			for _, classObject in ipairs(module.classes) do
+				if not classObject:IsAbstract() then
+					local source = module.Package.Compiler.CompileClass(classObject, flags.Tests)
+				end
+			end
+
+			-- obfuscate if flags.Obfuscate
+			if flags.Release then
+				module.version.released = module.version.released + 1
+				module.version.compiled = 0
+				module.version.saved = 0
+			else
+				module.version.compiled = module.version.compiled + 1
+				module.version.saved = 0
+			end
+			module.compiling = false
+		end)
+
+		return true
 	else
-		module.version.compiled = module.version.compiled + 1
-		module.version.saved = 0
+		return false
 	end
 end
 
 function module.GetVersion() --\ReturnType: string
 	--\Doc: Returns the version of the saved file.
 	return string.format('%d.%d.%x', module.version.released, module.version.compiled, module.version.saved)
+end
+
+function module.AddClass(classObject)
+	--\Doc: Adds a class to the game project
+	table.insert(module.classes, classObject)
+	module.ClassAdded:Fire(classObject)
+end
+
+function module.AddModule(moduleObject)
+	--Doc: Adds a module to the game project
+	table.insert(module.modules, moduleObject)
+	module.ModuleAdded:Fire(moduleObject)
 end
 
 return module
