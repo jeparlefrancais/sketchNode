@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="main.css">
+    <link href='https://fonts.googleapis.com/css?family=Arapey' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Reenie Beanie' rel='stylesheet'>
+    <title>SketchNode</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body style="height: 100%">
+
+    <div class="header">
+        <h1 class="title noselect">SketchNode</h1>
+        <nav>
+            <ul>
+                
+                    
+                        <li class="noselect"><a href="index.html">Home</a></li>
+                    
+                
+                    
+                        <li class="noselect"><a href="api.html">Reference</a></li>
+                    
+                
+                    
+                        <li class="noselect"><a href="about.html">About</a></li>
+                    
+                
+            </ul>
+        </nav>
+    </div>
+    <div class="content">
+        <div>
+            
+<h1>Compiler</h1>
+<br>
+<p>
+    This module is used to generate scripts from the different nodes.
+</p>
+
+<br>
+
+<!-- Maybe add link to the github file-->
+
+<h2>Methods</h2>
+
+<br>
+
+<table class="methodTable">
+    
+        <tr>
+            <td class="methodTypeColumn typeString">string</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">CompileClass</span>(<span class="typeString">Class</span> classObject, <span class="typeString">boolean</span> testTypes=true)
+                </td>
+            
+            <td class="methodDescriptionColumn">Returns the script source of the given class.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">string</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">CompileModule</span>(<span class="typeString">Module</span> moduleObject, <span class="typeString">boolean</span> testTypes=true)
+                </td>
+            
+            <td class="methodDescriptionColumn">Returns the script source of the given module.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">string</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">GetArgumentList</span>(<span class="typeString">Function</span> func)
+                </td>
+            
+            <td class="methodDescriptionColumn"></td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">string</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">GetArgumentsDefaultValues</span>(<span class="typeString">Function</span> func)
+                </td>
+            
+            <td class="methodDescriptionColumn">Returns the source code to set arguments to their default values.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">string</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">GetArgumentsTesting</span>(<span class="typeString">Function</span> func)
+                </td>
+            
+            <td class="methodDescriptionColumn">Returns the source code that tests the function arguments.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">string</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">GetDefaultValue</span>(<span class="typeString">Argument</span> arg)
+                </td>
+            
+            <td class="methodDescriptionColumn">Returns the source code to set a variable to have the given default value.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">string</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">GetRequirement</span>(<span class="typeString">string</span> sourceName)
+                </td>
+            
+            <td class="methodDescriptionColumn">Returns the code to require the given script name.</td>
+        </tr>
+    
+</table>
+
+
+
+
+<br>
+
+<h2>Events</h2>
+
+<br>
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</body>
+</html>
