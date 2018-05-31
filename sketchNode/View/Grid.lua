@@ -4,7 +4,7 @@ local module = {}
 
 function module.Start(parent)
     --\Doc: Setup the grid.
-    parent = class.Package.Utils.Tests.GetArguments(
+    parent = module.Package.Utils.Tests.GetArguments(
         {'GuiBase', parent}
     )
     module.gridImage = module.Package.Utils.Create'ImageButton'{
