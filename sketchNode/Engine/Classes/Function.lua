@@ -132,21 +132,16 @@ function class:GetScriptHeader(escapeChars) --\ReturnType: string
 	local arguments = {}
 	local totalArguments = #self.args
 	for i, arg in pairs(self.args) do
-		table.insert(arguments, arg:GetName() .. (i ~= totalArgument and ', ' or ''))
+		table.insert(arguments, arg:GetName())
 	end
 	if escapeChars then
-		return 'function ' .. self:GetName() .. '%(' .. table.concat(arguments) .. '%)'
+		return 'function ' .. self:GetName() .. '%(' .. table.concat(arguments, ', ') .. '%)'
 	else
-		return string.format('function %s(%s)', self:GetName(), table.concat(arguments))
+		return string.format('function %s(%s)', self:GetName(), table.concat(arguments, ', '))
 	end
 end
 
 function class:GetEditingSource() --\ReturnType: string
-	local arguments = {}
-	local totalArguments = #self.args
-	for i, arg in pairs(self.args) do
-		table.insert(arguments, arg:GetName() .. (i ~= totalArgument and ', ' or ''))
-	end
 	return string.format([[%s
 %s
 end

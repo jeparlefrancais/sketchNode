@@ -119,20 +119,70 @@ end
 
 function module.Clear()
 	--\Doc: Clears all objects created from compiling the project.
-
+	for access, service in pairs(module.Package.EngineSettings.ServiceFromAccess) do
+		for sourceType, folder in pairs(module.Package.EngineSettings.FolderFromType) do
+			local folder = game:GetService(service):FindFirstChild(access .. sourceType)
+			if folder then
+				folder:Destroy()
+			end
+		end
+	end
 end
 
 function module.Compile(flags)
 	--\Doc: Compiles the SketchNode project into the place. Overwrites the actual compiled version.
 	flags = module.Package.Utils.Tests.GetArguments(
-        {'table', flags} -- Dictionary of flags.
+        {'table', flags} -- Dictionary of flags (Tests, Obfuscate, Release).
 	)
 	if not module.compiling then
 		module.compiling = true
+		if not module.IsSetup() then
+			module.Setup()
+		end
 
 		spawn(function()
-			module.Clear()
+			module.Clear() -- clear previous compiled objects
+
+			local folders = {}
+			for access, service in pairs(module.Package.EngineSettings.ServiceFromAccess) do
+				folders[access] = {}
+				for sourceType, folder in pairs(module.Package.EngineSettings.FolderFromType) do
+					folders[access][sourceType] = module.Package.Utils.Create'Folder'{
+						Name = access .. sourceType,
+						Parent = game:GetService(service)
+					}
+				end
+			end
+
+			-- generate default files
+			if flags.Tests then
+				module.Package.Utils.Create'ModuleScript'{
+					Name = module.Package.EngineSettings.TestsScriptName,
+					Source = module.Package.DefaultSources.Tests,
+					Parent = folders.Shared.Function
+				}
+			end
+
 			-- generate the game files
+			for _, moduleObject in ipairs(module.modules) do
+				local source = module.Package.Compiler.CompileModule(moduleObject, flags.Tests)
+				if flags.Obfuscate then
+
+				end
+				module.Package.Utils.Create'ModuleScript'{
+					Name = moduleObject:GetName(),
+					Source = source,
+					Parent = folders[module:IsServer() and 'Server' or 'Client'].Module
+				}
+				-- for some functions in modules, create remotes events/functions
+			end
+
+			for _, classObject in ipairs(module.classes) do
+				if not classObject:IsAbstract() then
+					local source = module.Package.Compiler.CompileClass(classObject, flags.Tests)
+				end
+			end
+
 			-- obfuscate if flags.Obfuscate
 			if flags.Release then
 				module.version.released = module.version.released + 1

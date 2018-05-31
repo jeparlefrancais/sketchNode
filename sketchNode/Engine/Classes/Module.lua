@@ -56,6 +56,11 @@ function class:Serialize() --\ReturnType: table
 	}
 end
 
+function class:IsServer() --\ReturnType: boolean
+	--\Doc: Returns if the module is located on the client or the server.
+	return self.isServer
+end
+
 function class:AddFunction(func)
 	--\Doc: Adds a function to the module.
 	func = class.Package.Utils.Tests.GetArguments(
