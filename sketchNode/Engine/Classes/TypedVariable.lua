@@ -1,4 +1,4 @@
--- \Description: This class is meant to represent a typed variable.
+-- \Description: This class is meant to represent a typed variable. It contains information such as its name, type and if the variable is allowed to be nil or not.
 
 local class = {
     __name = 'TypedVariable'
