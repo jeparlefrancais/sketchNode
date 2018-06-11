@@ -27,6 +27,9 @@ return function(class)
 					end
 					return false
 				end
+			end,
+			GetClassName = function()
+				return class.__name
 			end
 		},
 		{
