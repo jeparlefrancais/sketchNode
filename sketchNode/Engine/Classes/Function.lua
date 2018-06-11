@@ -135,9 +135,9 @@ function class:GetScriptHeader(escapeChars) --\ReturnType: string
 		table.insert(arguments, arg:GetName())
 	end
 	if escapeChars then
-		return 'function ' .. self:GetName() .. '%(' .. table.concat(arguments, ', ') .. '%)'
+		return 'function%(' .. table.concat(arguments, ', ') .. '%)'
 	else
-		return string.format('function %s(%s)', self:GetName(), table.concat(arguments, ', '))
+		return string.format('function(%s)', table.concat(arguments, ', '))
 	end
 end
 

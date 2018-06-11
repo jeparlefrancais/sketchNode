@@ -62,8 +62,8 @@ end
 function class:SetPosition(x, y)
 	--\Doc: Sets the position of the node.
 	x, y = class.Package.Utils.Tests.GetArguments(
-		{'number', x}, -- The name of the method.
-		{'number', y} -- A list of the arguments.
+		{'number', x}, -- The position on the x-axis.
+		{'number', y} -- The position on the y-axis.
 	)
 	self.position = Vector2.new(x, y)
 	self.PositionChanged:Fire(x, y)

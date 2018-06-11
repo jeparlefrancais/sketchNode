@@ -158,7 +158,7 @@ function module.Compile(flags)
 			if flags.Tests then
 				module.Package.Utils.Create'ModuleScript'{
 					Name = module.Package.EngineSettings.TestsScriptName,
-					Source = module.Package.DefaultSources.Tests,
+					Source = module.Package.Resources.Tests,
 					Parent = folders.Shared.Function
 				}
 			end

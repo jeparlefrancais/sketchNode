@@ -6,7 +6,14 @@ local function LoadPackage(folder, topPackage, initFunctions)
 	end
 	local package = {}
 	for _, child in ipairs(folder:GetChildren()) do
-		package[child.Name] = child:IsA('ModuleScript') and require(child) or LoadPackage(child, topPackage or package, initFunctions)
+		local success = pcall(function()
+			package[child.Name] = child:IsA('ModuleScript') and require(child) or LoadPackage(child, topPackage or package, initFunctions)
+		end)
+		
+		if not success then
+			error(string.format('Error loading module script "%s"', child:GetFullName()))
+		end
+		
 		if type(package[child.Name]) == 'table' then
 			if type(package[child.Name].Init) == 'function' then
 				table.insert(initFunctions, package[child.Name].Init)
