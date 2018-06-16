@@ -35,7 +35,7 @@ local function AddEntry(entry)
 			elseif entry.type == 'Function' then
 				table.insert(module.metadata[entry.Class].Functions, {
 					Name = entry.Name,
-					ReturnType = entry.ReturnType,
+					ReturnValues = entry.ReturnType,
 					Arguments = entry.Arguments,
 					Tags = entry.tags
 				})
@@ -51,7 +51,7 @@ local function AddEntry(entry)
 				table.insert(entry.tags, 'Yield')
 				table.insert(module.metadata[entry.Class].Functions, {
 					Name = entry.Name,
-					ReturnType = entry.ReturnType,
+					ReturnValues = entry.ReturnType,
 					Arguments = entry.Arguments,
 					Tags = entry.tags
 				})
