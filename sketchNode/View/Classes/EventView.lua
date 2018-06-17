@@ -1,7 +1,7 @@
 --\Description: This class is used to make function content for nodes
 
 local class = {
-	__name = 'FunctionView'
+	__name = 'EventView'
 }
 
 function class.Init()
