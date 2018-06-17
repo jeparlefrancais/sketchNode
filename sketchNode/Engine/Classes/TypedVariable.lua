@@ -24,6 +24,8 @@ function class.New(o, name, typeString, canBeNil) --\ReturnType: table
     )
     if o == class then o = class.Package.Utils.Inherit(class) end
 
+    class.Package.Utils.Signal.SetSignals(class, o)
+    
     class.Package.Classes.Named.New(o, name)
     o.typeString = typeString
     o.canBeNil = canBeNil
@@ -37,6 +39,8 @@ function class.Load(o, data) --\ReturnType: table
         {'table', data} -- Data from the Serialize method.
     )
     if o == class then o = class.Package.Utils.Inherit(class) end
+    
+	class.Package.Utils.Signal.SetSignals(class, o)
 
     class.Package.Classes.Named.Load(o, data.superNamed)
 	o.name = data.name

@@ -12,7 +12,9 @@ end
 function class.New(o, reference) --\ReturnType: table
 	--\Doc: Creates a node to connect to a function.
 	reference = class.Package.Utils.Tests.GetArguments(
-		{'BaseReference', reference} -- The function to call.
+		{'BaseReference', reference}, -- The function to call.
+		{'number', x, 0}, -- The position on the x-axis of the node to create
+		{'number', y, 0} -- The position on the y-axis of the node to create
 	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 	
@@ -22,16 +24,16 @@ function class.New(o, reference) --\ReturnType: table
 	
 	o.referenceClass = reference:GetClassName()
 	o.reference = reference
-    
+	
 	return o
 end
 
 function class.Load(o, data) --\ReturnType: table
-    --\Doc: Creates a new object with the given table.
-    data = class.Package.Utils.Tests.GetArguments(
-        {'table', data} -- Data from the Serialize method.
-    )
-    if o == class then o = class.Package.Utils.Inherit(class) end
+	--\Doc: Creates a new object with the given table.
+	data = class.Package.Utils.Tests.GetArguments(
+		{'table', data} -- Data from the Serialize method.
+	)
+	if o == class then o = class.Package.Utils.Inherit(class) end
 	
 	class.Package.Classes.Node.Load(o, data.superClass)
 	--class.Package.Utils.Signal.SetSignals(class, o)
@@ -50,7 +52,7 @@ function class.Load(o, data) --\ReturnType: table
 end
 
 function class:Serialize() --\ReturnType: table
-    --\Doc: Serializes all the object data in a table to be reloaded using the Load method.
+	--\Doc: Serializes all the object data in a table to be reloaded using the Load method.
 	return {
 		referenceClass = self.referenceClass,
 		referenceData = self.reference:Serialize(),
@@ -59,8 +61,8 @@ function class:Serialize() --\ReturnType: table
 end
 
 function class:GetReturnValues() --\ReturnType: table
-    --\Doc: Returns a list of the values fired by the event, or returned by the function.
-    return self.reference:GetReturnValues()
+	--\Doc: Returns a list of the values fired by the event, or returned by the function.
+	return self.reference:GetReturnValues()
 end
 
 return class

@@ -12,7 +12,10 @@ function module.Init()
 		},
 		ModuleAdded = {
 			'Module' -- newModule
-		}
+        },
+        SheetAdded = {
+            'SketchSheet' -- newSheet
+        }
 	}
 end
 
@@ -43,7 +46,8 @@ function module.Setup()
 		}
 
 		module.classes = {}
-		module.modules = {}
+        module.modules = {}
+        module.sheets = {}
 	end
 end
 
@@ -94,7 +98,8 @@ function module.Serialize() --\ReturnType: string
 		{
 			version = module.version,
 			classes = module.Package.SerializeTable(module.classes),
-			modules = module.Package.SerializeTable(module.modules)
+            modules = module.Package.SerializeTable(module.modules),
+            sheets = module.Package.SerializeTable(module.sheets)
 		}
 	)
 end
@@ -107,13 +112,17 @@ function module.Load(json)
 	local data = HTTP:JSONDecode(json)
 	module.version = data.version
 	module.classes = module.Package.LoadTable(data.classes, module.Package.Classes.Class)
-	module.modules = module.Package.LoadTable(data.modules, module.Package.Classes.Module)
+    module.modules = module.Package.LoadTable(data.modules, module.Package.Classes.Module)
+    module.sheets = module.Package.LoadTable(data.sheets, module.Package.Classes.SketchSheet)
 
 	for _, classObject in ipairs(module.classes) do
 		module.ClassAdded:Fire(classObject)
 	end
 	for _, moduleObject in ipairs(module.modules) do
 		module.ModuleAdded:Fire(moduleObject)
+	end
+	for _, sheet in ipairs(module.sheets) do
+		module.SheetAdded:Fire(sheet)
 	end
 end
 
@@ -213,9 +222,18 @@ function module.AddClass(classObject)
 end
 
 function module.AddModule(moduleObject)
-	--Doc: Adds a module to the game project
+	--\Doc: Adds a module to the game project.
 	table.insert(module.modules, moduleObject)
 	module.ModuleAdded:Fire(moduleObject)
+end
+
+function module.AddSheet(sheetName)
+    --\Doc: Adds a new sheet to the game project.
+	sheetName = module.Package.Utils.Tests.GetArguments(
+        {'string', sheetName, 'NewSheet'} -- Name of the sheet to create.
+    )
+    local sheet = module.Package.Classes.SketchSheet(sheetName)
+    module.SheetAdded:Fire(sheet)
 end
 
 return module

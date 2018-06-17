@@ -23,7 +23,9 @@ function class.New(o, name, args, returnValues) --\ReturnType: table
         {'table', args}, -- A list of the arguments.
         {'table', returnValues} -- A list of the returned values.
     )
-	if o == class then o = class.Package.Utils.Inherit(class) end
+    if o == class then o = class.Package.Utils.Inherit(class) end
+    
+	class.Package.Utils.Signal.SetSignals(class, o)
 
 	class.Package.Classes.Named.New(o, name)
 
@@ -41,6 +43,8 @@ function class.Load(o, data) --\ReturnType: table
     )
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
+    class.Package.Utils.Signal.SetSignals(class, o)
+    
 	class.Package.Classes.Named.Load(o, data.superNamed)
 
 	o.args = class.Package.LoadTable(data.args, class.Package.Classes.Argument) -- Argument

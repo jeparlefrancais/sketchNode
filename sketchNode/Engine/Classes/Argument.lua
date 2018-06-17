@@ -20,7 +20,9 @@ function class.New(o, name, typeString, defaultValue, canBeNil) --\ReturnType: t
         {'', defaultValue}, -- The default value of the argument.
         {'boolean', canBeNil, false} -- Allows the argument to be nil.
 	)
-	if o == class then o = class.Package.Utils.Inherit(class) end
+    if o == class then o = class.Package.Utils.Inherit(class) end
+    
+	class.Package.Utils.Signal.SetSignals(class, o)
 
 	class.Package.Classes.TypedVariable.New(o, name, typeString, canBeNil)
 
@@ -36,6 +38,8 @@ function class.Load(o, data) --\ReturnType: table
     )
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
+    class.Package.Utils.Signal.SetSignals(class, o)
+    
 	class.Package.Classes.TypedVariable.Load(o, data.superClass)
 	o.defaultValue = data.defaultValue
 
