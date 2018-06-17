@@ -38,5 +38,6 @@ local View = LoadPackage(script.Parent:WaitForChild('View'))
 View.Utils = Utils
 
 Engine.ScriptEditor.SetPlugin(plugin)
+Engine.LuaMetadata.Start()
 Engine.SketchEngine.Start()
 View.Main.Start(plugin, Engine)

@@ -1,303 +1,303 @@
 local module = {}
 
-function module.Init()
+function module.Start()
 	module.nameToObject = {
-		['tostring'] = module.Classes.Function:New('tostring', {
-			module.Classes.Argument:New('num', 'number')
+		['tostring'] = module.Package.Classes.Function:New('tostring', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('resultString', 'string')
+			module.Package.Classes.TypedVariable:New('resultString', 'string')
 		}),
-		['tonumber'] = module.Classes.Function:New('tonumber', {
-			module.Classes.Argument:New('str', 'string')
+		['tonumber'] = module.Package.Classes.Function:New('tonumber', {
+			module.Package.Classes.Argument:New('str', 'string')
 		}, {
-			module.Classes.TypedVariable:New('resultNumber', 'number')
+			module.Package.Classes.TypedVariable:New('resultNumber', 'number')
 		}),
-		['type'] = module.Classes.Function:New('type', {
-			module.Classes.Argument:New('var', '')
+		['type'] = module.Package.Classes.Function:New('type', {
+			module.Package.Classes.Argument:New('var', '')
 		}, {
-			module.Classes.TypedVariable:New('type', 'string')
+			module.Package.Classes.TypedVariable:New('type', 'string')
 		}),
-		['typeof'] = module.Classes.Function:New('typeof', {
-			module.Classes.Argument:New('var', '')
+		['typeof'] = module.Package.Classes.Function:New('typeof', {
+			module.Package.Classes.Argument:New('var', '')
 		}, {
-			module.Classes.TypedVariable:New('type', 'string')
+			module.Package.Classes.TypedVariable:New('type', 'string')
 		}),
 		-- os library
-		['os.time'] = module.Classes.Function:New('os.time', {}, {}),
-		['os.date'] = module.Classes.Function:New('typeof', {
-			module.Classes.Argument:New('formatString', 'string'),
-			module.Classes.Argument:New('time', 'number')
+		['os.time'] = module.Package.Classes.Function:New('os.time', {}, {}),
+		['os.date'] = module.Package.Classes.Function:New('typeof', {
+			module.Package.Classes.Argument:New('formatString', 'string'),
+			module.Package.Classes.Argument:New('time', 'number')
 		}, {
-			module.Classes.TypedVariable:New('dict', 'table')
+			module.Package.Classes.TypedVariable:New('dict', 'table')
 		}),
-		['os.difftime'] = module.Classes.Function:New('typeof', {
-			module.Classes.Argument:New('time1', 'number'),
-			module.Classes.Argument:New('time2', 'number')
+		['os.difftime'] = module.Package.Classes.Function:New('typeof', {
+			module.Package.Classes.Argument:New('time1', 'number'),
+			module.Package.Classes.Argument:New('time2', 'number')
 		}, {
-			module.Classes.TypedVariable:New('diff', 'number')
+			module.Package.Classes.TypedVariable:New('diff', 'number')
 		}),
 		-- string library
-		['string.byte'] = module.Classes.Function:New('string.byte', {
-			module.Classes.Argument:New('charString', 'string')
+		['string.byte'] = module.Package.Classes.Function:New('string.byte', {
+			module.Package.Classes.Argument:New('charString', 'string')
 		}, {
-			module.Classes.TypedVariable:New('charNum', 'number')
+			module.Package.Classes.TypedVariable:New('charNum', 'number')
 		}),
-		['string.char'] = module.Classes.Function:New('string.char', {
-			module.Classes.Argument:New('char', 'number')
+		['string.char'] = module.Package.Classes.Function:New('string.char', {
+			module.Package.Classes.Argument:New('char', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'string')
+			module.Package.Classes.TypedVariable:New('result', 'string')
 		}),
-		['string.find'] = module.Classes.Function:New('string.find', {
-			module.Classes.Argument:New('search', 'string'),
-			module.Classes.Argument:New('pattern', 'string'),
-			module.Classes.Argument:New('startFrom', 'number', 1),
-			module.Classes.Argument:New('plain', 'boolean', false),
+		['string.find'] = module.Package.Classes.Function:New('string.find', {
+			module.Package.Classes.Argument:New('search', 'string'),
+			module.Package.Classes.Argument:New('pattern', 'string'),
+			module.Package.Classes.Argument:New('startFrom', 'number', 1),
+			module.Package.Classes.Argument:New('plain', 'boolean', false),
 		}, {
-			module.Classes.TypedVariable:New('location', 'number'),
+			module.Package.Classes.TypedVariable:New('location', 'number'),
 		}),
-		['string.format'] = module.Classes.Function:New('string.format', {
-			module.Classes.Argument:New('format', 'string'),
-			module.Classes.Argument:New('values', 'table'),
+		['string.format'] = module.Package.Classes.Function:New('string.format', {
+			module.Package.Classes.Argument:New('format', 'string'),
+			module.Package.Classes.Argument:New('values', 'table'),
 		}, {
-			module.Classes.TypedVariable:New('result', 'string'),
+			module.Package.Classes.TypedVariable:New('result', 'string'),
 		}),
-		['string.len'] = module.Classes.Function:New('string.len', {
-			module.Classes.Argument:New('str', 'string')
+		['string.len'] = module.Package.Classes.Function:New('string.len', {
+			module.Package.Classes.Argument:New('str', 'string')
 		}, {
-			module.Classes.TypedVariable:New('length', 'number'),
+			module.Package.Classes.TypedVariable:New('length', 'number'),
 		}),
-		['string.lower'] = module.Classes.Function:New('string.lower', {
-			module.Classes.Argument:New('str', 'string')
+		['string.lower'] = module.Package.Classes.Function:New('string.lower', {
+			module.Package.Classes.Argument:New('str', 'string')
 		}, {
-			module.Classes.TypedVariable:New('lowerString', 'string'),
+			module.Package.Classes.TypedVariable:New('lowerString', 'string'),
 		}),
-		['string.upper'] = module.Classes.Function:New('string.upper', {
-			module.Classes.Argument:New('str', 'string')
+		['string.upper'] = module.Package.Classes.Function:New('string.upper', {
+			module.Package.Classes.Argument:New('str', 'string')
 		}, {
-			module.Classes.TypedVariable:New('upperString', 'string'),
+			module.Package.Classes.TypedVariable:New('upperString', 'string'),
 		}),
-		['string.match'] = module.Classes.Function:New('string.upper', {
-			module.Classes.Argument:New('str', 'string'),
-			module.Classes.Argument:New('pattern', 'string'),
-			module.Classes.Argument:New('init', 'number', 1)
+		['string.match'] = module.Package.Classes.Function:New('string.upper', {
+			module.Package.Classes.Argument:New('str', 'string'),
+			module.Package.Classes.Argument:New('pattern', 'string'),
+			module.Package.Classes.Argument:New('init', 'number', 1)
 		}, {
-			module.Classes.TypedVariable:New('match', 'string', true),
+			module.Package.Classes.TypedVariable:New('match', 'string', true),
 		}),
-		['string.rep'] = module.Classes.Function:New('string.rep', {
-			module.Classes.Argument:New('str', 'string'),
-			module.Classes.Argument:New('count', 'number', 1)
+		['string.rep'] = module.Package.Classes.Function:New('string.rep', {
+			module.Package.Classes.Argument:New('str', 'string'),
+			module.Package.Classes.Argument:New('count', 'number', 1)
 		}, {
-			module.Classes.TypedVariable:New('repeated', 'string'),
+			module.Package.Classes.TypedVariable:New('repeated', 'string'),
 		}),
-		['string.reverse'] = module.Classes.Function:New('string.reverse', {
-			module.Classes.Argument:New('str', 'string')
+		['string.reverse'] = module.Package.Classes.Function:New('string.reverse', {
+			module.Package.Classes.Argument:New('str', 'string')
 		}, {
-			module.Classes.TypedVariable:New('reversed', 'string')
+			module.Package.Classes.TypedVariable:New('reversed', 'string')
 		}),
-		['string.sub'] = module.Classes.Function:New('string.sub', {
-			module.Classes.Argument:New('str', 'string'),
-			module.Classes.Argument:New('start', 'number', 1),
-			module.Classes.Argument:New('chars', 'number', nil, true)
+		['string.sub'] = module.Package.Classes.Function:New('string.sub', {
+			module.Package.Classes.Argument:New('str', 'string'),
+			module.Package.Classes.Argument:New('start', 'number', 1),
+			module.Package.Classes.Argument:New('chars', 'number', nil, true)
 		}, {
-			module.Classes.TypedVariable:New('result', 'string')
+			module.Package.Classes.TypedVariable:New('result', 'string')
 		}),
-		['string.gsub'] = module.Classes.Function:New('string.gsub', {
-			module.Classes.Argument:New('str', 'string'),
-			module.Classes.Argument:New('pattern', 'string'),
-			module.Classes.Argument:New('replace', 'string'),
-			module.Classes.Argument:New('n', 'number', nil, true)
+		['string.gsub'] = module.Package.Classes.Function:New('string.gsub', {
+			module.Package.Classes.Argument:New('str', 'string'),
+			module.Package.Classes.Argument:New('pattern', 'string'),
+			module.Package.Classes.Argument:New('replace', 'string'),
+			module.Package.Classes.Argument:New('n', 'number', nil, true)
 		}, {
-			module.Classes.TypedVariable:New('result', 'string')
+			module.Package.Classes.TypedVariable:New('result', 'string')
 		}),
-		['string.gmatch'] = module.Classes.Function:New('string.gmatch', {
-			module.Classes.Argument:New('str', 'string'),
-			module.Classes.Argument:New('pattern', 'string')
+		['string.gmatch'] = module.Package.Classes.Function:New('string.gmatch', {
+			module.Package.Classes.Argument:New('str', 'string'),
+			module.Package.Classes.Argument:New('pattern', 'string')
 		}, {
-			module.Classes.TypedVariable:New('iterator', 'function')
+			module.Package.Classes.TypedVariable:New('iterator', 'function')
 		}),
 		-- math library
-		['math.abs'] = module.Classes.Function:New('math.abs', {
-			module.Classes.Argument:New('num', 'number')
+		['math.abs'] = module.Package.Classes.Function:New('math.abs', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.acos'] = module.Classes.Function:New('math.acos', {
-			module.Classes.Argument:New('num', 'number')
+		['math.acos'] = module.Package.Classes.Function:New('math.acos', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.asin'] = module.Classes.Function:New('math.asin', {
-			module.Classes.Argument:New('num', 'number')
+		['math.asin'] = module.Package.Classes.Function:New('math.asin', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.atan'] = module.Classes.Function:New('math.atan', {
-			module.Classes.Argument:New('num', 'number')
+		['math.atan'] = module.Package.Classes.Function:New('math.atan', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.atan2'] = module.Classes.Function:New('math.atan2', {
-			module.Classes.Argument:New('num', 'number')
+		['math.atan2'] = module.Package.Classes.Function:New('math.atan2', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.ceil'] = module.Classes.Function:New('math.ceil', {
-			module.Classes.Argument:New('num', 'number')
+		['math.ceil'] = module.Package.Classes.Function:New('math.ceil', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.cos'] = module.Classes.Function:New('math.cos', {
-			module.Classes.Argument:New('num', 'number')
+		['math.cos'] = module.Package.Classes.Function:New('math.cos', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.cosh'] = module.Classes.Function:New('math.cosh', {
-			module.Classes.Argument:New('num', 'number')
+		['math.cosh'] = module.Package.Classes.Function:New('math.cosh', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.exp'] = module.Classes.Function:New('math.exp', {
-			module.Classes.Argument:New('num', 'number')
+		['math.exp'] = module.Package.Classes.Function:New('math.exp', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.floor'] = module.Classes.Function:New('math.floor', {
-			module.Classes.Argument:New('num', 'number')
+		['math.floor'] = module.Package.Classes.Function:New('math.floor', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.frexp'] = module.Classes.Function:New('math.frexp', {
-			module.Classes.Argument:New('num', 'number')
+		['math.frexp'] = module.Package.Classes.Function:New('math.frexp', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.log'] = module.Classes.Function:New('math.log', {
-			module.Classes.Argument:New('num', 'number')
+		['math.log'] = module.Package.Classes.Function:New('math.log', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.log10'] = module.Classes.Function:New('math.log10', {
-			module.Classes.Argument:New('num', 'number')
+		['math.log10'] = module.Package.Classes.Function:New('math.log10', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.clamp'] = module.Classes.Function:New('math.clamp', {
-			module.Classes.Argument:New('num', 'number'),
-			module.Classes.Argument:New('min', 'number'),
-			module.Classes.Argument:New('max', 'number')
+		['math.clamp'] = module.Package.Classes.Function:New('math.clamp', {
+			module.Package.Classes.Argument:New('num', 'number'),
+			module.Package.Classes.Argument:New('min', 'number'),
+			module.Package.Classes.Argument:New('max', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.deg'] = module.Classes.Function:New('math.deg', {
-			module.Classes.Argument:New('rad', 'number')
+		['math.deg'] = module.Package.Classes.Function:New('math.deg', {
+			module.Package.Classes.Argument:New('rad', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.fmod'] = module.Classes.Function:New('math.fmod', {
-			module.Classes.Argument:New('num', 'number'),
-			module.Classes.Argument:New('divider', 'number')
+		['math.fmod'] = module.Package.Classes.Function:New('math.fmod', {
+			module.Package.Classes.Argument:New('num', 'number'),
+			module.Package.Classes.Argument:New('divider', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.ldexp'] = module.Classes.Function:New('math.ldexp', {
-			module.Classes.Argument:New('m', 'number'),
-			module.Classes.Argument:New('e', 'number')
+		['math.ldexp'] = module.Package.Classes.Function:New('math.ldexp', {
+			module.Package.Classes.Argument:New('m', 'number'),
+			module.Package.Classes.Argument:New('e', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.modf'] = module.Classes.Function:New('math.modf', {
-			module.Classes.Argument:New('num', 'number')
+		['math.modf'] = module.Package.Classes.Function:New('math.modf', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('int', 'number'),
-			module.Classes.TypedVariable:New('frac', 'number')
+			module.Package.Classes.TypedVariable:New('int', 'number'),
+			module.Package.Classes.TypedVariable:New('frac', 'number')
 		}),
-		['math.noise'] = module.Classes.Function:New('math.noise', {
-			module.Classes.Argument:New('x', 'number'),
-			module.Classes.Argument:New('y', 'number', 0),
-			module.Classes.Argument:New('z', 'number', 0)
+		['math.noise'] = module.Package.Classes.Function:New('math.noise', {
+			module.Package.Classes.Argument:New('x', 'number'),
+			module.Package.Classes.Argument:New('y', 'number', 0),
+			module.Package.Classes.Argument:New('z', 'number', 0)
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.pow'] = module.Classes.Function:New('math.pow', {
-			module.Classes.Argument:New('num', 'number'),
-			module.Classes.Argument:New('exponent', 'number')
+		['math.pow'] = module.Package.Classes.Function:New('math.pow', {
+			module.Package.Classes.Argument:New('num', 'number'),
+			module.Package.Classes.Argument:New('exponent', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.rad'] = module.Classes.Function:New('math.rad', {
-			module.Classes.Argument:New('degree', 'number')
+		['math.rad'] = module.Package.Classes.Function:New('math.rad', {
+			module.Package.Classes.Argument:New('degree', 'number')
 		}, {
-			module.Classes.TypedVariable:New('radian', 'number')
+			module.Package.Classes.TypedVariable:New('radian', 'number')
 		}),
-		['math.random'] = module.Classes.Function:New('math.random', {}, {
-			module.Classes.TypedVariable:New('result', 'number')
+		['math.random'] = module.Package.Classes.Function:New('math.random', {}, {
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.randInt'] = module.Classes.Function:New('math.randInt', {
-			module.Classes.Argument:New('min', 'number'),
-			module.Classes.Argument:New('max', 'number')
+		['math.randInt'] = module.Package.Classes.Function:New('math.randInt', {
+			module.Package.Classes.Argument:New('min', 'number'),
+			module.Package.Classes.Argument:New('max', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.randomseed'] = module.Classes.Function:New('math.randomseed', {
-			module.Classes.Argument:New('seed', 'number')
+		['math.randomseed'] = module.Package.Classes.Function:New('math.randomseed', {
+			module.Package.Classes.Argument:New('seed', 'number')
 		}, {}),
-		['math.sign'] = module.Classes.Function:New('math.sign', {
-			module.Classes.Argument:New('num', 'number')
+		['math.sign'] = module.Package.Classes.Function:New('math.sign', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.sin'] = module.Classes.Function:New('math.sin', {
-			module.Classes.Argument:New('num', 'number')
+		['math.sin'] = module.Package.Classes.Function:New('math.sin', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.sinh'] = module.Classes.Function:New('math.sinh', {
-			module.Classes.Argument:New('num', 'number')
+		['math.sinh'] = module.Package.Classes.Function:New('math.sinh', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.sqrt'] = module.Classes.Function:New('math.sqrt', {
-			module.Classes.Argument:New('num', 'number')
+		['math.sqrt'] = module.Package.Classes.Function:New('math.sqrt', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.tan'] = module.Classes.Function:New('math.tan', {
-			module.Classes.Argument:New('num', 'number')
+		['math.tan'] = module.Package.Classes.Function:New('math.tan', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
-		['math.tanh'] = module.Classes.Function:New('math.tanh', {
-			module.Classes.Argument:New('num', 'number')
+		['math.tanh'] = module.Package.Classes.Function:New('math.tanh', {
+			module.Package.Classes.Argument:New('num', 'number')
 		}, {
-			module.Classes.TypedVariable:New('result', 'number')
+			module.Package.Classes.TypedVariable:New('result', 'number')
 		}),
 		['math.pi'] = 'math.pi',
 		['math.huge'] = 'math.huge',
 		-- table library
-		['table.concat'] = module.Classes.Function:New('table.concat', {
-			module.Classes.Argument:New('table', 'table'),
-			module.Classes.Argument:New('seperator', 'string')
+		['table.concat'] = module.Package.Classes.Function:New('table.concat', {
+			module.Package.Classes.Argument:New('table', 'table'),
+			module.Package.Classes.Argument:New('seperator', 'string')
 		}, {
-			module.Classes.TypedVariable:New('result', 'string')
+			module.Package.Classes.TypedVariable:New('result', 'string')
 		}),
-		['table.insert'] = module.Classes.Function:New('table.insert', {
-			module.Classes.Argument:New('table', 'table'),
-			module.Classes.Argument:New('element', '')
+		['table.insert'] = module.Package.Classes.Function:New('table.insert', {
+			module.Package.Classes.Argument:New('table', 'table'),
+			module.Package.Classes.Argument:New('element', '')
 		}, {}),
-		['table.insertAt'] = module.Classes.Function:New('table.insertAt', {
-			module.Classes.Argument:New('table', 'table'),
-			module.Classes.Argument:New('position', 'number'),
-			module.Classes.Argument:New('element', '')
+		['table.insertAt'] = module.Package.Classes.Function:New('table.insertAt', {
+			module.Package.Classes.Argument:New('table', 'table'),
+			module.Package.Classes.Argument:New('position', 'number'),
+			module.Package.Classes.Argument:New('element', '')
 		}, {}),
-		['table.remove'] = module.Classes.Function:New('table.remove', {
-			module.Classes.Argument:New('table', 'table'),
-			module.Classes.Argument:New('position', 'number')
+		['table.remove'] = module.Package.Classes.Function:New('table.remove', {
+			module.Package.Classes.Argument:New('table', 'table'),
+			module.Package.Classes.Argument:New('position', 'number')
 		}, {}),
-		['table.sort'] = module.Classes.Function:New('table.sort', {
-			module.Classes.Argument:New('table', 'table'),
-			module.Classes.Argument:New('comparer', 'function')
+		['table.sort'] = module.Package.Classes.Function:New('table.sort', {
+			module.Package.Classes.Argument:New('table', 'table'),
+			module.Package.Classes.Argument:New('comparer', 'function')
 		}, {
-			module.Classes.TypedVariable:New('element', '')
+			module.Package.Classes.TypedVariable:New('element', '')
 		}),
 	}
 	

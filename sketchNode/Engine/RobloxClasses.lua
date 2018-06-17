@@ -20,12 +20,14 @@ local function AddEntry(entry)
 			SuperClass = entry.Superclass,
 			Properties = {},
 			Functions = {},
-			Events = {}
+			Events = {},
+			MemberTypeMap = {}
 		}
 
 	else
 		if module.metadata[entry.Class] then
 			if entry.type == 'Property' then
+				module.metadata[entry.Class].MemberTypeMap[entry.Name] = 'Property'
 				table.insert(module.metadata[entry.Class].Properties, {
 					Name = entry.Name,
 					Type = entry.ValueType,
@@ -33,6 +35,7 @@ local function AddEntry(entry)
 				})
 				
 			elseif entry.type == 'Function' then
+				module.metadata[entry.Class].MemberTypeMap[entry.Name] = 'Function'
 				table.insert(module.metadata[entry.Class].Functions, {
 					Name = entry.Name,
 					ReturnValues = entry.ReturnType,
@@ -41,13 +44,15 @@ local function AddEntry(entry)
 				})
 
 			elseif entry.type == 'Event' then
-				table.insert(module.metadata[entry.Class], {
+				module.metadata[entry.Class].MemberTypeMap[entry.Name] = 'Event'
+				table.insert(module.metadata[entry.Class].Events, {
 					Name = entry.Name,
 					Arguments = entry.Arguments,
 					Tags = entry.tags
 				})
 
 			elseif entry.type == 'YieldFunction' then
+				module.metadata[entry.Class].MemberTypeMap[entry.Name] = 'Function'
 				table.insert(entry.tags, 'Yield')
 				table.insert(module.metadata[entry.Class].Functions, {
 					Name = entry.Name,
@@ -57,6 +62,7 @@ local function AddEntry(entry)
 				})
 				
 			elseif entry.type == 'Callback' then
+				module.metadata[entry.Class].MemberTypeMap[entry.Name] = 'Property'
 				table.insert(module.metadata[entry.Class].Properties, {
 					Name = entry.Name,
 					Type = 'Function',
@@ -97,8 +103,37 @@ function module.Init()
 	end
 end
 
+function module.GetMemberType(className, member) --\ReturnType: string
+	--\Doc: Returns the type of the member (property, function or event).
+	className, member = module.Package.Utils.Tests.GetArguments(
+		{'string', className}, -- The class of the object
+		{'string', member} -- The type of member used to index the data table
+	)
+	repeat
+		if module.metadata[className].MemberTypeMap[member] then
+			return module.metadata[className].MemberTypeMap[member]
+		end
+		className = module.metadata[className].SuperClass
+	until className == nil
+end
+
+function module.GetClassMemberData(className, member) --\ReturnType: table
+	className, member = module.Package.Utils.Tests.GetArguments(
+		{'string', className}, -- The class of the object
+		{'string', member} -- The type of member used to index the data table
+	)
+	local memberType = module.GetMemberType(className, member)
+	if memberType then
+		for _, data in ipairs(module.GetClassMembers(className, memberType)) do
+			if data.Name == member then
+				return data
+			end
+		end
+	end
+end
+
 function module.GetClassMembers(className, memberType) --\ReturnType: table
-    className, memberType = module.Package.Utils.Tests.GetArguments(
+	className, memberType = module.Package.Utils.Tests.GetArguments(
 		{'string', className}, -- The class of the object
 		{'string', memberType} -- The type of member used to index the data table
 	)
@@ -117,7 +152,7 @@ end
 
 function module.GetClassProperties(className) --\ReturnType: table
 	--\Doc: Returns the properties from the class with the inherited ones
-    className = module.Package.Utils.Tests.GetArguments(
+	className = module.Package.Utils.Tests.GetArguments(
 		{'string', className} -- The class of the object
 	)
 	return module.GetClassMembers(className, 'Properties')
@@ -125,7 +160,7 @@ end
 
 function module.GetClassFunctions(className) --\ReturnType: table
 	--\Doc: Returns the functions from the class with the inherited ones
-    className = module.Package.Utils.Tests.GetArguments(
+	className = module.Package.Utils.Tests.GetArguments(
 		{'string', className} -- The class of the object
 	)
 	return module.GetClassMembers(className, 'Functions')
@@ -133,7 +168,7 @@ end
 
 function module.GetClassEvents(className) --\ReturnType: table
 	--\Doc: Returns the events from the class with the inherited ones
-    className = module.Package.Utils.Tests.GetArguments(
+	className = module.Package.Utils.Tests.GetArguments(
 		{'string', className} -- The class of the object
 	)
 	return module.GetClassMembers(className, 'Events')
@@ -141,7 +176,7 @@ end
 
 function module.ClassHasTag(className, tag) --\ReturnType: boolean
 	--\Doc: Returns if a class has a tag
-    className, tag = module.Package.Utils.Tests.GetArguments(
+	className, tag = module.Package.Utils.Tests.GetArguments(
 		{'string', className}, -- The class of the object
 		{'string', tag} -- The tag to look for
 	)
@@ -155,7 +190,7 @@ end
 
 function module.MemberHasTag(className, memberType, name, tag)
 	--\Doc: Returns if a certain field has a tag
-    className, memberType, name, tag = module.Package.Utils.Tests.GetArguments(
+	className, memberType, name, tag = module.Package.Utils.Tests.GetArguments(
 		{'string', className}, -- The class of the object
 		{'string', memberType}, -- The type of member used to index the data table
 		{'string', name}, -- The name of the functions, property or event
