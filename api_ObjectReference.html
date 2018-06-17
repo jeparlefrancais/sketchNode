@@ -34,10 +34,10 @@
     <div class="content">
         <div>
             
-<h1>BaseReference</h1>
+<h1>ObjectReference</h1>
 <br>
 <p>
-    Add a description
+    Use this class to hold a reference to a service or an object 
 </p>
 
 <br>
@@ -51,7 +51,7 @@
 <table class="methodTable">
     
         <tr>
-            <td class="methodTypeColumn typeString">void</td>
+            <td class="methodTypeColumn typeString">table</td>
             
                 <td class="methodNameColumn"><span class="methodName">GetArguments</span>()</td>
             
@@ -61,17 +61,33 @@
         <tr>
             <td class="methodTypeColumn typeString">void</td>
             
+                <td class="methodNameColumn"><span class="methodName">GetMemberInfos</span>()</td>
+            
+            <td class="methodDescriptionColumn"></td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">Instance</td>
+            
+                <td class="methodNameColumn"><span class="methodName">GetObject</span>()</td>
+            
+            <td class="methodDescriptionColumn">Returns the object or nil if the object is not present.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">table</td>
+            
                 <td class="methodNameColumn"><span class="methodName">GetReturnValues</span>()</td>
             
             <td class="methodDescriptionColumn"></td>
         </tr>
     
         <tr>
-            <td class="methodTypeColumn typeString">void</td>
+            <td class="methodTypeColumn typeString">string</td>
             
                 <td class="methodNameColumn"><span class="methodName">GetTitle</span>()</td>
             
-            <td class="methodDescriptionColumn"></td>
+            <td class="methodDescriptionColumn">Returns the string that will be used as a title for its node.</td>
         </tr>
     
         <tr>
@@ -88,6 +104,14 @@
                 <td class="methodNameColumn"><span class="methodName">IsFunction</span>()</td>
             
             <td class="methodDescriptionColumn"></td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">boolean</td>
+            
+                <td class="methodNameColumn"><span class="methodName">IsService</span>()</td>
+            
+            <td class="methodDescriptionColumn">Returns true if the reference is a service.</td>
         </tr>
     
         <tr>
@@ -111,9 +135,11 @@
         <tr>
             <td class="methodTypeColumn typeString">table</td>
             
-                <td class="methodNameColumn"><span class="methodName">New</span>()</td>
+                <td class="methodNameColumn">
+                    <span class="methodName">New</span>(<span class="typeString">Instance</span> obj, <span class="typeString">string</span> member)
+                </td>
             
-            <td class="methodDescriptionColumn"></td>
+            <td class="methodDescriptionColumn">Manage to reference to a static object.</td>
         </tr>
     
         <tr>
@@ -128,6 +154,8 @@
 
 
     
+        
+    
 
 
 <br>
@@ -140,27 +168,11 @@
 
 
     
-
-
-
+        
     
-        <br>
-        <h2>Inherited Classes</h2>
-        <br>
 
-        <ul class="classList">
-            
-            <li>
-                <a href="api_LuaReference.html">LuaReference</a>
-            </li>
-            
-            <li>
-                <a href="api_ObjectReference.html">ObjectReference</a>
-            </li>
-            
-        </ul>
 
-        <br>
+
     
 
 
