@@ -115,6 +115,11 @@ function class:GetArguments() --\ReturnType: table
 	return self.args
 end
 
+function class:GetReturnValues() --\ReturnType: table
+	--\Doc: Returns the list of the TypedVariables.
+	return self.returnValues
+end
+
 function class:GetSource() --\ReturnType: string
 	--\Doc: Returns the source code of the function.
 	return self.source

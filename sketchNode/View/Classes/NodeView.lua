@@ -16,10 +16,8 @@ function class.New(o, parent, x , y)
 	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
-	o.ui = class.Package.Utils.Create'ImageButton'{
+	o.ui = class.Package.Templates.ImageButton{
 		AnchorPoint = Vector2.new(0.5, 0.5),
-		BackgroundTransparency = 1,
-		BorderSizePixel = 0,
 		Name = 'NodeView',
 		Position = UDim2.new(0.5, x, 0.5, y),
 		Size = UDim2.new(0, 270, 0, 350),
@@ -29,12 +27,7 @@ function class.New(o, parent, x , y)
 		SliceCenter = Rect.new(16, 16, 48, 48),
 		Parent = parent
 	}
-	class.Package.Utils.Create'UISizeConstraint'{
-		MaxSize = Vector2.new(500,1000),
-		MinSize = Vector2.new(100,100),
-		Parent = o.ui
-	}
-  	local nodeTitle = class.Package.Utils.Create'ImageLabel'{
+  	local nodeTitle = class.Package.Utils.Create'ImageLabel'{ 
 		AnchorPoint = Vector2.new(0.5, 0),
 		BackgroundTransparency = 1,
 		Name = 'TitleBar',
@@ -61,19 +54,19 @@ function class.New(o, parent, x , y)
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = nodeTitle
 	}
-	o.content = class.Package.Utils.Create'Frame'{
+	o.content = class.Package.Templates.Container{
 		AnchorPoint = Vector2.new(0.5, 0),
-		BackgroundTransparency = 1,
 		Name = 'Content',
 		Position = UDim2.new(0.5, 0, 0, 40),
 		Size = UDim2.new(1, -20, 0, 30),
-		ZIndex = 50,
-		Parent = o.ui
- 	}
-	class.Package.Utils.Create'UIListLayout'{
-		SortOrder = Enum.SortOrder.LayoutOrder,
-		Parent = o.content
+		Parent = o.ui,
+		class.Package.Templates.VerticalList(0, 'VerticalListLayout')
 	}
+	
+	o.content.VerticalListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
+		o.ui.Size = UDim2.new(0, 270, 0, 60 + o.content.VerticalListLayout.AbsoluteContentSize.Y)
+	end)
+
 	return o
 end
 
@@ -100,8 +93,8 @@ function class:SetContent(object)
 	object.Parent = self.content
 end
 
-function class:MinimizeWidth()
-	--\Doc: Iterate on all the lines and sets the width get the biggest 
+function class:ToggleCollapsed()
+	--\Doc: Invisible the input/output
 end
 
 return class
