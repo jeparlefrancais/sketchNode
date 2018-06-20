@@ -3,7 +3,8 @@
 local TXT = game:GetService("TextService")
 
 local module = {
-	buttons = {}
+	buttons = {},
+	height = 26
 }
 
 function module.Start(parent)
@@ -16,7 +17,7 @@ function module.Start(parent)
 		BackgroundColor3 = Color3.fromRGB(30, 30, 30),
 		BorderSizePixel = 0,
 		Name = "ToolBar",
-		Size = UDim2.new(1, 0, 0, 26),
+		Size = UDim2.new(1, 0, 0, module.height),
 		ZIndex = 100,
 		Parent = parent
 	}
@@ -118,6 +119,10 @@ function module:CreateSeparator()
 		Size = UDim2.new(0, 2, 0.8, 0),
 		Parent = categorySpacer
 	}
+end
+
+function module.GetHeight()
+	return module.height
 end
 
 return module

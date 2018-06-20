@@ -7,8 +7,8 @@ local function Merge(base, new)
 		for k, v in pairs(new) do
 			base[k] = v
 		end
-		return base
 	end
+	return base
 end
 
 function module.CenterPoint(parent)

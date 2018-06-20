@@ -22,8 +22,11 @@ function class.New(o, referenceName) --\ReturnType: table
 	
 	o.referenceName = referenceName
 	
-	if class.Package.LuaMetadata.IsFunction() then
+	if class.Package.LuaMetadata.IsFunction(referenceName) then
 		o.func = class.Package.LuaMetadata.GetFunction(referenceName)
+		if not o.func then
+			warn(string.format('LuaReference to function <%s> returns nil', referenceName))
+		end
 	end
 	
 	return o
@@ -53,7 +56,7 @@ function class:Serialize() --\ReturnType: table
 end
 
 function class:GetTitle() --\ReturnType: string
-	return string.format('%s', self.funcName)
+	return string.format('%s', self.referenceName)
 end
 
 function class:GetArguments() --\ReturnType: table
@@ -76,7 +79,7 @@ end
 
 function class:IsFunction() --\ReturnType: boolean
 	--\Doc: Returns if the reference is a function
-	return class.Package.LuaMetadata.IsFunction(self.funcName)
+	return class.Package.LuaMetadata.IsFunction(self.referenceName)
 end
 
 function class:IsEvent() --\ReturnType: boolean
@@ -86,7 +89,7 @@ end
 
 function class:IsValue() --\ReturnType: boolean
 	--\Doc: Returns if the reference is a value.
-	return not class.Package.LuaMetadata.IsFunction(self.funcName)
+	return not class.Package.LuaMetadata.IsFunction(self.referenceName)
 end
 
 return class

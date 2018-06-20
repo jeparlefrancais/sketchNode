@@ -50,4 +50,8 @@ function class:GetArguments() --\ReturnType: table
 	return self.reference:GetArguments()
 end
 
+function class:GetTitle() --\ReturnType: string
+	return self.reference:GetTitle()
+end
+
 return class

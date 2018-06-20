@@ -17,9 +17,9 @@ function class.New(o, parent, x , y)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
 	o.ui = class.Package.Templates.ImageButton{
-		AnchorPoint = Vector2.new(0.5, 0.5),
+		AnchorPoint = Vector2.new(0, 0),
 		Name = 'NodeView',
-		Position = UDim2.new(0.5, x, 0.5, y),
+		Position = UDim2.new(0, x, 0, y),
 		Size = UDim2.new(0, 270, 0, 350),
 		ZIndex = 20,
 		Image = 'rbxassetid://1840836042',

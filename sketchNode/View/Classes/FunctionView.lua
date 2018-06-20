@@ -8,10 +8,10 @@ function class.Init()
 	class.__super = {class.Package.Classes.NodeView}
 end
 
-function class.New(o, parent, func)
-	parent, func = class.Package.Utils.Tests.GetArguments(
+function class.New(o, parent, funcNode)
+	parent, funcNode = class.Package.Utils.Tests.GetArguments(
 		{'Instance', parent}, -- The parent component.
-		{'Function', func}
+		{'FunctionNode', funcNode}
 	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 	
@@ -77,20 +77,21 @@ function class.New(o, parent, func)
 		}
 	}
 
-	class.Package.Classes.NodeView.SetContent(o, o.triggers)
-	class.Package.Classes.NodeView.SetContent(o, o.connectorContainer)
-
 	o.connectorContainer.In.InUIListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
 		local maxHeight = math.max(o.connectorContainer.In.InUIListLayout.AbsoluteContentSize.Y, o.connectorContainer.Out.OutUIListLayout.AbsoluteContentSize.Y)
 		o.connectorContainer.Size = UDim2.new(1, 0, 0, maxHeight)
 	end)
 
-	for _, arg in ipairs(func:GetArguments()) do
+	for _, arg in ipairs(funcNode:GetArguments()) do
 		class.AddConnector(o, arg)
 	end
-	for _, tv in ipairs(func:GetReturnValues()) do
+	for _, tv in ipairs(funcNode:GetReturnValues()) do
 		class.AddConnector(o, tv)
 	end
+
+	o:SetContent(o.triggers)
+	o:SetContent(o.connectorContainer)
+	o:SetTitle(funcNode:GetTitle())
 
 	return o
 end

@@ -77,6 +77,10 @@ function class:Serialize() --\ReturnType: table
 	}
 end
 
+function class:GetNodes()
+	return self.nodes
+end
+
 function class:GetNodeId()
     local id = string.format('%X', self.newId)
     self.newId = self.newId + 1

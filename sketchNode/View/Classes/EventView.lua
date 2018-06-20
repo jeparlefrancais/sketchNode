@@ -8,10 +8,10 @@ function class.Init()
 	class.__super = {class.Package.Classes.NodeView}
 end
 
-function class.New(o, parent, func)
-	parent, func = class.Package.Utils.Tests.GetArguments(
+function class.New(o, parent, event)
+	parent, event = class.Package.Utils.Tests.GetArguments(
 		{'Instance', parent}, -- The parent component.
-		{'Function', func}
+		{'EventNode', event}
 	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 	
@@ -84,11 +84,8 @@ function class.New(o, parent, func)
 		local maxHeight = math.max(o.connectorContainer.In.InUIListLayout.AbsoluteContentSize.Y, o.connectorContainer.Out.OutUIListLayout.AbsoluteContentSize.Y)
 		o.connectorContainer.Size = UDim2.new(1, 0, 0, maxHeight)
 	end)
-
-	for _, arg in ipairs(func:GetArguments()) do
-		class.AddConnector(o, arg)
-	end
-	for _, tv in ipairs(func:GetReturnValues()) do
+	
+	for _, tv in ipairs(event:GetReturnValues()) do
 		class.AddConnector(o, tv)
 	end
 

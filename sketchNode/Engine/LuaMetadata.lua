@@ -347,12 +347,11 @@ function module.GetFunction(referenceName) --\ReturnType: Function
         {'string', referenceName} -- The name of the .
     )
     if module.IsFunction(referenceName) then
-        return module.nameToCode[referenceName]
+        return module.nameToObject[referenceName]
     else
         return nil
     end
 end
-
 
 function module.GetSource(referenceName) --\ReturnType: string
     --\Doc: Returns the source with '%s' symbols to format with the arguments.
