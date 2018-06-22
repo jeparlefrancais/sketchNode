@@ -50,7 +50,7 @@ function class.New(o, parent, x , y)
 		Font = Enum.Font.SourceSansSemibold,
 		Text = 'NodeName',
 		TextColor3 = Color3.new(1,1,1),
-		TextScaled = true;
+		TextSize = 28;
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = nodeTitle
 	}

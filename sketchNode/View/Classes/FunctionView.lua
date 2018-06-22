@@ -40,7 +40,7 @@ function class.New(o, parent, funcNode)
 		class.Package.Utils.Create'ImageLabel'{
 			AnchorPoint = Vector2.new(1, 0),
 			BackgroundTransparency = 1,
-			Name = 'Input',
+			Name = 'Output',
 			Position = UDim2.new(1, -5, 0, 5),
 			Rotation = 90,
 			Size = UDim2.new(0, 18, 0, 18),
@@ -81,12 +81,16 @@ function class.New(o, parent, funcNode)
 		local maxHeight = math.max(o.connectorContainer.In.InUIListLayout.AbsoluteContentSize.Y, o.connectorContainer.Out.OutUIListLayout.AbsoluteContentSize.Y)
 		o.connectorContainer.Size = UDim2.new(1, 0, 0, maxHeight)
 	end)
+	o.connectorContainer.Out.OutUIListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
+		local maxHeight = math.max(o.connectorContainer.In.InUIListLayout.AbsoluteContentSize.Y, o.connectorContainer.Out.OutUIListLayout.AbsoluteContentSize.Y)
+		o.connectorContainer.Size = UDim2.new(1, 0, 0, maxHeight)
+	end)
 
 	for _, arg in ipairs(funcNode:GetArguments()) do
-		class.AddConnector(o, arg)
+		o:AddConnector(arg, o.connectorContainer:FindFirstChild('In'))
 	end
 	for _, tv in ipairs(funcNode:GetReturnValues()) do
-		class.AddConnector(o, tv)
+		o:AddConnector(tv, o.connectorContainer:FindFirstChild('Out'))
 	end
 
 	o:SetContent(o.triggers)
@@ -110,11 +114,11 @@ function class:SetTriggerOutput(visible)
 	self.triggers.Output.Visible = visible
 end
 
-function class:AddConnector(arg)
+function class:AddConnector(arg, parent)
 	arg = class.Package.Utils.Tests.GetArguments(
 		{'TypedVariable', arg} -- The parent component.
 	)
-	class.Package.Classes.ConnectorView:New(self.connectorContainer, arg)
+	class.Package.Classes.ConnectorView:New(parent, arg)
 end
 
 return class

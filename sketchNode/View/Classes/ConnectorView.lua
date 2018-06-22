@@ -39,7 +39,7 @@ function class.New(o, parent, typedVariableOrArgument)
 	o.typedVariable = typedVariableOrArgument
 	local isRight = not typedVariableOrArgument:IsA('Argument')
 
-	parent = isRight and parent:FindFirstChild('Out') or parent:FindFirstChild('In')
+	--parent = isRight and parent:FindFirstChild('Out') or parent:FindFirstChild('In')
 	
 	o.connectorView = class.Package.Templates.Container{
 		Name = typedVariableOrArgument:GetName(),
