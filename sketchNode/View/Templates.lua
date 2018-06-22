@@ -11,16 +11,6 @@ local function Merge(base, new)
 	return base
 end
 
-function module.CenterPoint(parent)
-	return module.Package.Utils.Create'Frame'{
-		BackgroundTransparency = 1,
-		Name = 'CenterPoint',
-		Position = UDim2.new(0.5, 0, 0.5, 0),
-		Size = UDim2.new(0, 0, 0, 0),
-		Parent = parent
-	}
-end
-
 function module.Container(properties)
 	return module.Package.Utils.Create'Frame'(Merge({
 		AnchorPoint = Vector2.new(0, 0),
@@ -28,17 +18,8 @@ function module.Container(properties)
 		Name = 'Container',
 		Position = UDim2.new(0, 0, 0, 0),
 		Size = UDim2.new(1, 0, 1, 0),
-		ZIndex = 50,
 	}, properties))
 end
-
--- function module.MinimalLabel(properties)
--- 	local text = Create'TextLabel'(merge bla bla bla)
-	
--- 	text:GetPropertySignalChanged('Text'):Connect(function()
--- 		module.Package.Functions.MinizeLabel(text)
--- 	end
--- end
 
 function module.MinimalText(text, properties)
 	local textLabel = module.Package.Utils.Create'TextLabel'(Merge({
@@ -46,7 +27,6 @@ function module.MinimalText(text, properties)
 		Name = 'MinimizedText',
 		Text = text,
 		TextSize = 18,
-		ZIndex = 50,
 	}, properties))
 
 	module.Package.Functions.MinimizeTextLabel(textLabel)
@@ -64,7 +44,6 @@ function module.ImageLabel(properties)
 		BackgroundTransparency = 1,
 		Position = UDim2.new(0, 0, 0, 0),
 		Size = UDim2.new(1, 0, 1, 0),
-		ZIndex = 40,
 	}, properties))
 end
 
@@ -74,7 +53,6 @@ function module.ImageButton(properties)
 		BackgroundTransparency = 1,
 		Position = UDim2.new(0, 0, 0, 0),
 		Size = UDim2.new(1, 0, 1, 0),
-		ZIndex = 40,
 	}, properties))
 end
 
