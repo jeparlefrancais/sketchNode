@@ -14,7 +14,7 @@ local function GetTypeFromRobloxTypes(rbxString)
 		typeString = ''
 		if not WarnTypes[rbxString] then
 			WarnTypes[rbxString] = true
-			warn(string.format('Type <%s>', arg.Type))
+			warn(string.format('Type <%s> does not exist in RobloxTypes map', rbxString))
 		end
 	end
 	return typeString
@@ -88,8 +88,8 @@ function class:Serialize() --\ReturnType: table
 end
 
 function class:GetMemberInfos()
-	self.memberData = class.Package.RoloxClasses.GetClassMemberData(o.className, member)
-	self.memberType = class.Package.RoloxClasses.GetMemberType(o.className, member)
+	self.memberData = class.Package.RobloxClasses.GetClassMemberData(self.className, self.member)
+	self.memberType = class.Package.RobloxClasses.GetMemberType(self.className, self.member)
 	self.arguments = {}
 	self.returnValues = {}
 
