@@ -18,6 +18,8 @@ function module.Start(plugin, Engine)
 	module.Package.ToolBar.CreateButton("build", "build", true, function() end)
 	module.Package.ToolBar.CreateButton("bug", "bug", false, function() end)
 	module.Package.ToolBar.CreateButton("help", "help", false, function() end)
+
+	module.Package.Dialog.Start(module.gui)
 	
 	local editorContainer = module.Package.Templates.Container{
 		Position = UDim2.new(0, 0, 0, module.Package.ToolBar.GetHeight()),
@@ -26,9 +28,18 @@ function module.Start(plugin, Engine)
 	}
 	module.Package.GameEditor.Start(editorContainer)
 
-	Engine.SketchEngine.SheetAdded:Connect(module.AddSheetView)
+	Engine.SheetAdded:Connect(module.AddSheetView)
 
-	Engine.SketchEngine.AddSheet('Main')
+	if not Engine.IsSetup() then
+		local startPlugin = false
+		repeat
+			startPlugin = module.Package.Dialog.Prompt('New Project', 'Would you like to start a new SketchNode project?')
+			if not startPlugin then
+				module.gui.Enabled = false
+			end
+		until startPlugin
+		Engine.Setup()
+	end
 end
 
 function module.AddSheetView(sheet)

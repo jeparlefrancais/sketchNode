@@ -47,11 +47,14 @@ function module.Setup()
 
 		module.classes = {}
         module.modules = {}
-        module.sheets = {}
+		module.sheets = {}
+		
+		module.AddSheet('MainSheet')
 	end
 end
 
-function module.IsSetup()
+function module.IsSetup() --\ReturnType: boolean
+	--\Doc: Returns true if the plugin is enabled.
 	return module.dataFolder ~= nil
 end
 
