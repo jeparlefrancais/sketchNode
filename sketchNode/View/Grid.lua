@@ -44,7 +44,6 @@ function module.Start(parent)
 
 	module.gridImage = module.Package.Utils.Create'ImageLabel'{
 		BorderSizePixel = 0,
-		BackgroundColor3 = Color3.fromRGB(49, 49, 49),
 		Name = 'Grid',
 		Position = UDim2.new(0, 0, 0, 0),
 		Image = 'rbxassetid://1837504812',
@@ -54,6 +53,7 @@ function module.Start(parent)
 		Parent = module.world,
 		sizeConstraint
 	}
+	module.Package.Themes.Bind(module.gridImage, 'BackgroundColor3', 'GridBackgroundColor')
 
 	local mouseClickPosition = nil
 	local gridPosition = nil
