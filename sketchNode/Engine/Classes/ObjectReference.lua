@@ -93,20 +93,31 @@ function class:GetMemberInfos()
 	self.arguments = {}
 	self.returnValues = {}
 
-	for _, arg in ipairs(self.memberData.Arguments) do
-		table.insert(self.arguments, class.Package.Classes.Argument:New(
-			arg.Name,
-			GetTypeFromRobloxTypes(arg.Type), 
-			arg.Default
-		))
+	if self.memberData.Arguments then
+		for _, arg in ipairs(self.memberData.Arguments) do
+			table.insert(self.arguments, class.Package.Classes.Argument:New(
+				arg.Name,
+				GetTypeFromRobloxTypes(arg.Type), 
+				arg.Default
+			))
+		end
 	end
 
-	-- Roblox Api does not give enough details to generate an correct return value
-	if self.memberData.ReturnValues ~= 'void' then
-		table.insert(self.returnValues, class.Package.Classes.TypedVariable:New(
-			'returnValue',
-			GetTypeFromRobloxTypes(self.memberData.ReturnValues)
-		))
+	if self:IsEvent() then
+		for _, value in ipairs(self.memberData.ReturnValues) do
+			table.insert(self.returnValues, class.Package.Classes.TypedVariable:New(
+				value.Name,
+				GetTypeFromRobloxTypes(value.Type)
+			))
+		end
+	else
+		-- Roblox Api does not give enough details to generate an correct return value
+		if self.memberData.ReturnValues ~= 'void' then
+			table.insert(self.returnValues, class.Package.Classes.TypedVariable:New(
+				'returnValue',
+				GetTypeFromRobloxTypes(self.memberData.ReturnValues)
+			))
+		end
 	end
 end
 

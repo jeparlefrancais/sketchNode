@@ -53,7 +53,7 @@ local function AddEntry(entry)
 				module.metadata[entry.Class].MemberTypeMap[entry.Name] = 'Event'
 				table.insert(module.metadata[entry.Class].Events, {
 					Name = entry.Name,
-					Arguments = entry.Arguments,
+					ReturnValues = entry.Arguments,
 					Tags = entry.tags
 				})
 
