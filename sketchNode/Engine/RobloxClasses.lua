@@ -2,6 +2,12 @@
 
 local HTTP = game:GetService('HttpService')
 
+local memberTypeToKey = {
+    Property = 'Properties',
+    Event = 'Events',
+    Function = 'Functions'
+}
+
 local module = {}
 
 local function AddEntry(entry)
@@ -140,7 +146,8 @@ function module.GetClassMembers(className, memberType) --\ReturnType: table
 	local members = {}
 	
 	repeat
-		for _, result in ipairs(module.metadata[className][memberType]) do
+		
+		for _, result in ipairs(module.metadata[className][memberTypeToKey[memberType]]) do
 			table.insert(members, result)
 		end
 		
