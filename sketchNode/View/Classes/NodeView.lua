@@ -8,11 +8,10 @@ function class.Init()
 
 end
 
-function class.New(o, parent, x , y)
-	parent, x, y = class.Package.Utils.Tests.GetArguments(
+function class.New(o, parent, triggers)
+	parent, triggers = class.Package.Utils.Tests.GetArguments(
 		{'Instance', parent}, -- The parent component.
-		{'number', x, 0}, -- The x component.
-		{'number', y, 0} -- The y component.
+		{'string', triggers, "none"} -- The triggers type.
 	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
@@ -21,7 +20,6 @@ function class.New(o, parent, x , y)
 		Name = 'NodeView',
 		Position = UDim2.new(0, x, 0, y),
 		Size = UDim2.new(0, 270, 0, 350),
-		ZIndex = 20,
 		ScaleType = Enum.ScaleType.Slice,
 		SliceCenter = Rect.new(16, 16, 48, 48),
 		Parent = parent
@@ -32,7 +30,6 @@ function class.New(o, parent, x , y)
 		Name = 'TitleBar',
 		Position = UDim2.new(0.5, 0, 0, 0),
 		Size = UDim2.new(1, 0, 0, 64),
-		ZIndex = 20,
 		ImageColor3 = Color3.fromRGB(200, 75, 75);
 		ScaleType = Enum.ScaleType.Slice;
 		SliceCenter = Rect.new(16, 16, 48, 48),
@@ -44,7 +41,6 @@ function class.New(o, parent, x , y)
 		Name = 'NodeTitle',
 		Position = UDim2.new(0.5, 0, 0, 8),
 		Size = UDim2.new(0.9, -16, 1, -40),
-		ZIndex = 30,
 		Font = Enum.Font.SourceSansSemibold,
 		Text = 'NodeName',
 		TextSize = 28;
@@ -63,6 +59,43 @@ function class.New(o, parent, x , y)
 	class.Package.Themes.Bind(o.ui, 'Image', 'NodeImage')
 	class.Package.Themes.Bind(nodeTitle, 'Image', 'NodeTitleImage')
 	class.Package.Themes.Bind(o.nodeTextLabel, 'TextColor3', 'NodeTitleTextColor')
+
+	-- triggers
+	if triggers ~= "none" then
+		o.triggers = class.Package.Utils.Create'Frame'{
+			AnchorPoint = Vector2.new(0.5, 0),
+			BackgroundTransparency = 1,
+			Name = 'Triggers',
+			Position = UDim2.new(0.5, 0, 0, 40),
+			Size = UDim2.new(1, 0, 0, 40),
+			Parent = o.content,
+		}
+		if triggers == "both" or triggers == "input" then
+			local inputTrigger = class.Package.Utils.Create'ImageLabel'{
+				AnchorPoint = Vector2.new(0, 0),
+				BackgroundTransparency = 1,
+				Name = 'Input',
+				Position = UDim2.new(0, 5, 0, 5),
+				Size = UDim2.new(0, 36, 0, 27),
+				Image = 'rbxassetid://2002751784',
+				Parent = o.triggers,
+			}
+			class.Package.Themes.Bind(inputTrigger, 'ImageColor3', 'TriggerColor')
+		end
+
+		if triggers == "both" or triggers == "output" then
+			local outputTrigger = class.Package.Utils.Create'ImageLabel'{
+				AnchorPoint = Vector2.new(1, 0),
+				BackgroundTransparency = 1,
+				Name = 'Output',
+				Position = UDim2.new(1, -5, 0, 5),
+				Size = UDim2.new(0, 36, 0, 27),
+				Image = 'rbxassetid://2002751784',
+				Parent = o.triggers,
+			}
+			class.Package.Themes.Bind(outputTrigger, 'ImageColor3', 'TriggerColor')
+		end
+	end
 	
 	o.content.VerticalListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
 		o.ui.Size = UDim2.new(0, 270, 0, 60 + o.content.VerticalListLayout.AbsoluteContentSize.Y)

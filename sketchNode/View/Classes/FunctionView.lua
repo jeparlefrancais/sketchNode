@@ -15,42 +15,7 @@ function class.New(o, parent, funcNode)
 	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 	
-	class.Package.Classes.NodeView.New(o, parent)
-	
-	o.triggers = class.Package.Utils.Create'Frame'{
-		AnchorPoint = Vector2.new(0.5, 0),
-		BackgroundTransparency = 1,
-		Name = 'Triggers',
-		Position = UDim2.new(0.5, 0, 0, 40),
-		Size = UDim2.new(1, 0, 0, 40),
-		ZIndex = 50,
-
-		class.Package.Utils.Create'ImageLabel'{
-			AnchorPoint = Vector2.new(0, 0),
-			BackgroundTransparency = 1,
-			Name = 'Input',
-			Position = UDim2.new(0, 5, 0, 5),
-			Rotation = 90,
-			Size = UDim2.new(0, 18, 0, 18),
-			ZIndex = 50,
-			Image = 'rbxassetid://1848975407',
-			ImageColor3 = Color3.new(1, 1, 1)
-		},
-
-		class.Package.Utils.Create'ImageLabel'{
-			AnchorPoint = Vector2.new(1, 0),
-			BackgroundTransparency = 1,
-			Name = 'Output',
-			Position = UDim2.new(1, -5, 0, 5),
-			Rotation = 90,
-			Size = UDim2.new(0, 18, 0, 18),
-			ZIndex = 50,
-			Image = 'rbxassetid://1848975407',
-			ImageColor3 = Color3.new(1, 1, 1)
-		}
-	}
-	class.Package.Themes.Bind(o.triggers.Input, 'ImageColor3', 'TriggerColor')
-	class.Package.Themes.Bind(o.triggers.Output, 'ImageColor3', 'TriggerColor')
+	class.Package.Classes.NodeView.New(o, parent, "both")
 	
 	o.connectorContainer = class.Package.Utils.Create'Frame'{
 		AnchorPoint = Vector2.new(0.5, 0),
@@ -95,25 +60,10 @@ function class.New(o, parent, funcNode)
 		o:AddConnector(tv, o.connectorContainer:FindFirstChild('Out'))
 	end
 
-	o:SetContent(o.triggers)
 	o:SetContent(o.connectorContainer)
 	o:SetTitle(funcNode:GetTitle())
 
 	return o
-end
-
-function class:SetTriggerInput(visible)
-	visible = class.Package.Utils.Tests.GetArguments(
-		{'boolean', visible, not self.triggerInput.Visible} -- The parent component.
-	)
-	self.triggers.Input.Visible = visible
-end
-
-function class:SetTriggerOutput(visible)
-	visible = class.Package.Utils.Tests.GetArguments(
-		{'boolean', visible, not self.triggerOutput.Visible} -- The parent component.
-	)
-	self.triggers.Output.Visible = visible
 end
 
 function class:AddConnector(arg, parent)

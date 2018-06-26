@@ -20,7 +20,7 @@ local Default = {
 	NodeImage = "rbxassetid://1840836042",
 	NodeTitleImage = "rbxassetid://1840881064",
 	NodeTitleTextColor = Color3.new(1, 1, 1),
-	TriggerColor = Color3.new(1, 1, 1),
+	TriggerColor = Color3.fromRGB(56, 56, 56),
 	ConnectorStrokeColor = Color3.fromRGB(39, 39, 39),
 	ConnectorTypeColor = Color3.fromRGB(150, 150, 150),
 	ConnectorValueColor = Color3.fromRGB(240, 240, 240),
@@ -39,7 +39,7 @@ local ThemesData = {
 		-- Node
 		NodeImage = "rbxassetid://2002072726",
 		NodeTitleImage = "rbxassetid://2002073241",
-		TriggerColor = Color3.fromRGB(100, 100, 100),
+		TriggerColor = Color3.fromRGB(240, 240, 240),
 		ConnectorStrokeColor = Color3.fromRGB(214, 214, 214),
 		ConnectorValueColor = Color3.fromRGB(106, 106, 106),
 	}
