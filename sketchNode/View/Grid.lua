@@ -53,7 +53,7 @@ function module.Start(parent)
 		Parent = module.world,
 		sizeConstraint
 	}
-	module.Package.Themes.Bind(module.gridImage, 'BackgroundColor3', 'GridBackgroundColor')
+	module.Package.Themes.Bind(module.gridImage, 'Image', 'GridImage')
 
 	local mouseClickPosition = nil
 	local gridPosition = nil

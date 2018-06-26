@@ -22,7 +22,6 @@ function class.New(o, parent, x , y)
 		Position = UDim2.new(0, x, 0, y),
 		Size = UDim2.new(0, 270, 0, 350),
 		ZIndex = 20,
-		Image = 'rbxassetid://1840836042',
 		ScaleType = Enum.ScaleType.Slice,
 		SliceCenter = Rect.new(16, 16, 48, 48),
 		Parent = parent
@@ -34,7 +33,6 @@ function class.New(o, parent, x , y)
 		Position = UDim2.new(0.5, 0, 0, 0),
 		Size = UDim2.new(1, 0, 0, 64),
 		ZIndex = 20,
-		Image = 'rbxassetid://1840881064',
 		ImageColor3 = Color3.fromRGB(200, 75, 75);
 		ScaleType = Enum.ScaleType.Slice;
 		SliceCenter = Rect.new(16, 16, 48, 48),
@@ -49,7 +47,6 @@ function class.New(o, parent, x , y)
 		ZIndex = 30,
 		Font = Enum.Font.SourceSansSemibold,
 		Text = 'NodeName',
-		TextColor3 = Color3.new(1,1,1),
 		TextSize = 28;
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = nodeTitle
@@ -62,6 +59,10 @@ function class.New(o, parent, x , y)
 		Parent = o.ui,
 		class.Package.Templates.VerticalList(0, 'VerticalListLayout')
 	}
+	-- Setup for themes
+	class.Package.Themes.Bind(o.ui, 'Image', 'NodeImage')
+	class.Package.Themes.Bind(nodeTitle, 'Image', 'NodeTitleImage')
+	class.Package.Themes.Bind(o.nodeTextLabel, 'TextColor3', 'NodeTitleTextColor')
 	
 	o.content.VerticalListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
 		o.ui.Size = UDim2.new(0, 270, 0, 60 + o.content.VerticalListLayout.AbsoluteContentSize.Y)

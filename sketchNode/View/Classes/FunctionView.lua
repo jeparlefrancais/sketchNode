@@ -49,7 +49,9 @@ function class.New(o, parent, funcNode)
 			ImageColor3 = Color3.new(1, 1, 1)
 		}
 	}
-		
+	class.Package.Themes.Bind(o.triggers.Input, 'ImageColor3', 'TriggerColor')
+	class.Package.Themes.Bind(o.triggers.Output, 'ImageColor3', 'TriggerColor')
+	
 	o.connectorContainer = class.Package.Utils.Create'Frame'{
 		AnchorPoint = Vector2.new(0.5, 0),
 		BackgroundTransparency = 1,

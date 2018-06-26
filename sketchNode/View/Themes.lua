@@ -7,12 +7,41 @@ local module = {
 }
 
 local Default = {
-	GridBackgroundColor = Color3.fromRGB(255, 255, 255)
+	-- Basic
+	ToolBarColor = Color3.fromRGB(30, 30, 30),
+	ToolBarTextColor = Color3.new(1, 1, 1),
+	ToolBarSpacerColor = Color3.fromRGB(50, 50, 50),
+	GridImage = "rbxassetid://1837504812",
+	ButtonImage = "rbxassetid://1858994698",
+	ContainerColor = Color3.fromRGB(38, 38, 38),
+	ContainerBorderColor = Color3.fromRGB(30, 30, 30),
+	TextColor = Color3.fromRGB(249, 249, 249),
+	-- Node
+	NodeImage = "rbxassetid://1840836042",
+	NodeTitleImage = "rbxassetid://1840881064",
+	NodeTitleTextColor = Color3.new(1, 1, 1),
+	TriggerColor = Color3.new(1, 1, 1),
+	ConnectorStrokeColor = Color3.fromRGB(39, 39, 39),
+	ConnectorTypeColor = Color3.fromRGB(150, 150, 150),
+	ConnectorValueColor = Color3.fromRGB(240, 240, 240),
 }
 
 local ThemesData = {
 	Light = {
-		GridBackgroundColor = Color3.fromRGB(187, 244, 255)
+		ToolBarColor = Color3.fromRGB(214, 214, 214),
+		ToolBarTextColor = Color3.fromRGB(50, 50, 50),
+		ToolBarSpacerColor = Color3.fromRGB(170, 170, 170),
+		GridImage = "rbxassetid://2001453925",
+		ButtonImage = "rbxassetid://2002071217",
+		ContainerColor = Color3.fromRGB(217, 217, 217),
+		ContainerBorderColor = Color3.fromRGB(185, 185, 185),
+		TextColor = Color3.fromRGB(70, 70, 70),
+		-- Node
+		NodeImage = "rbxassetid://2002072726",
+		NodeTitleImage = "rbxassetid://2002073241",
+		TriggerColor = Color3.fromRGB(100, 100, 100),
+		ConnectorStrokeColor = Color3.fromRGB(214, 214, 214),
+		ConnectorValueColor = Color3.fromRGB(106, 106, 106),
 	}
 }
 

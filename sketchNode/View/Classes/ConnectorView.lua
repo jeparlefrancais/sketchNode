@@ -52,7 +52,6 @@ function class.New(o, parent, typedVariableOrArgument)
 			Position = isRight and UDim2.new(1, 4, 0.5, 0) or UDim2.new(0, -4, 0.5, 0),
 			Size = UDim2.new(0, 20, 0, 20),
 			Image = "rbxassetid://1840922184",
-			ImageColor3 = Color3.fromRGB(39, 39, 39),
 
 			class.Package.Templates.ImageButton{
 				AnchorPoint = Vector2.new(0.5, 0.5),
@@ -65,8 +64,7 @@ function class.New(o, parent, typedVariableOrArgument)
 			}
 		}
 	}
-
-	class.Package.Templates.Container{
+	local container = class.Package.Templates.Container{
 		Position = isRight and UDim2.new(0, -10, 0, -3) or UDim2.new(0, 10, 0, -3),
 		Parent = o.connectorView,
 		class.Package.Templates.HorizontalList(5, isRight),
@@ -84,7 +82,7 @@ function class.New(o, parent, typedVariableOrArgument)
 		class.Package.Templates.MinimalText(typedVariableOrArgument:GetName(), {
 			BackgroundTransparency = 1,
 			LayoutOrder = 1,
-			Name = "ValueName",
+			Name = "ConnectorValue",
 			ZIndex = 60,
 			Font = Enum.Font.SourceSans,
 			Text = typedVariableOrArgument:GetName(),
@@ -93,6 +91,9 @@ function class.New(o, parent, typedVariableOrArgument)
 			TextXAlignment = isRight and Enum.TextXAlignment.Right or Enum.TextXAlignment.Left,
 		})
 	}
+	class.Package.Themes.Bind(o.connectorView.ConnectorStroke, 'ImageColor3', 'ConnectorStrokeColor')
+	class.Package.Themes.Bind(container.ConnectorType, 'TextColor3', 'ConnectorTypeColor')
+	class.Package.Themes.Bind(container.ConnectorValue, 'TextColor3', 'ConnectorValueColor')
 
 	o.SetConnected(o, false)
 
