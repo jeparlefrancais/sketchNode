@@ -35,11 +35,21 @@ function class.New(o, parent, triggers)
 		SliceCenter = Rect.new(16, 16, 48, 48),
 		Parent = o.ui
 	}
+	o.nodeIcon = class.Package.Utils.Create'ImageLabel'{
+		BackgroundTransparency = 1,
+		Position = UDim2.new(0, 10, 0, 8),
+		Name = "NodeIcon",
+		Size = UDim2.new(0, 24, 0, 24),
+		Image = "rbxassetid://2005814826",
+		ImageRectSize = Vector2.new(24, 24),
+		ImageTransparency = 0.3,
+		Parent = nodeTitle,
+	}
   	o.nodeTextLabel = class.Package.Utils.Create'TextLabel'{
 		AnchorPoint = Vector2.new(0.5, 0),
 		BackgroundTransparency = 1,
 		Name = 'NodeTitle',
-		Position = UDim2.new(0.5, 0, 0, 8),
+		Position = UDim2.new(0.5, 13, 0, 8),
 		Size = UDim2.new(0.9, -16, 1, -40),
 		Font = Enum.Font.SourceSansSemibold,
 		Text = 'NodeName',

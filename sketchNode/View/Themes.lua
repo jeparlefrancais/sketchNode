@@ -29,8 +29,9 @@ local Default = {
 local ThemesData = {
 	Light = {
 		ToolBarColor = Color3.fromRGB(214, 214, 214),
-		ToolBarTextColor = Color3.fromRGB(50, 50, 50),
+		ToolBarTextColor = Color3.fromRGB(130, 130, 130),
 		ToolBarSpacerColor = Color3.fromRGB(170, 170, 170),
+		GridColor = Color3.fromRGB(249, 249, 249),
 		GridImage = "rbxassetid://2001453925",
 		ButtonImage = "rbxassetid://2002071217",
 		ContainerColor = Color3.fromRGB(217, 217, 217),
@@ -105,7 +106,6 @@ function module.ApplyTheme()
 	for _, data in ipairs(module.bindings) do
 		local instance, member, entry = unpack(data)
 		instance[member] = module.GetEntry(entry)
-		print('set entry', instance, entry)
 	end
 	for _, data in ipairs(module.multiBindings) do
 		local instance, propertiesEntryMap = unpack(data)
