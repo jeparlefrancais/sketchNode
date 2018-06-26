@@ -84,12 +84,12 @@ function module.CreateButton(name, icon, stickLeft, func)
 	}
 	local buttonReady = true
 	button.MouseButton1Click:connect(function()
-		buttonReady = false
 		if buttonReady and module.buttons[name].Enabled then
+			buttonReady = false
 			module.buttons[name].Function()
+			wait()
+			buttonReady = true
 		end
-		wait()
-		buttonReady = true
 	end)
 	module.Package.Themes.Bind(button, 'BackgroundColor3', 'ToolBarColor')
 	module.Package.Themes.Bind(buttonText, 'TextColor3', 'ToolBarTextColor')
