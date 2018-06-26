@@ -11,6 +11,7 @@ local Default = {
 	ToolBarColor = Color3.fromRGB(30, 30, 30),
 	ToolBarTextColor = Color3.new(1, 1, 1),
 	ToolBarSpacerColor = Color3.fromRGB(50, 50, 50),
+	GridColor = Color3.fromRGB(49, 49, 49),
 	GridImage = "rbxassetid://1837504812",
 	ButtonImage = "rbxassetid://1858994698",
 	ContainerColor = Color3.fromRGB(38, 38, 38),

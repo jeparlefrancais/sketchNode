@@ -29,6 +29,7 @@ function module.Start(parent)
 		Text = '',
 		Parent = parent
 	}
+	module.Package.Themes.Bind(module.window, 'BackgroundColor3', 'GridColor') 
 	module.world = module.Package.Templates.Container{
 		Name = 'World',
 		Size = UDim2.new(0, 0, 0, 0),
@@ -53,7 +54,6 @@ function module.Start(parent)
 		Parent = module.world,
 		sizeConstraint
 	}
-	module.Package.Themes.Bind(module.gridImage, 'BackgroundColor3', 'GridColor') 
 	module.Package.Themes.Bind(module.gridImage, 'Image', 'GridImage')
 
 	local mouseClickPosition = nil
