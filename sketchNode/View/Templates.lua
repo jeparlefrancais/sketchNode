@@ -104,4 +104,14 @@ function module.VerticalList(padding, name)
 	}
 end
 
+function module.RightVerticalList(padding, name)
+	return module.Package.Utils.Create'UIListLayout'{
+		Name = name or "VerticalListLayout",
+		Padding = UDim.new(0, padding or 0),
+		FillDirection = Enum.FillDirection.Vertical,
+		HorizontalAlignment = Enum.HorizontalAlignment.Right,
+		SortOrder = Enum.SortOrder.LayoutOrder
+	}
+end
+
 return module

@@ -47,7 +47,8 @@ function module.Start(parent)
 		Parent = parent
 	}
 
-	module.Package.Classes.SectionView:New(module.panel, 'Game Sheets')
+	local section = module.Package.Classes.SectionView:New(module.panel, 'Game Sheets')
+	section:AddElement('FirstSheet', 'Sheet test')
 
 	module.Package.Grid.Start(module.gridContainer)
 end

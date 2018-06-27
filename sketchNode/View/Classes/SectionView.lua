@@ -21,11 +21,11 @@ function class.New(o, parent, sectionName)
 		Size = UDim2.new(1, 0, 0, 18),
 		ClipsDescendants = true,
 		Parent = parent,
-		class.Package.Templates.VerticalList(0, "ListLayout")
+		class.Package.Templates.RightVerticalList(0, "RightListLayout")
 	}
-	o.ui.ListLayout.Changed:connect(function(property)
+	o.ui.RightListLayout.Changed:connect(function(property)
 		if property == "AbsoluteContentSize" and not folded then
-			o.ui.Size = UDim2.new(1, 0, 0, o.ui.ListLayout.AbsoluteContentSize.y)
+			o.ui.Size = UDim2.new(1, 0, 0, o.ui.RightListLayout.AbsoluteContentSize.y)
 		end
 	end)
 
@@ -63,15 +63,32 @@ function class.New(o, parent, sectionName)
 	foldable.MouseButton1Click:connect(function()
 		folded = not folded
 		foldImage.Image = folded and "rbxassetid://2006450498" or "rbxassetid://2006451211"
-		o.ui.Size = folded and UDim2.new(1, 0, 0, 18) or UDim2.new(1, 0, 0, o.ui.ListLayout.AbsoluteContentSize.y)
+		o.ui.Size = folded and UDim2.new(1, 0, 0, 18) or UDim2.new(1, 0, 0, o.ui.RightListLayout.AbsoluteContentSize.y)
 	end)
 
-	-- temp
-	class.Package.Utils.Create'ImageLabel'{
-		Size = UDim2.new(0, 100, 0, 100),
-		Parent = o.ui
+	o.container = class.Package.Utils.Create'Frame'{
+		BackgroundTransparency = 1,
+		Name = 'Container',
+
+		Size = UDim2.new(1, -30, 0, 100),
+		Parent = o.ui,
+		class.Package.Templates.VerticalList(2, "ListLayout")
 	}
 	return o
+end
+
+function class:AddElement(name, title)
+	class.Package.Utils.Create'TextButton'{
+		BackgroundTransparency = 1,
+		Name = name,
+		Size = UDim2.new(1, 0, 0, 18),
+		Font = Enum.Font.SourceSans,
+		Text = title,
+		TextColor3 = Color3.fromRGB(193, 193, 193),
+		TextSize = 18,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		Parent = self.container,
+	}
 end
 
 return class
