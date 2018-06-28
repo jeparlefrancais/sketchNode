@@ -47,10 +47,16 @@ function module.Start(parent)
 		Parent = parent
 	}
 
-	local section = module.Package.Classes.SectionView:New(module.panel, 'Game Sheets')
-	section:AddElement('FirstSheet', 'Sheet test')
+	module.gameSheets = module.Package.Classes.SectionView:New(module.panel, 'Game Sheets')
 
 	module.Package.Grid.Start(module.gridContainer)
+end
+
+function module:AddGameSheetButton(sheet)
+	sheet = module.Package.Utils.Tests.GetArguments(
+		{'SketchSheet', sheet} -- The sheet to edit.
+	)
+	module.gameSheets:AddElement(sheet:GetName(), sheet:GetName())
 end
 
 function module:CreatePanelSection(name)

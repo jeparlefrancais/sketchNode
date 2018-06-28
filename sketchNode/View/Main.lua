@@ -42,8 +42,8 @@ function module.Start(plugin, Engine)
 	end
 end
 
-function module.AddSheetView(sheet)
-	module.Package.Grid.EditSheet(sheet)
+function module.AddGameSheetButton(sheet)
+	module.Package.GameEditor:AddSketchSheet(sheet)
 end
 
 return module
