@@ -8,7 +8,12 @@ function class.Init()
 
 end
 
-function class.New(o, parent, sectionName)
+function class.New(o, parent, sectionName, sortByName)
+	parent, sectionName, sortByName = class.Package.Utils.Tests.GetArguments(
+		{'GuiObject', parent}, -- The parent of the SectionView UI.
+		{'string', sectionName}, -- The name of the section (sets the title of the section).
+		{'boolean', sortByName, false} -- Orders the elements by name or by the insertion order.
+	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 	
 	local folded = true
@@ -69,26 +74,39 @@ function class.New(o, parent, sectionName)
 	o.container = class.Package.Utils.Create'Frame'{
 		BackgroundTransparency = 1,
 		Name = 'Container',
-
-		Size = UDim2.new(1, -30, 0, 100),
+		Size = UDim2.new(1, -30, 0, 18),
 		Parent = o.ui,
-		class.Package.Templates.VerticalList(2, "ListLayout")
 	}
+	local listLayout = class.Package.Templates.VerticalList(2, "ListLayout")
+	listLayout.SortOrder = sortByName and Enum.SortOrder.Name or Enum.SortOrder.LayoutOrder
+	listLayout.Parent = o.container
+
+	listLayout.Changed:connect(function(property)
+		if property == "AbsoluteContentSize" and not folded then
+			o.container.Size = UDim2.new(1, -30, 0, listLayout.AbsoluteContentSize.y)
+		end
+	end)
+
 	return o
 end
 
-function class:AddElement(name, title)
-	class.Package.Utils.Create'TextButton'{
-		BackgroundTransparency = 1,
-		Name = name,
-		Size = UDim2.new(1, 0, 0, 18),
-		Font = Enum.Font.SourceSans,
-		Text = title,
-		TextColor3 = Color3.fromRGB(193, 193, 193),
-		TextSize = 18,
-		TextXAlignment = Enum.TextXAlignment.Left,
-		Parent = self.container,
-	}
+function class:AddElement(guiObject)
+	--\Doc: Adds a GuiObject into the container
+	guiObject = class.Package.Utils.Tests.GetArguments(
+		{'GuiObject', guiObject} -- The GuiObject to add into the container.
+	)
+	guiObject.LayoutOrder = #self.container:GetChildren()
+	guiObject.Name = string.lower(guiObject.Name)
+	guiObject.Parent = self.container
+end
+
+function class:AddFooter(guiObject)
+	--\Doc: Adds a GuiObject at the bottom of the section					
+	guiObject = class.Package.Utils.Tests.GetArguments(
+		{'GuiObject', guiObject} -- The GuiObject to add at the bottom of the section
+	)
+	guiObject.Parent = self.ui
+	guiObject.LayoutOrder = 1000
 end
 
 return class

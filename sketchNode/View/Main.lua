@@ -16,6 +16,7 @@ function module.Start(plugin, Engine)
 	module.Package.ToolBar.Start(module.gui)
 	module.Package.ToolBar.CreateButton("save", "save", true, function() end)
 	module.Package.ToolBar.CreateButton("build", "build", true, function() end)
+	module.Package.ToolBar.CreateButton("preferences", "preferences", true, function() end)
 	module.Package.ToolBar.CreateButton("bug", "bug", false, function() end)
 	module.Package.ToolBar.CreateButton("help", "help", false, function() end)
 
@@ -28,7 +29,7 @@ function module.Start(plugin, Engine)
 	}
 	module.Package.GameEditor.Start(editorContainer)
 
-	Engine.SheetAdded:Connect(module.AddSheetView)
+	Engine.SheetAdded:Connect(module.AddSketchSheet)
 
 	if not Engine.IsSetup() then
 		local startPlugin = false
@@ -42,7 +43,11 @@ function module.Start(plugin, Engine)
 	end
 end
 
-function module.AddGameSheetButton(sheet)
+function module.GetEngine()
+	return module.engine
+end
+
+function module.AddSketchSheet(sheet)
 	module.Package.GameEditor:AddSketchSheet(sheet)
 end
 

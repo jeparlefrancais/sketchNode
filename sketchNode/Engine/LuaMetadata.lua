@@ -2,6 +2,9 @@ local module = {}
 
 function module.Start()
 	module.nameToObject = {
+		['tick'] = module.Package.Classes.Function:New('tick', {}, {
+			module.Package.Classes.TypedVariable:New('seconds', 'number')
+		}),
 		['tostring'] = module.Package.Classes.Function:New('tostring', {
 			module.Package.Classes.Argument:New('num', 'number')
 		}, {
@@ -23,7 +26,9 @@ function module.Start()
 			module.Package.Classes.TypedVariable:New('type', 'string')
 		}),
 		-- os library
-		['os.time'] = module.Package.Classes.Function:New('os.time', {}, {}),
+		['os.time'] = module.Package.Classes.Function:New('os.time', {}, {
+			module.Package.Classes.TypedVariable:New('seconds', 'number')
+		}),
 		['os.date'] = module.Package.Classes.Function:New('typeof', {
 			module.Package.Classes.Argument:New('formatString', 'string'),
 			module.Package.Classes.Argument:New('time', 'number')

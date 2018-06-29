@@ -95,6 +95,25 @@ function module.HorizontalList(padding, rightAligned)
 	}
 end
 
+function module.SectionButton(properties)
+	local sectionButton = module.Package.Utils.Create'TextButton'(Merge({
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, 0, 0, 18),
+		Font = Enum.Font.SourceSans,
+		TextColor3 = Color3.fromRGB(193, 193, 193),
+		TextSize = 18,
+		TextXAlignment = Enum.TextXAlignment.Left,
+	}, properties))
+	sectionButton.MouseEnter:connect(function()
+		sectionButton.BackgroundTransparency = 0.9
+	end)
+	sectionButton.MouseLeave:connect(function()
+		sectionButton.BackgroundTransparency = 1
+	end)
+
+	return sectionButton
+end
+
 function module.VerticalList(padding, name)
 	return module.Package.Utils.Create'UIListLayout'{
 		Name = name or "VerticalListLayout",

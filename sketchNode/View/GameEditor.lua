@@ -7,6 +7,8 @@ function module.Start(parent)
     parent = module.Package.Utils.Tests.GetArguments(
         {'GuiObject', parent}
 	)
+	module.engine = module.Package.Main:GetEngine()
+	
 	module.Package.Templates.HorizontalList(2, false).Parent = parent
     module.panel = module.Package.Templates.Container{
 		BackgroundTransparency = 0,
@@ -47,16 +49,52 @@ function module.Start(parent)
 		Parent = parent
 	}
 
-	module.gameSheets = module.Package.Classes.SectionView:New(module.panel, 'Game Sheets')
+	module.gameSheets = module.Package.Classes.SectionView:New(module.panel, 'Game Sheets', true)
+	local addSheetTextbox = module.Package.Utils.Create'TextBox'{
+		BackgroundTransparency = 1,
+		Name = 'CreateSheetButton',
+		Position = UDim2.new(0, 18, 0, 0),
+		Size = UDim2.new(1, -30, 0, 18),
+		Font = Enum.Font.SourceSansItalic,
+		PlaceholderText = 'Add new Sheet..',
+		PlaceholderColor3 = Color3.fromRGB(193, 193, 193),
+		Text = '',
+		TextColor3 = Color3.fromRGB(193, 193, 193),
+		TextSize = 18,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		Parent = foldable
+	}
+	addSheetTextbox.FocusLost:Connect(function(enterPressed)
+		if enterPressed then
+			local sheetName = addSheetTextbox.Text
+			if string.len(sheetName) > 0 then
+				module.engine.AddSheet(sheetName)
+			end
+		end
+		addSheetTextbox.Text = ''
+	end)
+	module.gameSheets:AddFooter(addSheetTextbox)
 
 	module.Package.Grid.Start(module.gridContainer)
 end
 
-function module:AddGameSheetButton(sheet)
+function module:AddSketchSheet(sheet)
+	--\Doc: Creates the view to access the sheet. This includes a button in the left panel 
 	sheet = module.Package.Utils.Tests.GetArguments(
-		{'SketchSheet', sheet} -- The sheet to edit.
+		{'SketchSheet', sheet} -- The sheet to add.
 	)
-	module.gameSheets:AddElement(sheet:GetName(), sheet:GetName())
+	local sheetButton = module.Package.Templates.SectionButton{
+		Name = string.lower(sheet:GetName()),
+		Text = sheet:GetName()
+	}
+	sheetButton.MouseButton1Click:Connect(function()
+		module.Package.Grid.EditSheet(sheet)
+	end)
+	sheet.NameChanged:Connect(function(name)
+		sheetButton.Name = string.lower(name)
+		sheetButton.Text = name
+	end)
+	module.gameSheets:AddElement(sheetButton)
 end
 
 function module:CreatePanelSection(name)

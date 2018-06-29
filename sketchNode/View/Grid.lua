@@ -20,6 +20,7 @@ function module.Start(parent)
 	parent = module.Package.Utils.Tests.GetArguments(
 		{'GuiObject', parent}
 	)
+	module.openingSheet = false
 	module.window = module.Package.Utils.Create'TextButton'{
 		Name = 'MouseInput',
 		AutoButtonColor = false,
@@ -90,37 +91,43 @@ function module.Start(parent)
 	module.openedSheet = nil
 end
 
-function module.EditSheet(sheet)
+function module.EditSheet(sheet) --\ReturnType: boolean
+	--\Doc: Opens a sheet in the editor grid.
 	sheet = module.Package.Utils.Tests.GetArguments(
 		{'SketchSheet', sheet} -- The sheet to edit.
 	)
-	if not module.sheetFrames[sheet] then
-		local sheetFrame = module.Package.Templates.Container{
-			Name = 'NodeContainer',
-			ZIndex = 2
-		}
+	if not module.openingSheet then
+		if not module.sheetFrames[sheet] then
+			local sheetFrame = module.Package.Templates.Container{
+				Name = 'NodeContainer',
+				ZIndex = 2
+			}
 
-		local function AddNode(node)
-			local nodeClass = node:GetClassName()
-			if nodeToViewMap[nodeClass] then
-				local view = nodeToViewMap[nodeClass]:New(sheetFrame, node)
-			else
-				warn(string.format('Try to insert a node in a sheet, but its class <%s> is not expected.', nodeClass))
+			local function AddNode(node)
+				local nodeClass = node:GetClassName()
+				if nodeToViewMap[nodeClass] then
+					local view = nodeToViewMap[nodeClass]:New(sheetFrame, node)
+				else
+					warn(string.format('Try to insert a node in a sheet, but its class <%s> is not expected.', nodeClass))
+				end
 			end
+
+			sheet.NodeAdded:Connect(AddNode)
+
+			for id, node in pairs(sheet:GetNodes()) do
+				AddNode(node)
+			end
+
+			sheetFrame.Parent = module.world
+			
+			module.sheetFrames[sheet] = sheetFrame
 		end
 
-		sheet.NodeAdded:Connect(AddNode)
-
-		for id, node in pairs(sheet:GetNodes()) do
-			AddNode(node)
-		end
-
-		sheetFrame.Parent = module.world
-		
-		module.sheetFrames[sheet] = sheetFrame
+		module.ShowSheetFrame(sheet)
+		return true
+	else
+		return false
 	end
-
-	module.ShowSheetFrame(sheet)
 end
 
 function module.GetGridSize(sizeX, sizeY) --\ReturnType: Vector2

@@ -236,7 +236,6 @@ function module.AddSheet(sheetName)
         {'string', sheetName, 'NewSheet'} -- Name of the sheet to create.
     )
 	local sheet = module.Package.Classes.SketchSheet:New(sheetName)
-	sheet:CreateNode(module.Package.Classes.LuaReference:New('math.modf'))
     module.SheetAdded:Fire(sheet)
 end
 
