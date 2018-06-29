@@ -23,41 +23,59 @@ function class.New(o, parent, funcNode)
 		Name = 'Connectors',
 		Position = UDim2.new(0.5, 0, 0, 40),
 		Size = UDim2.new(1, 0, 0, 90), -- The Size is the highest column of parameters
-		
 		class.Package.Utils.Create'Frame'{
 			AnchorPoint = Vector2.new(0, 0),
 			BackgroundTransparency = 1,
 			Name = 'In',
 			Position = UDim2.new(0, 0, 0, 0),
-			Size = UDim2.new(0.5, 0, 1, 0),
-			class.Package.Templates.VerticalList(0, 'InUIListLayout')
+			Size = UDim2.new(0, 40, 0, 0)
 		},
-	
 		class.Package.Utils.Create'Frame'{
 			AnchorPoint = Vector2.new(0, 0),
 			BackgroundTransparency = 1,
 			Name = 'Out',
 			Position = UDim2.new(0.5, 0, 0, 0),
-			Size = UDim2.new(0.5, 0, 1, 0),
-			ZIndex = 50,
-			class.Package.Templates.VerticalList(0, 'OutUIListLayout')
+			Size = UDim2.new(0, 40, 0, 0)
 		}
 	}
-
-	o.connectorContainer.In.InUIListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
-		local maxHeight = math.max(o.connectorContainer.In.InUIListLayout.AbsoluteContentSize.Y, o.connectorContainer.Out.OutUIListLayout.AbsoluteContentSize.Y)
-		o.connectorContainer.Size = UDim2.new(1, 0, 0, maxHeight)
-	end)
-	o.connectorContainer.Out.OutUIListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
-		local maxHeight = math.max(o.connectorContainer.In.InUIListLayout.AbsoluteContentSize.Y, o.connectorContainer.Out.OutUIListLayout.AbsoluteContentSize.Y)
-		o.connectorContainer.Size = UDim2.new(1, 0, 0, maxHeight)
-	end)
+	class.Package.Templates.ResponsiveList(
+		true,
+		Enum.HorizontalAlignment.Center, Enum.VerticalAlignment.Center,
+		function(size)
+			o.connectorContainer.Size = UDim2.new(0, size.X + 20, 0, size.Y)
+		end,
+		0,
+		o.connectorContainer
+	)
+	local outLayout
+	local inLayout = class.Package.Templates.ResponsiveList(
+		false,
+		Enum.HorizontalAlignment.Left,
+		Enum.VerticalAlignment.Center,
+		function(inputSize)
+			local maxHeight = math.max(inputSize.Y, outLayout.AbsoluteContentSize.Y)
+			o.connectorContainer.In.Size = UDim2.new(0, inputSize.X, 0, maxHeight)
+		end,
+		0,
+		o.connectorContainer.In
+	)
+	outLayout = class.Package.Templates.ResponsiveList(
+		false,
+		Enum.HorizontalAlignment.Right,
+		Enum.VerticalAlignment.Center,
+		function(outputSize)
+			local maxHeight = math.max(inLayout.AbsoluteContentSize.Y, outputSize.Y)
+			o.connectorContainer.Out.Size = UDim2.new(0, outputSize.X, 0, maxHeight)
+		end,
+		0,
+		o.connectorContainer.Out
+	)
 
 	for _, arg in ipairs(funcNode:GetArguments()) do
-		o:AddConnector(arg, o.connectorContainer:FindFirstChild('In'))
+		o:AddConnector(arg, o.connectorContainer.In)
 	end
 	for _, tv in ipairs(funcNode:GetReturnValues()) do
-		o:AddConnector(tv, o.connectorContainer:FindFirstChild('Out'))
+		o:AddConnector(tv, o.connectorContainer.Out)
 	end
 
 	o:SetContent(o.connectorContainer)

@@ -62,8 +62,7 @@ function class.New(o, parent, triggers)
 		Name = 'Content',
 		Position = UDim2.new(0.5, 0, 0, 40),
 		Size = UDim2.new(1, -20, 0, 30),
-		Parent = o.ui,
-		class.Package.Templates.VerticalList(0, 'VerticalListLayout')
+		Parent = o.ui
 	}
 	-- Setup for themes
 	class.Package.Themes.Bind(o.ui, 'Image', 'NodeImage')
@@ -106,10 +105,16 @@ function class.New(o, parent, triggers)
 			class.Package.Themes.Bind(outputTrigger, 'ImageColor3', 'TriggerColor')
 		end
 	end
-	
-	o.content.VerticalListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
-		o.ui.Size = UDim2.new(0, 270, 0, 60 + o.content.VerticalListLayout.AbsoluteContentSize.Y)
-	end)
+	local listLayout = class.Package.Templates.ResponsiveList(
+		false,
+		Enum.HorizontalAlignment.Center,
+		Enum.VerticalAlignment.Top,
+		function(size)
+			o.ui.Size = UDim2.new(0, size.X, 0, size.Y + 55)
+		end,
+		0,
+		o.content
+	)
 
 	return o
 end

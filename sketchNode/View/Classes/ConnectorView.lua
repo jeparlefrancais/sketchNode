@@ -45,7 +45,6 @@ function class.New(o, parent, typedVariableOrArgument)
 		Name = typedVariableOrArgument:GetName(),
 		Size = UDim2.new(1, 0, 0, 30),
 		Parent = parent,
-
 		class.Package.Templates.ImageLabel{
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			Name = "ConnectorStroke",
@@ -67,8 +66,6 @@ function class.New(o, parent, typedVariableOrArgument)
 	local container = class.Package.Templates.Container{
 		Position = isRight and UDim2.new(0, -10, 0, -3) or UDim2.new(0, 10, 0, -3),
 		Parent = o.connectorView,
-		class.Package.Templates.HorizontalList(5, isRight),
-
 		class.Package.Templates.MinimalText(typedVariableOrArgument:GetType(), {
 			BackgroundTransparency = 1,
 			LayoutOrder = 0,
@@ -91,6 +88,16 @@ function class.New(o, parent, typedVariableOrArgument)
 			TextXAlignment = isRight and Enum.TextXAlignment.Right or Enum.TextXAlignment.Left,
 		})
 	}
+	class.Package.Templates.ResponsiveList(
+		true,
+		isRight and Enum.HorizontalAlignment.Right or Enum.HorizontalAlignment.Left,
+		Enum.VerticalAlignment.Center,
+		function(size)
+			o.connectorView.Size = UDim2.new(0, size.X + 30, 0, 30)
+		end,
+		5,
+		container
+	)
 	class.Package.Themes.Bind(o.connectorView.ConnectorStroke, 'ImageColor3', 'ConnectorStrokeColor')
 	class.Package.Themes.Bind(container.ConnectorType, 'TextColor3', 'ConnectorTypeColor')
 	class.Package.Themes.Bind(container.ConnectorValue, 'TextColor3', 'ConnectorValueColor')

@@ -95,6 +95,19 @@ function module.HorizontalList(padding, rightAligned)
 	}
 end
 
+function module.ResponsiveList(isHorizontal, horizontalAlignment, verticalAlignment, sizeChangedFunction, padding, parent)
+	local listLayout = module.Package.Utils.Create'UIListLayout'{
+		Padding = UDim.new(0, padding or 0),
+		FillDirection = isHorizontal and Enum.FillDirection.Horizontal or Enum.FillDirection.Vertical,
+		SortOrder = Enum.SortOrder.LayoutOrder,
+		VerticalAlignment = verticalAlignment or Enum.VerticalAlignment.Center,
+		HorizontalAlignment = horizontalAlignment or Enum.HorizontalAlignment.Center,
+		Parent = parent
+	}
+	listLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function() sizeChangedFunction(listLayout.AbsoluteContentSize) end)
+	return listLayout
+end
+
 function module.SectionButton(properties)
 	local sectionButton = module.Package.Utils.Create'TextButton'(Merge({
 		BackgroundTransparency = 1,
