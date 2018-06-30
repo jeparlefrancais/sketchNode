@@ -20,9 +20,23 @@ return function(class)
 				if className == class.__name then
 					return true
 				else
-					for _, superClass in ipairs(class.__super or {}) do
-						if superClass.__name == className then
-							return true
+					if class.__super then
+						local parents = {}
+						for _, superClass in ipairs(class.__super) do
+							table.insert(parents, superClass)
+						end
+						local parent = table.remove(parents, 1)
+						while parent do
+							if parent.__name == className then
+								return true 
+							else 
+								if parent.__super then
+									for _, superClass in ipairs(parent.__super) do
+										table.insert(parents, superClass)
+									end
+								end
+							end
+							parent = table.remove(parents, 1)
 						end
 					end
 					return false
