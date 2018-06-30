@@ -1,4 +1,9 @@
-local module = {}
+local module = {
+	valueTypeMap = {
+		['math.pi'] = 'number',
+		['math.huge'] = 'number'
+	}
+}
 
 function module.Start()
 	module.nameToObject = {
@@ -344,13 +349,21 @@ end
 function module.GetFunction(referenceName) --\ReturnType: Function
     --Doc: Returns the function link by the reference.
 	referenceName = module.Package.Utils.Tests.GetArguments(
-        {'string', referenceName} -- The name of the .
+        {'string', referenceName} -- The name of the reference.
     )
     if module.IsFunction(referenceName) then
         return module.nameToObject[referenceName]
     else
         return nil
     end
+end
+
+function module.GetValueType(referenceName) --\ReturnType: string
+    --Doc: Returns the type of the value link by the reference.
+	referenceName = module.Package.Utils.Tests.GetArguments(
+        {'string', referenceName} -- The name of the reference.
+	)
+	return module.valueTypeMap[referenceName]
 end
 
 function module.GetSource(referenceName) --\ReturnType: string

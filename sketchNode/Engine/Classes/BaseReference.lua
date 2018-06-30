@@ -42,6 +42,10 @@ function class:GetReturnValues()
 	error(string.format('GetReturnValues() method is not defined in class <%s>',  self:GetClassName()))
 end
 
+function class:GetValueType()
+	error(string.format('GetValueType() method is not defined in class <%s>', self:GetClassName()))
+end
+
 function class:IsFunction() --\ReturnType: boolean
 	error(string.format('IsFunction() method is not defined in class <%s>',  self:GetClassName()))
 end

@@ -92,8 +92,9 @@ function class:GetMemberInfos()
 	self.memberType = class.Package.RobloxClasses.GetMemberType(self.className, self.member)
 	self.arguments = {}
 	self.returnValues = {}
+	self.valueType = nil
 
-	if self.memberData.Arguments then
+	if self:IsFunction() then
 		for _, arg in ipairs(self.memberData.Arguments) do
 			table.insert(self.arguments, class.Package.Classes.Argument:New(
 				arg.Name,
@@ -101,23 +102,24 @@ function class:GetMemberInfos()
 				arg.Default
 			))
 		end
-	end
-
-	if self:IsEvent() then
-		for _, value in ipairs(self.memberData.ReturnValues) do
-			table.insert(self.returnValues, class.Package.Classes.TypedVariable:New(
-				value.Name,
-				GetTypeFromRobloxTypes(value.Type)
-			))
-		end
-	else
-		-- Roblox Api does not give enough details to generate an correct return value
+		-- Roblox Api does not give enough details to generate a correct return value
 		if self.memberData.ReturnValues ~= 'void' then
 			table.insert(self.returnValues, class.Package.Classes.TypedVariable:New(
 				'returnValue',
 				GetTypeFromRobloxTypes(self.memberData.ReturnValues)
 			))
 		end
+	elseif self:IsEvent() then
+		for _, value in ipairs(self.memberData.ReturnValues) do
+			table.insert(self.returnValues, class.Package.Classes.TypedVariable:New(
+				value.Name,
+				GetTypeFromRobloxTypes(value.Type)
+			))
+		end
+	elseif self:IsValue() then
+		self.valueType = GetTypeFromRobloxTypes(self.memberData.Type)
+	else
+		warn(string.format('ObjectReference to member <%s> of class <%s>', self.member, self.className))
 	end
 end
 
@@ -150,6 +152,10 @@ end
 
 function class:GetReturnValues() --\ReturnType: table
 	return self.returnValues
+end
+
+function class:GetValueType() --\ReturnType: string
+	return self.valueType
 end
 
 function class:IsFunction() --\ReturnType: boolean
