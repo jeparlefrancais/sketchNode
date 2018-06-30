@@ -61,7 +61,7 @@ function module.ImageLabel(properties)
 end
 
 function module.ImageButton(properties)
-	return module.Package.Utils.Create'ImageLabel'(Merge({
+	return module.Package.Utils.Create'ImageButton'(Merge({
 		AnchorPoint = Vector2.new(0, 0),
 		BackgroundTransparency = 1,
 		Position = UDim2.new(0, 0, 0, 0),

@@ -8,14 +8,15 @@ function class.Init()
 
 end
 
-function class.New(o, parent, triggers)
-	parent, triggers = class.Package.Utils.Tests.GetArguments(
+function class.New(o, parent, node, triggers)
+	parent, node, triggers = class.Package.Utils.Tests.GetArguments(
 		{'Instance', parent}, -- The parent component.
+		{'Node', node}, -- The node to represent.
 		{'string', triggers, "none"} -- The triggers type.
 	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
-	o.ui = class.Package.Templates.ImageButton{
+	o.ui = class.Package.Templates.ImageLabel{
 		AnchorPoint = Vector2.new(0, 0),
 		Name = 'NodeView',
 		Position = UDim2.new(0, x, 0, y),
@@ -24,7 +25,7 @@ function class.New(o, parent, triggers)
 		SliceCenter = Rect.new(16, 16, 48, 48),
 		Parent = parent
 	}
-  	local nodeTitle = class.Package.Utils.Create'ImageLabel'{ 
+  	local nodeTitle = class.Package.Utils.Create'ImageButton'{ 
 		AnchorPoint = Vector2.new(0.5, 0),
 		BackgroundTransparency = 1,
 		Name = 'TitleBar',
@@ -116,15 +117,31 @@ function class.New(o, parent, triggers)
 		o.content
 	)
 
+	node.PositionChanged:Connect(function(x, y)
+		o:SetPosition(x, y)
+	end)
+	local currentPosition = node:GetPosition()
+	o:SetPosition(currentPosition.X, currentPosition.Y, false)
+
+	nodeTitle.MouseButton1Down:Connect(function(x, y)
+		class.Package.Grid.StartNodeMovement(node, x, y)
+	end)
+	nodeTitle.MouseButton1Up:Connect(class.Package.Grid.SendMouseUp)
+
 	return o
 end
 
-function class:SetPosition(x, y)
-	x, y = class.Package.Utils.Tests.GetArguments(
-		{'number', x, 0}, -- The x component.
-		{'number', y, 0} -- The y component.
+function class:SetPosition(x, y, tween)
+	x, y, tween = class.Package.Utils.Tests.GetArguments(
+		{'number', x}, -- The position on the x-axis.
+		{'number', y}, -- The position on the y-axis.
+		{'boolean', tween, true} -- If true, it will tweens the node to the given position.
 	)
-	self.ui.Position = UDim2.new(0.5, x, 0.5, y)
+	if tween then
+		self.ui:TweenPosition(UDim2.new(0.5, x, 0.5, y), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, .1, true)
+	else
+		self.ui.Position = UDim2.new(0.5, x, 0.5, y)
+	end
 end
 
 function class:SetTitle(title)

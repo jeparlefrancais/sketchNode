@@ -8,14 +8,14 @@ function class.Init()
 	class.__super = {class.Package.Classes.NodeView}
 end
 
-function class.New(o, parent, event)
-	parent, event = class.Package.Utils.Tests.GetArguments(
+function class.New(o, parent, eventNode)
+	parent, eventNode = class.Package.Utils.Tests.GetArguments(
 		{'Instance', parent}, -- The parent component.
-		{'EventNode', event}
+		{'EventNode', eventNode}
 	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 	
-	class.Package.Classes.NodeView.New(o, parent, "output")
+	class.Package.Classes.NodeView.New(o, parent, eventNode, "output")
 	
 	o.triggers = class.Package.Utils.Create'Frame'{
 		AnchorPoint = Vector2.new(0.5, 0),
@@ -55,7 +55,7 @@ function class.New(o, parent, event)
 		o.connectorContainer.Size = UDim2.new(1, 0, 0, o.connectorContainer.OutUIListLayout.AbsoluteContentSize.Y)
 	end)
 
-	for _, tv in ipairs(event:GetReturnValues()) do
+	for _, tv in ipairs(eventNode:GetReturnValues()) do
 		class.AddConnector(o, tv)
 	end
 

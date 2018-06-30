@@ -15,7 +15,7 @@ function class.New(o, parent, funcNode)
 	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 	
-	class.Package.Classes.NodeView.New(o, parent, "both")
+	class.Package.Classes.NodeView.New(o, parent, funcNode, "both")
 	
 	o.connectorContainer = class.Package.Utils.Create'Frame'{
 		AnchorPoint = Vector2.new(0.5, 0),
