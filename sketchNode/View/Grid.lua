@@ -195,4 +195,15 @@ function module.SetPosition(position)
 	module.world:TweenPosition(UDim2.new(0, x, 0, y), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, .5, true)
 end
 
+function module.CreateNode(reference, x, y)
+	reference, x, y = module.Package.Utils.Tests.GetArguments(
+        {'BaseReference', reference}, -- The reference to the function
+        {'number', x, 0}, -- The position on the x-axis of the node to create
+        {'number', y, 0} -- The position on the y-axis of the node to create
+	)
+	if module.openedSheet then
+		module.openedSheet:CreateNode(reference, x, y)
+	end
+end
+
 return module

@@ -17,25 +17,57 @@ function module.Start(parent)
 		Size = UDim2.new(0, 200, 1, 0),
 		ZIndex = 2,
 		Parent = parent,
-		module.Package.Templates.VerticalList(2, false),
 
-		module.Package.Utils.Create'Frame'{
-			BackgroundTransparency = 1,
-			LayoutOrder = 0,
-			Name = 'Title',
-			Size = UDim2.new(1, 0, 0, 30),
-			module.Package.Utils.Create'TextLabel'{
-				AnchorPoint = Vector2.new(0, 0.5),
+		module.Package.Templates.Container{
+			Name = 'Library',
+			Size = UDim2.new(1, 0, 0.5, 0),
+			module.Package.Templates.VerticalList(2, false),
+
+			module.Package.Utils.Create'Frame'{
 				BackgroundTransparency = 1,
 				LayoutOrder = 0,
-				Name = 'TitleLabel',
-				Position = UDim2.new(0, 20, 0.5, 0),
+				Name = 'Title',
 				Size = UDim2.new(1, 0, 0, 30),
-				Font = Enum.Font.SourceSansBold,
-				Text = 'Library',
-				TextColor3 = Color3.new(1, 1, 1),
-				TextSize = 18,
-				TextXAlignment = Enum.TextXAlignment.Left
+				module.Package.Utils.Create'TextLabel'{
+					AnchorPoint = Vector2.new(0, 0.5),
+					BackgroundTransparency = 1,
+					LayoutOrder = 0,
+					Name = 'TitleLabel',
+					Position = UDim2.new(0, 20, 0.5, 0),
+					Size = UDim2.new(1, 0, 0, 30),
+					Font = Enum.Font.SourceSansBold,
+					Text = 'Library',
+					TextColor3 = Color3.new(1, 1, 1),
+					TextSize = 18,
+					TextXAlignment = Enum.TextXAlignment.Left
+				}
+			}
+		},
+		
+		module.Package.Templates.Container{
+			Name = 'Nodes',
+			Position = UDim2.new(0, 0, 0.1, 0),
+			Size = UDim2.new(1, 0, 0.5, 0),
+			module.Package.Templates.VerticalList(2, false),
+
+			module.Package.Utils.Create'Frame'{
+				BackgroundTransparency = 1,
+				LayoutOrder = 0,
+				Name = 'Title',
+				Size = UDim2.new(1, 0, 0, 30),
+				module.Package.Utils.Create'TextLabel'{
+					AnchorPoint = Vector2.new(0, 0.5),
+					BackgroundTransparency = 1,
+					LayoutOrder = 0,
+					Name = 'TitleLabel',
+					Position = UDim2.new(0, 20, 0.5, 0),
+					Size = UDim2.new(1, 0, 0, 30),
+					Font = Enum.Font.SourceSansBold,
+					Text = 'Nodes',
+					TextColor3 = Color3.new(1, 1, 1),
+					TextSize = 18,
+					TextXAlignment = Enum.TextXAlignment.Left
+				}
 			}
 		}
 	}
@@ -49,7 +81,7 @@ function module.Start(parent)
 		Parent = parent
 	}
 
-	module.gameSheets = module.Package.Classes.SectionView:New(module.panel, 'Game Sheets', true)
+	module.gameSheets = module.Package.Classes.SectionView:New(module.panel.Library, 'Game Sheets', true)
 	local addSheetTextbox = module.Package.Utils.Create'TextBox'{
 		BackgroundTransparency = 1,
 		Name = 'CreateSheetButton',
@@ -75,6 +107,26 @@ function module.Start(parent)
 	end)
 	module.gameSheets:AddFooter(addSheetTextbox)
 
+	local nodeSections = {
+		math = module.Package.Classes.SectionView:New(module.panel.Nodes, 'math', true),
+		string = module.Package.Classes.SectionView:New(module.panel.Nodes, 'string', true),
+		os = module.Package.Classes.SectionView:New(module.panel.Nodes, 'os', true),
+		table = module.Package.Classes.SectionView:New(module.panel.Nodes, 'table', true),
+		global = module.Package.Classes.SectionView:New(module.panel.Nodes, 'global', true),
+	}
+	local luaReferenceNames = module.engine.GetLuaReferenceNames()
+	for _, referenceName in pairs(luaReferenceNames) do
+		local sectionName =  referenceName:match('(%w+)%.%w+') or 'global'
+		local nodeButton = module.Package.Templates.SectionButton{
+			Name = string.lower(referenceName),
+			Text = referenceName
+		}
+		nodeButton.MouseButton1Click:connect(function()
+			module.Package.Grid.CreateNode(module.engine.GetLuaReference(referenceName), 0, 0)
+		end)
+		nodeSections[sectionName]:AddElement(nodeButton)
+	end
+
 	module.Package.Grid.Start(module.gridContainer)
 end
 
@@ -95,10 +147,6 @@ function module:AddSketchSheet(sheet)
 		sheetButton.Text = name
 	end)
 	module.gameSheets:AddElement(sheetButton)
-end
-
-function module:CreatePanelSection(name)
-
 end
 
 return module

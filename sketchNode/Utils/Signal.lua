@@ -29,8 +29,9 @@ end
 
 function class:Fire(...)
     --\Doc: Fires all the connected functions.
-    local values = {...}
-    for i, value in pairs(values) do
+    local totalValues = select('#', ...)
+    for i=1, totalValues do
+        local value = select(i, ...)
         if self.typeInfos[i] ~= '' then
             class.Package.Tests.Test(value, self.typeInfos[i])
         end

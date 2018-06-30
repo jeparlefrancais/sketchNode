@@ -64,12 +64,6 @@ function class.New(o, parent, sectionName, sortByName)
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = foldable
 	}
-	
-	foldable.MouseButton1Click:connect(function()
-		folded = not folded
-		foldImage.Image = folded and "rbxassetid://2006450498" or "rbxassetid://2006451211"
-		o.ui.Size = folded and UDim2.new(1, 0, 0, 18) or UDim2.new(1, 0, 0, o.ui.RightListLayout.AbsoluteContentSize.y)
-	end)
 
 	o.container = class.Package.Utils.Create'Frame'{
 		BackgroundTransparency = 1,
@@ -81,10 +75,17 @@ function class.New(o, parent, sectionName, sortByName)
 	listLayout.SortOrder = sortByName and Enum.SortOrder.Name or Enum.SortOrder.LayoutOrder
 	listLayout.Parent = o.container
 
-	listLayout.Changed:connect(function(property)
-		if property == "AbsoluteContentSize" and not folded then
-			o.container.Size = UDim2.new(1, -30, 0, listLayout.AbsoluteContentSize.y)
-		end
+	listLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
+		--if not folded then
+			o.container.Size = UDim2.new(1, -30, 0, listLayout.AbsoluteContentSize.Y)
+		--end
+	end)
+
+	foldable.MouseButton1Click:connect(function()
+		listLayout:ApplyLayout()
+		folded = not folded
+		foldImage.Image = folded and "rbxassetid://2006450498" or "rbxassetid://2006451211"
+		o.ui.Size = folded and UDim2.new(1, 0, 0, 18) or UDim2.new(1, 0, 0, o.ui.RightListLayout.AbsoluteContentSize.y)
 	end)
 
 	return o

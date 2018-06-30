@@ -26,7 +26,7 @@ function module.Start()
 			module.Package.Classes.TypedVariable:New('type', 'string')
 		}),
 		-- os library
-		['os.time'] = module.Package.Classes.Function:New('os.time', {}, {
+		['os.time'] = module.Package.Classes.Function:New('typeof', {}, {
 			module.Package.Classes.TypedVariable:New('seconds', 'number')
 		}),
 		['os.date'] = module.Package.Classes.Function:New('typeof', {
@@ -305,6 +305,11 @@ function module.Start()
 			module.Package.Classes.TypedVariable:New('element', '')
 		}),
 	}
+
+	module.referenceNames = {}
+	for name in pairs(module.nameToObject) do
+		table.insert(module.referenceNames, name)
+	end
 	
 	-- some functions needs a wrapper, otherwise it should only use the name
 	module.nameToCode = {
@@ -334,22 +339,22 @@ end
 
 function module.IsFunction(referenceName) --\ReturnType: boolean
 	referenceName = module.Package.Utils.Tests.GetArguments(
-        {'string', referenceName} -- The name of the .
+        {'string', referenceName} -- The name of the reference.
     )
-    return type(module.nameToObject[key]) ~= 'string'
+    return type(module.nameToObject[referenceName]) ~= 'string'
 end
 
 function module.Search(search) --\ReturnType: table
     --\Doc: Returns a list of reference names
 	search = module.Package.Utils.Tests.GetArguments(
         {'string', search} -- Search text
-    )
+	)
 end
 
 function module.GetFunction(referenceName) --\ReturnType: Function
     --Doc: Returns the function link by the reference.
 	referenceName = module.Package.Utils.Tests.GetArguments(
-        {'string', referenceName} -- The name of the .
+        {'string', referenceName} -- The name of the reference.
     )
     if module.IsFunction(referenceName) then
         return module.nameToObject[referenceName]
@@ -361,9 +366,14 @@ end
 function module.GetSource(referenceName) --\ReturnType: string
     --\Doc: Returns the source with '%s' symbols to format with the arguments.
 	referenceName = module.Package.Utils.Tests.GetArguments(
-        {'string', referenceName} -- The name of the .
+        {'string', referenceName} -- The name of the reference.
     )
 	return module.nameToCode[referenceName]
+end
+
+function module.GetReferenceNames() --\ReturnType: table
+    --\Doc: Returns the possible names that refer to lua functions or values.
+    return module.referenceNames
 end
 
 return module
