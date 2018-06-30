@@ -20,7 +20,7 @@ function module.Start(parent)
 
 		module.Package.Templates.Container{
 			Name = 'Library',
-			Size = UDim2.new(1, 0, 0.5, 0),
+			Size = UDim2.new(1, 0, 0.3, 0),
 			module.Package.Templates.VerticalList(2, false),
 
 			module.Package.Utils.Create'Frame'{
@@ -44,10 +44,10 @@ function module.Start(parent)
 			}
 		},
 		
-		module.Package.Templates.Container{
+		module.Package.Templates.ScrollingContainer{
 			Name = 'Nodes',
-			Position = UDim2.new(0, 0, 0.1, 0),
-			Size = UDim2.new(1, 0, 0.5, 0),
+			Position = UDim2.new(0, 0, 0.3, -10),
+			Size = UDim2.new(1, 0, 0.7, 0),
 			module.Package.Templates.VerticalList(2, false),
 
 			module.Package.Utils.Create'Frame'{
@@ -73,6 +73,10 @@ function module.Start(parent)
 	}
 	module.Package.Themes.Bind(module.panel, 'BackgroundColor3', 'ContainerColor')
 	module.Package.Themes.Bind(module.panel, 'BorderColor3', 'ContainerBorderColor')
+
+	module.panel.Nodes.VerticalListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
+		module.panel.Nodes.CanvasSize = UDim2.new(0, 0, 0, module.panel.Nodes.VerticalListLayout.AbsoluteContentSize.Y)
+	end)
 
 	module.gridContainer = module.Package.Templates.Container{
 		Name = 'GridContainer',

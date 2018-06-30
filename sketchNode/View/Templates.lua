@@ -21,6 +21,19 @@ function module.Container(properties)
 	}, properties))
 end
 
+function module.ScrollingContainer(properties)
+	return module.Package.Utils.Create'ScrollingFrame'(Merge({
+		AnchorPoint = Vector2.new(0, 0),
+		BackgroundTransparency = 1,
+		Name = 'Container',
+		Position = UDim2.new(0, 0, 0, 0),
+		Size = UDim2.new(1, 0, 1, 0),
+		ScrollBarThickness = 6,
+		VerticalScrollBarInset = Enum.ScrollBarInset.ScrollBar,
+		ScrollingDirection = Enum.ScrollingDirection.Y,
+	}, properties))
+end
+
 function module.MinimalText(text, properties)
 	local textLabel = module.Package.Utils.Create'TextLabel'(Merge({
 		BackgroundTransparency = 1,
