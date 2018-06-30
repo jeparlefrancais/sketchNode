@@ -21,6 +21,19 @@ function module.Start(parent)
 		{'GuiObject', parent}
 	)
 	module.openingSheet = false
+	module.noSheet = module.Package.Utils.Create'TextButton'{
+		Name = 'NoSheet',
+		AutoButtonColor = false,
+		BorderSizePixel = 0,
+		BackgroundColor3 = Color3.fromRGB(49, 49, 49),
+		Size = UDim2.new(1, 0, 1, 0),
+		ZIndex = 2,
+		Font = Enum.Font.SourceSansItalic,
+		TextSize = 48,
+		Text = 'Open or Create a Sheet in\nLibrary > Game Sheets',
+		TextColor3 = Color3.fromRGB(98, 98, 98),
+		Parent = parent
+	}
 	module.window = module.Package.Utils.Create'TextButton'{
 		Name = 'MouseInput',
 		AutoButtonColor = false,
@@ -30,6 +43,7 @@ function module.Start(parent)
 		Text = '',
 		Parent = parent
 	}
+	module.Package.Themes.Bind(module.noSheet, 'BackgroundColor3', 'GridColor')
 	module.Package.Themes.Bind(module.window, 'BackgroundColor3', 'GridColor') 
 	module.world = module.Package.Templates.Container{
 		Name = 'World',
@@ -193,6 +207,7 @@ end
 
 function module.Update()
 	if module.openedSheet then
+		module.noSheet.Visible = false
 		local topLeft, bottomRight = unpack(module.GetCorners())
 		local positionX = math.modf(topLeft.X / TILE_SIZE) - PADDING_TILE
 		local positionY = math.modf(topLeft.Y / TILE_SIZE) - PADDING_TILE
@@ -201,6 +216,7 @@ function module.Update()
 		module.gridImage.Size = UDim2.new(0, size.X, 0, size.Y)
 		module.SetPosition(Vector2.new(module.world.Position.X.Offset, module.world.Position.Y.Offset))
 	else
+		module.noSheet.Visible = true
 		warn('Grid does not know what to do without a sheet.')
 	end
 end
