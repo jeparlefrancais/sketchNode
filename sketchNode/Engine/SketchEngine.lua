@@ -236,8 +236,19 @@ function module.AddSheet(sheetName)
         {'string', sheetName, 'NewSheet'} -- Name of the sheet to create.
     )
 	local sheet = module.Package.Classes.SketchSheet:New(sheetName)
-	sheet:CreateNode(module.Package.Classes.ObjectReference:New(game:GetService('RunService'), 'RenderStepped'))
     module.SheetAdded:Fire(sheet)
+end
+
+function module.GetLuaReference(referenceName)
+	referenceName = module.Package.Utils.Tests.GetArguments(
+        {'string', referenceName} -- Name of the sheet to create.
+	)
+	return module.Package.Classes.LuaReference:New(referenceName)
+end
+
+function module.GetLuaReferenceNames() --\ReturnType: table
+    --\Doc: Returns the possible names that refer to lua functions via LuaMetadata
+	return module.Package.LuaMetadata.GetReferenceNames()
 end
 
 return module

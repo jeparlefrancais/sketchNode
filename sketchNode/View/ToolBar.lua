@@ -46,6 +46,7 @@ function module.Start(parent)
 		SortOrder = Enum.SortOrder.LayoutOrder,
 		Parent = module.rightContainer
 	}
+	module.Package.Themes.Bind(topBar, 'BackgroundColor3', 'ToolBarColor')
 end
 
 function module.CreateButton(name, icon, stickLeft, func)
@@ -57,7 +58,6 @@ function module.CreateButton(name, icon, stickLeft, func)
 	local Parent = stickLeft and module.leftContainer or module.rightContainer
 	local textSize = TXT:GetTextSize(string.upper(name), 14, Enum.Font.SourceSans, Vector2.new(500, 500))
 	local button = module.Package.Utils.Create'TextButton'{
-		BackgroundColor3 = Color3.fromRGB(30, 30, 30),
 		BorderSizePixel = 0,
 		Name = name .. "Button",
 		Size = UDim2.new(0, textSize.x + 35, 1, 0),
@@ -72,7 +72,6 @@ function module.CreateButton(name, icon, stickLeft, func)
 		Size = UDim2.new(1, -20, 1, 0),
 		Font = Enum.Font.SourceSans,
 		Text = string.upper(name),
-		TextColor3 = Color3.fromRGB(248, 248, 248),
 		TextSize = 14,
 		Parent = button
 	}
@@ -85,13 +84,16 @@ function module.CreateButton(name, icon, stickLeft, func)
 	}
 	local buttonReady = true
 	button.MouseButton1Click:connect(function()
-		buttonReady = false
 		if buttonReady and module.buttons[name].Enabled then
+			buttonReady = false
 			module.buttons[name].Function()
+			wait()
+			buttonReady = true
 		end
-		wait()
-		buttonReady = true
 	end)
+	module.Package.Themes.Bind(button, 'BackgroundColor3', 'ToolBarColor')
+	module.Package.Themes.Bind(buttonText, 'TextColor3', 'ToolBarTextColor')
+	module.Package.Themes.Bind(iconLabel, 'ImageColor3', 'ToolBarTextColor')
 end
 
 function module:CreateSeparator()
@@ -101,7 +103,7 @@ function module:CreateSeparator()
 		Size = UDim2.new(0, 10, 1, 0),
 		Parent = module.toolBar
 	}
-	module.Package.Utils.Create'Frame'{
+	local s1 = module.Package.Utils.Create'Frame'{
 		AnchorPoint = Vector2.new(0.5, 0.5),
 		BackgroundColor3 = Color.fromRGB(49, 49, 49),
 		BorderSizePixel = 0,
@@ -110,15 +112,15 @@ function module:CreateSeparator()
 		Size = UDim2.new(0, 2, 0.8, 0),
 		Parent = categorySpacer
 	}
-	module.Package.Utils.Create'Frame'{
+	local s2 = module.Package.Utils.Create'Frame'{
 		AnchorPoint = Vector2.new(0.5, 0.5),
-		BackgroundColor3 = Color.fromRGB(49, 49, 49),
 		BorderSizePixel = 0,
 		Name = "Line",
 		Position = UDim2.new(0.7, 0, 0.5),
 		Size = UDim2.new(0, 2, 0.8, 0),
 		Parent = categorySpacer
 	}
+	module.Package.Themes.Bind(s1, 'BackgroundColor3', 'ToolBarSpacerColor')
 end
 
 function module.GetHeight()

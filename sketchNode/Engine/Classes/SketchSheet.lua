@@ -107,7 +107,10 @@ function class:CreateNode(reference, x, y)
         warn(string.format('Reference <%s> is not recognized to any node type', reference:GetClassName()))
     end
 
-    self.nodes[id] = node
+    if node then
+        self.nodes[id] = node
+        self.NodeAdded:Fire(node)
+    end
 end
 
 function class:GetSourceCode() --\ReturnType: string

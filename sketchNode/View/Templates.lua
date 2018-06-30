@@ -21,6 +21,19 @@ function module.Container(properties)
 	}, properties))
 end
 
+function module.ScrollingContainer(properties)
+	return module.Package.Utils.Create'ScrollingFrame'(Merge({
+		AnchorPoint = Vector2.new(0, 0),
+		BackgroundTransparency = 1,
+		Name = 'Container',
+		Position = UDim2.new(0, 0, 0, 0),
+		Size = UDim2.new(1, 0, 1, 0),
+		ScrollBarThickness = 6,
+		VerticalScrollBarInset = Enum.ScrollBarInset.ScrollBar,
+		ScrollingDirection = Enum.ScrollingDirection.Y,
+	}, properties))
+end
+
 function module.MinimalText(text, properties)
 	local textLabel = module.Package.Utils.Create'TextLabel'(Merge({
 		BackgroundTransparency = 1,
@@ -48,7 +61,7 @@ function module.ImageLabel(properties)
 end
 
 function module.ImageButton(properties)
-	return module.Package.Utils.Create'ImageLabel'(Merge({
+	return module.Package.Utils.Create'ImageButton'(Merge({
 		AnchorPoint = Vector2.new(0, 0),
 		BackgroundTransparency = 1,
 		Position = UDim2.new(0, 0, 0, 0),
@@ -95,11 +108,53 @@ function module.HorizontalList(padding, rightAligned)
 	}
 end
 
+function module.ResponsiveList(isHorizontal, horizontalAlignment, verticalAlignment, sizeChangedFunction, padding, parent)
+	local listLayout = module.Package.Utils.Create'UIListLayout'{
+		Padding = UDim.new(0, padding or 0),
+		FillDirection = isHorizontal and Enum.FillDirection.Horizontal or Enum.FillDirection.Vertical,
+		SortOrder = Enum.SortOrder.LayoutOrder,
+		VerticalAlignment = verticalAlignment or Enum.VerticalAlignment.Center,
+		HorizontalAlignment = horizontalAlignment or Enum.HorizontalAlignment.Center,
+		Parent = parent
+	}
+	listLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function() sizeChangedFunction(listLayout.AbsoluteContentSize) end)
+	return listLayout
+end
+
+function module.SectionButton(properties)
+	local sectionButton = module.Package.Utils.Create'TextButton'(Merge({
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, 0, 0, 18),
+		Font = Enum.Font.SourceSans,
+		TextColor3 = Color3.fromRGB(193, 193, 193),
+		TextSize = 18,
+		TextXAlignment = Enum.TextXAlignment.Left,
+	}, properties))
+	sectionButton.MouseEnter:connect(function()
+		sectionButton.BackgroundTransparency = 0.9
+	end)
+	sectionButton.MouseLeave:connect(function()
+		sectionButton.BackgroundTransparency = 1
+	end)
+
+	return sectionButton
+end
+
 function module.VerticalList(padding, name)
 	return module.Package.Utils.Create'UIListLayout'{
 		Name = name or "VerticalListLayout",
 		Padding = UDim.new(0, padding or 0),
 		FillDirection = Enum.FillDirection.Vertical,
+		SortOrder = Enum.SortOrder.LayoutOrder
+	}
+end
+
+function module.RightVerticalList(padding, name)
+	return module.Package.Utils.Create'UIListLayout'{
+		Name = name or "VerticalListLayout",
+		Padding = UDim.new(0, padding or 0),
+		FillDirection = Enum.FillDirection.Vertical,
+		HorizontalAlignment = Enum.HorizontalAlignment.Right,
 		SortOrder = Enum.SortOrder.LayoutOrder
 	}
 end
