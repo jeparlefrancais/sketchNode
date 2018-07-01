@@ -57,11 +57,11 @@ function module.Start(parent)
 					Name = 'Buttons',
 					Size = UDim2.new(1, 0, 0, 40),
 
-					module.Package.Templates.ClickButton("Yes", {
+					module.Package.Templates.ClickButton('DialogYesButton', {
 						Name = 'YesButton',
 						Position = UDim2.new(0.25, 0, 0, 0)
 					}),
-					module.Package.Templates.ClickButton("No", {
+					module.Package.Templates.ClickButton('DialogNoButton', {
 						Name = 'NoButton',
 						Position = UDim2.new(0.75, 0, 0, 0)
 					})

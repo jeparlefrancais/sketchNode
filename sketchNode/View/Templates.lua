@@ -69,7 +69,7 @@ function module.ImageButton(properties)
 	}, properties))
 end
 
-function module.ClickButton(text, properties)
+function module.ClickButton(localizationText, properties)
 	local button = module.Package.Utils.Create'ImageButton'(Merge({
 		AnchorPoint = Vector2.new(0.5, 0),
 		BackgroundTransparency = 1,
@@ -81,14 +81,15 @@ function module.ClickButton(text, properties)
 		SliceCenter = Rect.new(24, 24, 40, 40),
 
 		module.Package.Utils.Create'TextLabel'{
+			Name = 'Label',
 			BackgroundTransparency = 1,
 			Size = UDim2.new(1, 0, 1, 0),
 			Font = Enum.Font.SourceSans,
-			Text = text,
 			TextColor3 = Color3.new(1, 1, 1),
 			TextSize = 24,
 		}
 	}, properties))
+	module.Package.Localization.Bind(button.Label, localizationText)
 	button.MouseEnter:connect(function()
 		button.ImageTransparency = 0.2
 	end)

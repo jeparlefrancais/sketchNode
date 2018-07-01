@@ -30,10 +30,10 @@ function module.Start(parent)
 		ZIndex = 2,
 		Font = Enum.Font.SourceSansItalic,
 		TextSize = 48,
-		Text = 'Open or Create a Sheet in\nLibrary > Game Sheets',
 		TextColor3 = Color3.fromRGB(98, 98, 98),
 		Parent = parent
 	}
+	module.Package.Localization.Bind(module.noSheet, 'NoSheetOpenedMessage')
 	module.window = module.Package.Utils.Create'TextButton'{
 		Name = 'MouseInput',
 		AutoButtonColor = false,
