@@ -91,7 +91,17 @@
         </tr>
     
         <tr>
-            <td class="methodTypeColumn typeString">void</td>
+            <td class="methodTypeColumn typeString">table</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">GetClassMembers</span>(<span class="typeString">string</span> className)
+                </td>
+            
+            <td class="methodDescriptionColumn">Returns a table with three lists: Properties, Functions and Events.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">LuaReference</td>
             
                 <td class="methodNameColumn">
                     <span class="methodName">GetLuaReference</span>(<span class="typeString">string</span> referenceName)
@@ -106,6 +116,16 @@
                 <td class="methodNameColumn"><span class="methodName">GetLuaReferenceNames</span>()</td>
             
             <td class="methodDescriptionColumn">Returns the possible names that refer to lua functions via LuaMetadata</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">ObjectReference</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">GetObjectReference</span>(<span class="typeString">Instance</span> object, <span class="typeString">string</span> member)
+                </td>
+            
+            <td class="methodDescriptionColumn"></td>
         </tr>
     
         <tr>
