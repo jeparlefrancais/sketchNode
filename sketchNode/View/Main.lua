@@ -48,7 +48,7 @@ function module.GetEngine()
 end
 
 function module.AddSketchSheet(sheet)
-	module.Package.GameEditor:AddSketchSheet(sheet)
+	module.Package.GameEditor.AddSketchSheet(sheet)
 end
 
 return module

@@ -53,16 +53,21 @@ end
 
 function module.ImageLabel(properties)
 	return module.Package.Utils.Create'ImageLabel'(Merge({
-		AnchorPoint = Vector2.new(0, 0),
 		BackgroundTransparency = 1,
 		Position = UDim2.new(0, 0, 0, 0),
 		Size = UDim2.new(1, 0, 1, 0),
 	}, properties))
 end
 
+function module.IconButton(properties)
+	return module.Package.Utils.Create'ImageButton'(Merge({
+		BackgroundTransparency = 1,
+		Size = UDim2.new(0, 18, 0, 18),
+	}, properties))
+end
+
 function module.ImageButton(properties)
 	return module.Package.Utils.Create'ImageButton'(Merge({
-		AnchorPoint = Vector2.new(0, 0),
 		BackgroundTransparency = 1,
 		Position = UDim2.new(0, 0, 0, 0),
 		Size = UDim2.new(1, 0, 1, 0),
@@ -99,10 +104,11 @@ function module.ClickButton(localizationText, properties)
 	return button
 end
 
-function module.HorizontalList(padding, rightAligned)
+function module.HorizontalList(padding, rightAligned, centered)
 	return module.Package.Utils.Create'UIListLayout'{
 		Padding = UDim.new(0, padding or 0),
 		FillDirection = Enum.FillDirection.Horizontal,
+		VerticalAlignment = centered or Enum.VerticalAlignment.Top,
 		SortOrder = Enum.SortOrder.LayoutOrder,
 		VerticalAlignment = Enum.VerticalAlignment.Center,
 		HorizontalAlignment = rightAligned and Enum.HorizontalAlignment.Right or Enum.HorizontalAlignment.Left
