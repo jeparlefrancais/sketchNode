@@ -101,8 +101,8 @@ function class:CreateNode(reference, x, y)
         node = class.Package.Classes.FunctionNode:New(reference, x, y)
     elseif reference:IsEvent() then
         node = class.Package.Classes.EventNode:New(reference, x, y)
-    elseif reference:IsValue() then
-        warn('Value reference are not implemented yet.')
+	elseif reference:IsValue() then
+		node = class.Package.Classes.ValueNode:New(reference, x, y)
     else
         warn(string.format('Reference <%s> is not recognized to any node type', reference:GetClassName()))
     end

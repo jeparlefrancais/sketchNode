@@ -9,9 +9,9 @@ function class.Init()
 	class.__signals = {}
 end
 
-function class.New(o, reference) --\ReturnType: table
+function class.New(o, reference, x, y) --\ReturnType: table
 	--\Doc: Creates a node to connect to a function.
-	reference = class.Package.Utils.Tests.GetArguments(
+	reference, x, y = class.Package.Utils.Tests.GetArguments(
 		{'BaseReference', reference}, -- The function to call.
 		{'number', x, 0}, -- The position on the x-axis of the node to create
 		{'number', y, 0} -- The position on the y-axis of the node to create
@@ -71,6 +71,7 @@ function class:IsInputReference() --\ReturnType: boolean
 end
 
 function class:SetInputCode(sourceCode)
+	--\Doc: Sets the Lua source code to obtain that value.
 	sourceCode = class.Package.Utils.Tests.GetArguments(
 		{'string', sourceCode} -- The Lua source code that would create that value. 
 	)

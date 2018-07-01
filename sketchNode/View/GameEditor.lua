@@ -9,6 +9,17 @@ local services = {
 	'Workspace'
 }
 
+local function Append(...)
+	local list = {unpack((select(1, ...)))}
+	local total = select('#', ...)
+	for i=2, total do
+		for _, element in ipairs(select(i, ...)) do
+			table.insert(list, element)
+		end
+	end
+	return list
+end
+
 local module = {}
 
 function module.Start(parent)
@@ -143,13 +154,13 @@ function module.Start(parent)
 	for _, service in ipairs(services) do
 		local serviceSection = module.Package.Classes.SectionView:New(nodeSections.services:GetContainerInstance(), service, true)
 		local members = module.engine.GetClassMembers(service)
-		for _, event in ipairs(members.Events) do
+		for _, member in ipairs(Append(members.Properties, members.Functions, members.Events)) do
 			local nodeButton = module.Package.Templates.SectionButton{
-				Name = string.lower(event),
-				Text = event
+				Name = string.lower(member),
+				Text = member
 			}
 			nodeButton.MouseButton1Click:Connect(function()
-				module.Package.Grid.CreateNode(module.engine.GetObjectReference(game:GetService(service), event))
+				module.Package.Grid.CreateNode(module.engine.GetObjectReference(game:GetService(service), member))
 			end)
 			serviceSection:AddElement(nodeButton)
 		end

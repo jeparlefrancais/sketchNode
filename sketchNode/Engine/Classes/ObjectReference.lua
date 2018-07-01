@@ -6,6 +6,8 @@ local RobloxTypes = {
 	table = 'table',
 	bool = 'boolean',
 	double = 'number',
+	float = 'number',
+	int = 'number',
 	Property = 'string'
 }
 local WarnTypes = {}
