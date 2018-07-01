@@ -109,6 +109,14 @@ function module.Init()
 	end
 end
 
+function module.IsRobloxClass(className) --\ReturnType: boolean
+	--\Doc: Returns true if the given string is a Roblox class.
+	className = module.Package.Utils.Tests.GetArguments(
+		{'string', className} -- The class to test.
+	)
+	return module.metadata[className] ~= nil
+end
+
 function module.GetMemberType(className, member) --\ReturnType: string
 	--\Doc: Returns the type of the member (property, function or event).
 	className, member = module.Package.Utils.Tests.GetArguments(
@@ -146,7 +154,6 @@ function module.GetClassMembers(className, memberType) --\ReturnType: table
 	local members = {}
 	
 	repeat
-		
 		for _, result in ipairs(module.metadata[className][memberTypeToKey[memberType]]) do
 			table.insert(members, result)
 		end
@@ -162,7 +169,7 @@ function module.GetClassProperties(className) --\ReturnType: table
 	className = module.Package.Utils.Tests.GetArguments(
 		{'string', className} -- The class of the object
 	)
-	return module.GetClassMembers(className, 'Properties')
+	return module.GetClassMembers(className, 'Property')
 end
 
 function module.GetClassFunctions(className) --\ReturnType: table
@@ -170,7 +177,7 @@ function module.GetClassFunctions(className) --\ReturnType: table
 	className = module.Package.Utils.Tests.GetArguments(
 		{'string', className} -- The class of the object
 	)
-	return module.GetClassMembers(className, 'Functions')
+	return module.GetClassMembers(className, 'Function')
 end
 
 function module.GetClassEvents(className) --\ReturnType: table
@@ -178,7 +185,7 @@ function module.GetClassEvents(className) --\ReturnType: table
 	className = module.Package.Utils.Tests.GetArguments(
 		{'string', className} -- The class of the object
 	)
-	return module.GetClassMembers(className, 'Events')
+	return module.GetClassMembers(className, 'Event')
 end
 
 function module.ClassHasTag(className, tag) --\ReturnType: boolean

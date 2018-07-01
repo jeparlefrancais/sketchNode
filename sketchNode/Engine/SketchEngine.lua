@@ -3,6 +3,10 @@
 local STO = game:GetService('ServerStorage')
 local HTTP = game:GetService('HttpService')
 
+local function sortByName(a, b)
+	return string.lower(a) < string.lower(b)
+end
+
 local module = {}
 
 function module.Init()
@@ -239,16 +243,49 @@ function module.AddSheet(sheetName)
     module.SheetAdded:Fire(sheet)
 end
 
-function module.GetLuaReference(referenceName)
+function module.GetLuaReference(referenceName) --\ReturnType: LuaReference
 	referenceName = module.Package.Utils.Tests.GetArguments(
         {'string', referenceName} -- Name of the sheet to create.
 	)
 	return module.Package.Classes.LuaReference:New(referenceName)
 end
 
+function module.GetObjectReference(object, member) --\ReturnType: ObjectReference
+	object, member = module.Package.Utils.Tests.GetArguments(
+		{'Instance', object}, -- Object to reference to.
+        {'string', member} -- Name of the sheet to create.
+	)
+	return module.Package.Classes.ObjectReference:New(object, member)
+end
+
 function module.GetLuaReferenceNames() --\ReturnType: table
     --\Doc: Returns the possible names that refer to lua functions via LuaMetadata
 	return module.Package.LuaMetadata.GetReferenceNames()
+end
+
+function module.GetClassMembers(className) --\ReturnType: table
+	--\Doc: Returns a table with three lists: Properties, Functions and Events.
+	className = module.Package.Utils.Tests.GetArguments(
+		{'string', className} -- The class to get the members name.
+	)
+	local members = {
+		Properties = {},
+		Functions = {},
+		Events = {}
+	}
+	for _, property in ipairs(module.Package.RobloxClasses.GetClassProperties(className)) do
+		table.insert(members.Properties, property.Name)
+	end
+	for _, func in ipairs(module.Package.RobloxClasses.GetClassFunctions(className)) do
+		table.insert(members.Functions, func.Name)
+	end
+	for _, event in ipairs(module.Package.RobloxClasses.GetClassEvents(className)) do
+		table.insert(members.Events, event.Name)	
+	end
+	table.sort(members.Properties, sortByName)
+	table.sort(members.Functions, sortByName)
+	table.sort(members.Events, sortByName)
+	return members
 end
 
 return module

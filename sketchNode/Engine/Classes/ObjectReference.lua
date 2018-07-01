@@ -4,25 +4,30 @@ local RobloxTypes = {
 	string = 'string',
 	number = 'number',
 	table = 'table',
-	bool = 'boolean'
+	bool = 'boolean',
+	double = 'number',
+	Property = 'string'
 }
 local WarnTypes = {}
 
+local class = {
+	__name = 'ObjectReference'
+}
+
 local function GetTypeFromRobloxTypes(rbxString)
+	if class.Package.RobloxClasses.IsRobloxClass(rbxString) then
+		return rbxString
+	end
 	local typeString = RobloxTypes[rbxString]
 	if typeString == nil then
 		typeString = ''
 		if not WarnTypes[rbxString] then
 			WarnTypes[rbxString] = true
-			warn(string.format('Type <%s> does not exist in RobloxTypes map', rbxString))
+			warn(string.format('Type <%s> does not exist in RobloxTypes map, and is not a Roblox class', rbxString))
 		end
 	end
 	return typeString
 end
-
-local class = {
-	__name = 'ObjectReference'
-}
 
 function class.Init()
 	class.__super = {class.Package.Classes.BaseReference}

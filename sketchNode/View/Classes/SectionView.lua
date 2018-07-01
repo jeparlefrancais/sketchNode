@@ -110,4 +110,9 @@ function class:AddFooter(guiObject)
 	guiObject.LayoutOrder = 1000
 end
 
+function class:GetContainerInstance() --\ReturnType: Instance
+	--\Doc: Use this to get the UI object of the container. It can be used to pass as the parent for a sub-section.
+	return self.container
+end
+
 return class

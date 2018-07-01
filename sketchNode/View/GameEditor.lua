@@ -1,5 +1,14 @@
 -- \Description: No description yet
 
+local services = {
+	'Lighting',
+	'ReplicatedFirst',
+	'ReplicatedStorage',
+	'RunService',
+	'ServerStorage',
+	'Workspace'
+}
+
 local module = {}
 
 function module.Start(parent)
@@ -112,6 +121,7 @@ function module.Start(parent)
 	module.gameSheets:AddFooter(addSheetTextbox)
 
 	local nodeSections = {
+		services = module.Package.Classes.SectionView:New(module.panel.Nodes, 'Services', false),
 		math = module.Package.Classes.SectionView:New(module.panel.Nodes, 'math', true),
 		string = module.Package.Classes.SectionView:New(module.panel.Nodes, 'string', true),
 		os = module.Package.Classes.SectionView:New(module.panel.Nodes, 'os', true),
@@ -125,10 +135,25 @@ function module.Start(parent)
 			Name = string.lower(referenceName),
 			Text = referenceName
 		}
-		nodeButton.MouseButton1Click:connect(function()
+		nodeButton.MouseButton1Click:Connect(function()
 			module.Package.Grid.CreateNode(module.engine.GetLuaReference(referenceName), 0, 0)
 		end)
 		nodeSections[sectionName]:AddElement(nodeButton)
+	end
+	for _, service in ipairs(services) do
+		local serviceSection = module.Package.Classes.SectionView:New(nodeSections.services:GetContainerInstance(), service, true)
+		local members = module.engine.GetClassMembers(service)
+		for _, event in ipairs(members.Events) do
+			local nodeButton = module.Package.Templates.SectionButton{
+				Name = string.lower(event),
+				Text = event
+			}
+			nodeButton.MouseButton1Click:Connect(function()
+				module.Package.Grid.CreateNode(module.engine.GetObjectReference(game:GetService(service), event))
+			end)
+			serviceSection:AddElement(nodeButton)
+		end
+		
 	end
 
 	module.Package.Grid.Start(module.gridContainer)
