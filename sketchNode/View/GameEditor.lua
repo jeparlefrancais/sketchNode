@@ -93,6 +93,8 @@ function module.Start(parent)
 	}
 	module.Package.Themes.Bind(module.panel, 'BackgroundColor3', 'ContainerColor')
 	module.Package.Themes.Bind(module.panel, 'BorderColor3', 'ContainerBorderColor')
+	module.Package.Localization.Bind(module.panel.Library.Title.TitleLabel, 'LibraryPanel')
+	module.Package.Localization.Bind(module.panel.Nodes.Title.TitleLabel, 'NodesPanel')
 
 	module.panel.Nodes.VerticalListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
 		module.panel.Nodes.CanvasSize = UDim2.new(0, 0, 0, module.panel.Nodes.VerticalListLayout.AbsoluteContentSize.Y)
@@ -120,6 +122,7 @@ function module.Start(parent)
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = foldable
 	}
+	module.Package.Localization.BindProperty(addSheetTextbox, 'PlaceholderText', 'AddSheetPlaceholderText')
 	addSheetTextbox.FocusLost:Connect(function(enterPressed)
 		if enterPressed then
 			local sheetName = addSheetTextbox.Text
@@ -227,6 +230,9 @@ function module.AddSketchSheet(sheet)
 	end)
 	deleteButton.MouseLeave:connect(function()
 		deleteButton.ImageColor3 = Color3.fromRGB(255, 255, 255)
+	end)
+	deleteButton.MouseButton1Click:connect(function()
+		module.Package.Dialog.Prompt('Delete Sheet?', 'Are you sure you want to delete this sheet?')
 	end)
 	sheetButton.MouseEnter:Connect(function()
 		labelButton.Visible = true

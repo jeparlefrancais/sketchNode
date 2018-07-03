@@ -49,21 +49,23 @@ function module.Start(parent)
 	module.Package.Themes.Bind(topBar, 'BackgroundColor3', 'ToolBarColor')
 end
 
-function module.CreateButton(name, icon, stickLeft, func)
-	module.buttons[name] = {
+function module.CreateButton(localizationIndex, icon, stickLeft, func)
+	module.buttons[localizationIndex] = {
 		Enabled = true,
 		Button = button,
 		Function = func
 	}
+	local text = module.Package.Localization.GetEntry(localizationIndex)
 	local Parent = stickLeft and module.leftContainer or module.rightContainer
-	local textSize = TXT:GetTextSize(string.upper(name), 14, Enum.Font.SourceSans, Vector2.new(500, 500))
+	local textSize = TXT:GetTextSize(text, 14, Enum.Font.SourceSans, Vector2.new(500, 500))
 	local button = module.Package.Utils.Create'TextButton'{
 		BorderSizePixel = 0,
-		Name = name .. "Button",
+		Name = text .. "Button",
 		Size = UDim2.new(0, textSize.x + 35, 1, 0),
 		Text = "",
 		Parent = Parent
 	}
+	module.Package.Themes.Bind(button, 'BackgroundColor3', 'ToolBarColor')
 	local buttonText = module.Package.Utils.Create'TextLabel'{
 		AnchorPoint = Vector2.new(1, 0),
 		BackgroundTransparency = 1,
@@ -71,10 +73,16 @@ function module.CreateButton(name, icon, stickLeft, func)
 		Position = UDim2.new(1, 0, 0, 0),
 		Size = UDim2.new(1, -20, 1, 0),
 		Font = Enum.Font.SourceSans,
-		Text = string.upper(name),
+		Text = text,
 		TextSize = 14,
 		Parent = button
 	}
+	module.Package.Themes.Bind(buttonText, 'TextColor3', 'ToolBarTextColor')
+	module.Package.Localization.Bind(buttonText, localizationIndex)
+	buttonText:GetPropertyChangedSignal("Text"):Connect(function()
+		local newSize = TXT:GetTextSize(buttonText.Text, 14, Enum.Font.SourceSans, Vector2.new(0, 0))
+		button.Size = UDim2.new(0, newSize.x + 35, 1, 0)
+	end)
 	local iconLabel = module.Package.Utils.Create'ImageLabel'{
 		BackgroundTransparency = 1,
 		Position = UDim2.new(0, 4, 0, 4),
@@ -82,18 +90,16 @@ function module.CreateButton(name, icon, stickLeft, func)
 		Image = module.Package.ViewSettings.Icons[icon] or "",
 		Parent = button,
 	}
+	module.Package.Themes.Bind(iconLabel, 'ImageColor3', 'ToolBarTextColor')
 	local buttonReady = true
 	button.MouseButton1Click:connect(function()
-		if buttonReady and module.buttons[name].Enabled then
+		if buttonReady and module.buttons[localizationIndex].Enabled then
 			buttonReady = false
-			module.buttons[name].Function()
+			module.buttons[localizationIndex].Function()
 			wait()
 			buttonReady = true
 		end
 	end)
-	module.Package.Themes.Bind(button, 'BackgroundColor3', 'ToolBarColor')
-	module.Package.Themes.Bind(buttonText, 'TextColor3', 'ToolBarTextColor')
-	module.Package.Themes.Bind(iconLabel, 'ImageColor3', 'ToolBarTextColor')
 end
 
 function module:CreateSeparator()
