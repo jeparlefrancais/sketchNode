@@ -65,4 +65,8 @@ function class:GetReturnValues() --\ReturnType: table
 	return self.reference:GetReturnValues()
 end
 
+function class:GetTitle() --\ReturnType: string
+	return self.reference:GetTitle()
+end
+
 return class
