@@ -1,21 +1,21 @@
---\Description: This class is used to make function content for nodes
+--\Description: This class is used to make value inputs content for nodes
 
 local class = {
-	__name = 'EventView'
+	__name = 'ValueView'
 }
 
 function class.Init()
 	class.__super = {class.Package.Classes.NodeView}
 end
 
-function class.New(o, parent, eventNode)
-	parent, eventNode = class.Package.Utils.Tests.GetArguments(
+function class.New(o, parent, valueNode)
+	parent, valueNode = class.Package.Utils.Tests.GetArguments(
 		{'Instance', parent}, -- The parent component.
-		{'EventNode', eventNode}
+		{'ValueNode', valueNode}
 	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 	
-	class.Package.Classes.NodeView.New(o, parent, eventNode, "output")
+	class.Package.Classes.NodeView.New(o, parent, valueNode, "none")
 	
 	o.connectorContainer = class.Package.Utils.Create'Frame'{
 		AnchorPoint = Vector2.new(0.5, 0),
@@ -24,7 +24,7 @@ function class.New(o, parent, eventNode)
 		Position = UDim2.new(0.5, 0, 0, 0),
 		Size = UDim2.new(0, 40, 0, 90), -- The Size is the highest column of parameters
 	}
-	
+
 	local outLayout = class.Package.Templates.ResponsiveList(
 		false,
 		Enum.HorizontalAlignment.Right,
@@ -35,23 +35,21 @@ function class.New(o, parent, eventNode)
 		0,
 		o.connectorContainer
 	)
-
+	
 	o:SetContent(o.connectorContainer)
 
-	for _, tv in ipairs(eventNode:GetReturnValues()) do
-		o:AddConnector(tv)
-	end
+	--o:AddConnector(valueNode:GetValueType(), o.connectorContainer)
 
-	o:SetTitle(eventNode:GetTitle())
+	o:SetTitle(valueNode:GetTitle())
 
 	return o
 end
 
-function class:AddConnector(arg)
+function class:AddConnector(arg, parent)
 	arg = class.Package.Utils.Tests.GetArguments(
 		{'TypedVariable', arg} -- The parent component.
 	)
-	class.Package.Classes.ConnectorView:New(self.connectorContainer, arg)
+	class.Package.Classes.ConnectorView:New(parent, arg)
 end
 
 return class

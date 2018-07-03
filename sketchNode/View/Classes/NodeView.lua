@@ -16,6 +16,8 @@ function class.New(o, parent, node, triggers)
 	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
+	o.contentSizeConstraint = {}
+
 	o.ui = class.Package.Templates.ImageLabel{
 		AnchorPoint = Vector2.new(0, 0),
 		Name = 'NodeView',
@@ -23,7 +25,8 @@ function class.New(o, parent, node, triggers)
 		Size = UDim2.new(0, 270, 0, 350),
 		ScaleType = Enum.ScaleType.Slice,
 		SliceCenter = Rect.new(16, 16, 48, 48),
-		Parent = parent
+		Parent = parent,
+		class.Package.Utils.Create'UISizeConstraint'{Name = 'UISizeConstraint'}
 	}
   	local nodeTitle = class.Package.Utils.Create'ImageButton'{ 
 		AnchorPoint = Vector2.new(0.5, 0),
@@ -47,11 +50,10 @@ function class.New(o, parent, node, triggers)
 		Parent = nodeTitle,
 	}
   	o.nodeTextLabel = class.Package.Utils.Create'TextLabel'{
-		AnchorPoint = Vector2.new(0.5, 0),
 		BackgroundTransparency = 1,
 		Name = 'NodeTitle',
-		Position = UDim2.new(0.5, 13, 0, 8),
-		Size = UDim2.new(0.9, -16, 1, -40),
+		Position = UDim2.new(0, 35, 0, 8),
+		Size = UDim2.new(1, -80, 1, -40),
 		Font = Enum.Font.SourceSansSemibold,
 		Text = 'NodeName',
 		TextSize = 28;
@@ -150,6 +152,10 @@ function class:SetTitle(title)
 		{'string', title}
 	)
 	self.nodeTextLabel.Text = title
+	self.ui.UISizeConstraint.MinSize = Vector2.new(self.nodeTextLabel.TextBounds.X + 50, 0)
+	for _, sizeConstraint in pairs(self.contentSizeConstraint) do
+		sizeConstraint.MinSize = Vector2.new(self.content.AbsoluteSize.Y, 0)
+	end
 end
 
 function class:SetContent(object)
@@ -157,6 +163,11 @@ function class:SetContent(object)
 		{'Instance', object}
 	)
 	object.Parent = self.content
+	local uiSize = class.Package.Utils.Create'UISizeConstraint'{
+		Name = 'UISizeConstraint', 
+		MinSize = Vector2.new(self.content.AbsoluteSize.X, 0),
+		Parent = object
+	}
 end
 
 function class:ToggleCollapsed()

@@ -11,7 +11,8 @@ local nodeToViewMap = nil
 function module.Init()
 	nodeToViewMap = {
 		FunctionNode = module.Package.Classes.FunctionView,
-		EventNode = module.Package.Classes.EventView
+		EventNode = module.Package.Classes.EventView,
+		ValueNode = module.Package.Classes.ValueView
 	}
 end
 
