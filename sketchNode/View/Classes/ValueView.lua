@@ -38,18 +38,12 @@ function class.New(o, parent, valueNode)
 	
 	o:SetContent(o.connectorContainer)
 
-	--o:AddConnector(valueNode:GetValueType(), o.connectorContainer)
+	o:AddConnector(o.connectorContainer, true, valueNode:GetValueType(), valueNode:GetConnectorName())
 
 	o:SetTitle(valueNode:GetTitle())
+	o:SetNodeIcon("value")
 
 	return o
-end
-
-function class:AddConnector(arg, parent)
-	arg = class.Package.Utils.Tests.GetArguments(
-		{'TypedVariable', arg} -- The parent component.
-	)
-	class.Package.Classes.ConnectorView:New(parent, arg)
 end
 
 return class

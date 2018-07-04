@@ -21,6 +21,7 @@ function module.Start(plugin, Engine)
 	module.Package.ToolBar.CreateButton("HelpButton", "help", false, function() end)
 
 	module.Package.Dialog.Start(module.gui)
+	module.Package.ToolTip.Start(module.gui)
 	
 	local editorContainer = module.Package.Templates.Container{
 		Position = UDim2.new(0, 0, 0, module.Package.ToolBar.GetHeight()),
@@ -28,8 +29,6 @@ function module.Start(plugin, Engine)
 		Parent = module.gui
 	}
 	module.Package.GameEditor.Start(editorContainer)
-
-	module.Package.ToolTip.Show('tooltiptest', Vector2.new(400, 300))
 
 	Engine.SheetAdded:Connect(module.AddSketchSheet)
 

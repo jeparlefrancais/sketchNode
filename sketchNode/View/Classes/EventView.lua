@@ -39,19 +39,13 @@ function class.New(o, parent, eventNode)
 	o:SetContent(o.connectorContainer)
 
 	for _, tv in ipairs(eventNode:GetReturnValues()) do
-		o:AddConnector(tv)
+		o:AddConnector(o.connectorContainer, true, tv:GetType(), tv:GetName())
 	end
 
 	o:SetTitle(eventNode:GetTitle())
+	o:SetNodeIcon("event")
 
 	return o
-end
-
-function class:AddConnector(arg)
-	arg = class.Package.Utils.Tests.GetArguments(
-		{'TypedVariable', arg} -- The parent component.
-	)
-	class.Package.Classes.ConnectorView:New(self.connectorContainer, arg)
 end
 
 return class
