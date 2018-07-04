@@ -28,9 +28,10 @@ function class.New(o, parent, valueNode)
 	local outLayout = class.Package.Templates.ResponsiveList(
 		false,
 		Enum.HorizontalAlignment.Right,
-		Enum.VerticalAlignment.Center,
+		Enum.VerticalAlignment.Top,
 		function(outputSize)
-			o.connectorContainer.Size = UDim2.new(0, outputSize.X, 0, outputSize.Y)
+			local width = math.max(outputSize.X + 20, o:GetMinimumWidth())
+			o.connectorContainer.Size = UDim2.new(0, width, 0, outputSize.Y)
 		end,
 		0,
 		o.connectorContainer

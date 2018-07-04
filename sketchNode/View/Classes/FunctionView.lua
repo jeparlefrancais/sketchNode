@@ -22,39 +22,29 @@ function class.New(o, parent, funcNode)
 		BackgroundTransparency = 1,
 		Name = 'Connectors',
 		Position = UDim2.new(0.5, 0, 0, 40),
-		Size = UDim2.new(1, 0, 0, 90), -- The Size is the highest column of parameters
 		class.Package.Utils.Create'Frame'{
 			AnchorPoint = Vector2.new(0, 0),
 			BackgroundTransparency = 1,
 			Name = 'In',
-			Position = UDim2.new(0, 0, 0, 0),
-			Size = UDim2.new(0, 40, 0, 0)
+			Position = UDim2.new(0, 0, 0, 0)
 		},
 		class.Package.Utils.Create'Frame'{
-			AnchorPoint = Vector2.new(0, 0),
+			AnchorPoint = Vector2.new(1, 0),
 			BackgroundTransparency = 1,
 			Name = 'Out',
-			Position = UDim2.new(0.5, 0, 0, 0),
-			Size = UDim2.new(0, 40, 0, 0)
+			Position = UDim2.new(1, 0, 0, 0)
 		}
 	}
-	class.Package.Templates.ResponsiveList(
-		true,
-		Enum.HorizontalAlignment.Center, Enum.VerticalAlignment.Center,
-		function(size)
-			o.connectorContainer.Size = UDim2.new(0, size.X + 20, 0, size.Y)
-		end,
-		0,
-		o.connectorContainer
-	)
 	local outLayout
 	local inLayout = class.Package.Templates.ResponsiveList(
 		false,
 		Enum.HorizontalAlignment.Left,
-		Enum.VerticalAlignment.Center,
+		Enum.VerticalAlignment.Top,
 		function(inputSize)
 			local maxHeight = math.max(inputSize.Y, outLayout.AbsoluteContentSize.Y)
 			o.connectorContainer.In.Size = UDim2.new(0, inputSize.X, 0, maxHeight)
+			local width = math.max(inputSize.X + o.connectorContainer.Out.Size.X.Offset + 20, o:GetMinimumWidth())
+			o.connectorContainer.Size = UDim2.new(0, width, 0, maxHeight)
 		end,
 		0,
 		o.connectorContainer.In
@@ -62,10 +52,12 @@ function class.New(o, parent, funcNode)
 	outLayout = class.Package.Templates.ResponsiveList(
 		false,
 		Enum.HorizontalAlignment.Right,
-		Enum.VerticalAlignment.Center,
+		Enum.VerticalAlignment.Top,
 		function(outputSize)
 			local maxHeight = math.max(inLayout.AbsoluteContentSize.Y, outputSize.Y)
 			o.connectorContainer.Out.Size = UDim2.new(0, outputSize.X, 0, maxHeight)
+			local width = math.max(outputSize.X + o.connectorContainer.In.Size.X.Offset + 20, o:GetMinimumWidth())
+			o.connectorContainer.Size = UDim2.new(0, width, 0, maxHeight)
 		end,
 		0,
 		o.connectorContainer.Out

@@ -22,7 +22,7 @@ function class.New(o, parent, node, triggers)
 		AnchorPoint = Vector2.new(0, 0),
 		Name = 'NodeView',
 		Position = UDim2.new(0, x, 0, y),
-		Size = UDim2.new(0, 270, 0, 350),
+		Size = UDim2.new(0, 0, 0, 350),
 		ScaleType = Enum.ScaleType.Slice,
 		SliceCenter = Rect.new(16, 16, 48, 48),
 		Parent = parent,
@@ -173,11 +173,10 @@ function class:SetContent(object)
 		{'Instance', object}
 	)
 	object.Parent = self.content
-	-- local uiSize = class.Package.Utils.Create'UISizeConstraint'{
-	-- 	Name = 'UISizeConstraint', 
-	-- 	MinSize = Vector2.new(self.content.AbsoluteSize.X, 0),
-	-- 	Parent = object
-	-- }
+end
+
+function class:GetMinimumWidth()
+	return self.ui.UISizeConstraint.MinSize.X
 end
 
 function class:SetNodeIcon(nodeType)
