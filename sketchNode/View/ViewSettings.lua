@@ -11,12 +11,16 @@ module.DockWidgetInfo = DockWidgetPluginGuiInfo.new(
 )
 
 module.Icons = {
-    ["plugin"] = "rbxassetid://1915732154",
-    ["save"] = "rbxassetid://1915730780",
-    ["build"] = "rbxassetid://1915732154",
-    ["preferences"] = "rbxassetid://1915731493",
-    ["bug"] = "rbxassetid://1917695734",
-    ["help"] = "rbxassetid://1917290667",
+    ['plugin'] = 'rbxassetid://1915732154',
+    ['save'] = 'rbxassetid://1915730780',
+    ['build'] = 'rbxassetid://1915732154',
+    ['preferences'] = 'rbxassetid://1915731493',
+    ['bug'] = 'rbxassetid://1917695734',
+    ['help'] = 'rbxassetid://1917290667',
+    ['delete'] = 'rbxassetid://2023767449',
+    ['label'] = 'rbxassetid://2023778246',
+    ['favorite'] = 'rbxassetid://2023776605',
+    ['favorited'] = 'rbxassetid://2023777394',
 }
 
 return module

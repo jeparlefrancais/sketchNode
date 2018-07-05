@@ -84,4 +84,12 @@ function class:GetInputCode() --\ReturnType: string
 	return self:IsInputReference() and self.reference:GetInputCode() or nil
 end
 
+function class:GetTitle() --\ReturnType: string
+	return self.reference:GetTitle()
+end
+
+function class:GetConnectorName() --\ReturnType: string
+	return self.reference:IsA('ObjectReference') and self.reference:GetMember() or self.reference:GetTitle()
+end
+
 return class

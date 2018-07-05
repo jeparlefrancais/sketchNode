@@ -13,7 +13,6 @@ end
 
 function module.Container(properties)
 	return module.Package.Utils.Create'Frame'(Merge({
-		AnchorPoint = Vector2.new(0, 0),
 		BackgroundTransparency = 1,
 		Name = 'Container',
 		Position = UDim2.new(0, 0, 0, 0),
@@ -53,16 +52,28 @@ end
 
 function module.ImageLabel(properties)
 	return module.Package.Utils.Create'ImageLabel'(Merge({
-		AnchorPoint = Vector2.new(0, 0),
 		BackgroundTransparency = 1,
 		Position = UDim2.new(0, 0, 0, 0),
 		Size = UDim2.new(1, 0, 1, 0),
 	}, properties))
 end
 
+function module.IconImage(properties)
+	return module.Package.Utils.Create'ImageButton'(Merge({
+		BackgroundTransparency = 1,
+		Size = UDim2.new(0, 16, 0, 16),
+	}, properties))
+end
+
+function module.IconButton(properties)
+	return module.Package.Utils.Create'ImageButton'(Merge({
+		BackgroundTransparency = 1,
+		Size = UDim2.new(0, 18, 0, 18),
+	}, properties))
+end
+
 function module.ImageButton(properties)
 	return module.Package.Utils.Create'ImageButton'(Merge({
-		AnchorPoint = Vector2.new(0, 0),
 		BackgroundTransparency = 1,
 		Position = UDim2.new(0, 0, 0, 0),
 		Size = UDim2.new(1, 0, 1, 0),
@@ -99,10 +110,11 @@ function module.ClickButton(localizationText, properties)
 	return button
 end
 
-function module.HorizontalList(padding, rightAligned)
+function module.HorizontalList(padding, rightAligned, centered)
 	return module.Package.Utils.Create'UIListLayout'{
 		Padding = UDim.new(0, padding or 0),
 		FillDirection = Enum.FillDirection.Horizontal,
+		VerticalAlignment = centered or Enum.VerticalAlignment.Top,
 		SortOrder = Enum.SortOrder.LayoutOrder,
 		VerticalAlignment = Enum.VerticalAlignment.Center,
 		HorizontalAlignment = rightAligned and Enum.HorizontalAlignment.Right or Enum.HorizontalAlignment.Left
@@ -114,8 +126,8 @@ function module.ResponsiveList(isHorizontal, horizontalAlignment, verticalAlignm
 		Padding = UDim.new(0, padding or 0),
 		FillDirection = isHorizontal and Enum.FillDirection.Horizontal or Enum.FillDirection.Vertical,
 		SortOrder = Enum.SortOrder.LayoutOrder,
-		VerticalAlignment = verticalAlignment or Enum.VerticalAlignment.Center,
 		HorizontalAlignment = horizontalAlignment or Enum.HorizontalAlignment.Center,
+		VerticalAlignment = verticalAlignment or Enum.VerticalAlignment.Center,
 		Parent = parent
 	}
 	listLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function() sizeChangedFunction(listLayout.AbsoluteContentSize) end)

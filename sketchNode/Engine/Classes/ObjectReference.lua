@@ -1,4 +1,4 @@
--- \Description: Use this class to hold a reference to a service or an object 
+--\Description: Use this class to hold a reference to a service or an object 
 
 local RobloxTypes = {
 	string = 'string',
@@ -150,7 +150,11 @@ end
 
 function class:GetTitle() --\ReturnType: string
 	--\Doc: Returns the string that will be used as a title for its node.
-	return string.format('%s.%s', self.className, self.member)
+	return self:IsValue() and self.className or string.format('%s.%s', self.className, self.member)
+end
+
+function class:GetMember() --\ReturnType: string
+	return self.member
 end
 
 function class:GetArguments() --\ReturnType: table

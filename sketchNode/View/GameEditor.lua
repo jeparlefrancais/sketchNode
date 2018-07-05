@@ -93,6 +93,8 @@ function module.Start(parent)
 	}
 	module.Package.Themes.Bind(module.panel, 'BackgroundColor3', 'ContainerColor')
 	module.Package.Themes.Bind(module.panel, 'BorderColor3', 'ContainerBorderColor')
+	module.Package.Localization.Bind(module.panel.Library.Title.TitleLabel, 'LibraryPanel')
+	module.Package.Localization.Bind(module.panel.Nodes.Title.TitleLabel, 'NodesPanel')
 
 	module.panel.Nodes.VerticalListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
 		module.panel.Nodes.CanvasSize = UDim2.new(0, 0, 0, module.panel.Nodes.VerticalListLayout.AbsoluteContentSize.Y)
@@ -120,6 +122,7 @@ function module.Start(parent)
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Parent = foldable
 	}
+	module.Package.Localization.BindProperty(addSheetTextbox, 'PlaceholderText', 'AddSheetPlaceholderText')
 	addSheetTextbox.FocusLost:Connect(function(enterPressed)
 		if enterPressed then
 			local sheetName = addSheetTextbox.Text
@@ -144,9 +147,33 @@ function module.Start(parent)
 		local sectionName =  referenceName:match('(%w+)%.%w+') or 'global'
 		local nodeButton = module.Package.Templates.SectionButton{
 			Name = string.lower(referenceName),
-			Text = referenceName
+			Text = referenceName,
+			module.Package.Templates.HorizontalList(4, true, true)
 		}
-		nodeButton.MouseButton1Click:Connect(function()
+		
+		local favorited = false
+		local favoriteButton = module.Package.Templates.IconButton{
+			Image = module.Package.ViewSettings.Icons['favorite'],
+			ImageTransparency = 1,
+			Parent = nodeButton
+		}
+		favoriteButton.MouseButton1Click:connect(function()
+			favorited = not favorited
+			favoriteButton.Image = favorited and module.Package.ViewSettings.Icons['favorited'] or module.Package.ViewSettings.Icons['favorite']
+		end)
+		favoriteButton.MouseEnter:connect(function()
+			favoriteButton.ImageColor3 = Color3.fromRGB(255, 255, 102)
+		end)
+		favoriteButton.MouseLeave:connect(function()
+			favoriteButton.ImageColor3 = Color3.fromRGB(255, 255, 255)
+		end)
+		nodeButton.MouseEnter:connect(function()
+			favoriteButton.ImageTransparency = 0
+		end)
+		nodeButton.MouseLeave:connect(function()
+			favoriteButton.ImageTransparency = favorited and 0.9 or 1
+		end)
+		nodeButton.MouseButton1Click:connect(function()
 			module.Package.Grid.CreateNode(module.engine.GetLuaReference(referenceName), 0, 0)
 		end)
 		nodeSections[sectionName]:AddElement(nodeButton)
@@ -170,15 +197,51 @@ function module.Start(parent)
 	module.Package.Grid.Start(module.gridContainer)
 end
 
-function module:AddSketchSheet(sheet)
+function module.AddSketchSheet(sheet)
 	--\Doc: Creates the view to access the sheet. This includes a button in the left panel 
 	sheet = module.Package.Utils.Tests.GetArguments(
 		{'SketchSheet', sheet} -- The sheet to add.
 	)
 	local sheetButton = module.Package.Templates.SectionButton{
 		Name = string.lower(sheet:GetName()),
-		Text = sheet:GetName()
+		Text = sheet:GetName(),
+		module.Package.Templates.HorizontalList(4, true, true)
 	}
+	local labelButton = module.Package.Templates.IconButton{
+		Image = module.Package.ViewSettings.Icons['label'],
+		LayoutOrder = 1,
+		Visible = false,
+		Parent = sheetButton
+	}
+	labelButton.MouseEnter:connect(function()
+		labelButton.ImageColor3 = Color3.fromRGB(102, 102, 255)
+	end)
+	labelButton.MouseLeave:connect(function()
+		labelButton.ImageColor3 = Color3.fromRGB(255, 255, 255)
+	end)
+	local deleteButton = module.Package.Templates.IconButton{
+		Image = module.Package.ViewSettings.Icons['delete'],
+		LayoutOrder = 2,
+		Visible = false,
+		Parent = sheetButton
+	}
+	deleteButton.MouseEnter:connect(function()
+		deleteButton.ImageColor3 = Color3.fromRGB(255, 102, 102)
+	end)
+	deleteButton.MouseLeave:connect(function()
+		deleteButton.ImageColor3 = Color3.fromRGB(255, 255, 255)
+	end)
+	deleteButton.MouseButton1Click:connect(function()
+		module.Package.Dialog.Prompt('Delete Sheet?', 'Are you sure you want to delete this sheet?')
+	end)
+	sheetButton.MouseEnter:Connect(function()
+		labelButton.Visible = true
+		deleteButton.Visible = true
+	end)
+	sheetButton.MouseLeave:Connect(function()
+		labelButton.Visible = false
+		deleteButton.Visible = false
+	end)
 	sheetButton.MouseButton1Click:Connect(function()
 		module.Package.Grid.EditSheet(sheet)
 	end)

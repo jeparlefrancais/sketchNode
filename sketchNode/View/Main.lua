@@ -14,13 +14,14 @@ function module.Start(plugin, Engine)
 	end)
 
 	module.Package.ToolBar.Start(module.gui)
-	module.Package.ToolBar.CreateButton("save", "save", true, function() end)
-	module.Package.ToolBar.CreateButton("build", "build", true, function() end)
-	module.Package.ToolBar.CreateButton("preferences", "preferences", true, function() end)
-	module.Package.ToolBar.CreateButton("bug", "bug", false, function() end)
-	module.Package.ToolBar.CreateButton("help", "help", false, function() end)
+	module.Package.ToolBar.CreateButton("SaveButton", "save", true, function() end)
+	module.Package.ToolBar.CreateButton("BuildButton", "build", true, function() end)
+	module.Package.ToolBar.CreateButton("PreferencesButton", "preferences", true, function() end)
+	module.Package.ToolBar.CreateButton("BugButton", "bug", false, function() end)
+	module.Package.ToolBar.CreateButton("HelpButton", "help", false, function() end)
 
 	module.Package.Dialog.Start(module.gui)
+	module.Package.ToolTip.Start(module.gui)
 	
 	local editorContainer = module.Package.Templates.Container{
 		Position = UDim2.new(0, 0, 0, module.Package.ToolBar.GetHeight()),
@@ -34,7 +35,7 @@ function module.Start(plugin, Engine)
 	if not Engine.IsSetup() then
 		local startPlugin = false
 		repeat
-			startPlugin = module.Package.Dialog.Prompt('New Project', 'Would you like to start a new SketchNode project?')
+			startPlugin = module.Package.Dialog.Prompt('NewProjectPromptTitle', 'NewProjectPromptMessage')
 			if not startPlugin then
 				module.gui.Enabled = false
 			end
@@ -48,7 +49,7 @@ function module.GetEngine()
 end
 
 function module.AddSketchSheet(sheet)
-	module.Package.GameEditor:AddSketchSheet(sheet)
+	module.Package.GameEditor.AddSketchSheet(sheet)
 end
 
 return module

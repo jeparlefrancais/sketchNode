@@ -16,6 +16,8 @@ function class.New(o, parent, node, triggers)
 	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
 
+	o.contentSizeConstraint = {}
+
 	o.ui = class.Package.Templates.ImageLabel{
 		AnchorPoint = Vector2.new(0, 0),
 		Name = 'NodeView',
@@ -23,7 +25,8 @@ function class.New(o, parent, node, triggers)
 		Size = UDim2.new(0, 270, 0, 350),
 		ScaleType = Enum.ScaleType.Slice,
 		SliceCenter = Rect.new(16, 16, 48, 48),
-		Parent = parent
+		Parent = parent,
+		class.Package.Utils.Create'UISizeConstraint'{Name = 'UISizeConstraint'}
 	}
   	local nodeTitle = class.Package.Utils.Create'ImageButton'{ 
 		AnchorPoint = Vector2.new(0.5, 0),
@@ -47,11 +50,10 @@ function class.New(o, parent, node, triggers)
 		Parent = nodeTitle,
 	}
   	o.nodeTextLabel = class.Package.Utils.Create'TextLabel'{
-		AnchorPoint = Vector2.new(0.5, 0),
 		BackgroundTransparency = 1,
 		Name = 'NodeTitle',
-		Position = UDim2.new(0.5, 13, 0, 8),
-		Size = UDim2.new(0.9, -16, 1, -40),
+		Position = UDim2.new(0, 35, 0, 8),
+		Size = UDim2.new(1, -80, 1, -40),
 		Font = Enum.Font.SourceSansSemibold,
 		Text = 'NodeName',
 		TextSize = 28;
@@ -111,7 +113,7 @@ function class.New(o, parent, node, triggers)
 		Enum.HorizontalAlignment.Center,
 		Enum.VerticalAlignment.Top,
 		function(size)
-			o.ui.Size = UDim2.new(0, size.X, 0, size.Y + 55)
+			o.ui.Size = UDim2.new(0, size.X + 20, 0, size.Y + 55)
 		end,
 		0,
 		o.content
@@ -129,6 +131,16 @@ function class.New(o, parent, node, triggers)
 	nodeTitle.MouseButton1Up:Connect(class.Package.Grid.SendMouseUp)
 
 	return o
+end
+
+function class:AddConnector(parent, isOutput, typeString, nameString)
+	parent, isOutput, typeString, nameString = class.Package.Utils.Tests.GetArguments(
+		{'Instance', parent}, -- The parent component.
+		{'boolean', isOutput},  -- The argument component.
+		{'string', typeString},  -- The argument component.
+		{'string', nameString}  -- The argument component.
+	)
+	class.Package.Classes.ConnectorView:New(parent, isOutput, typeString, nameString)
 end
 
 function class:SetPosition(x, y, tween)
@@ -150,6 +162,10 @@ function class:SetTitle(title)
 		{'string', title}
 	)
 	self.nodeTextLabel.Text = title
+	self.ui.UISizeConstraint.MinSize = Vector2.new(self.nodeTextLabel.TextBounds.X + 55, 0)
+	for _, sizeConstraint in pairs(self.contentSizeConstraint) do
+		sizeConstraint.MinSize = Vector2.new(self.content.AbsoluteSize.Y, 0)
+	end
 end
 
 function class:SetContent(object)
@@ -157,6 +173,24 @@ function class:SetContent(object)
 		{'Instance', object}
 	)
 	object.Parent = self.content
+	-- local uiSize = class.Package.Utils.Create'UISizeConstraint'{
+	-- 	Name = 'UISizeConstraint', 
+	-- 	MinSize = Vector2.new(self.content.AbsoluteSize.X, 0),
+	-- 	Parent = object
+	-- }
+end
+
+function class:SetNodeIcon(nodeType)
+	nodeType = class.Package.Utils.Tests.GetArguments(
+		{'string', nodeType}
+	)
+	if nodeType == "function" then
+		self.nodeIcon.ImageRectOffset = Vector2.new(0, 0)
+	elseif nodeType == "value" then
+		self.nodeIcon.ImageRectOffset = Vector2.new(24, 0)
+	elseif nodeType == "event" then
+		self.nodeIcon.ImageRectOffset = Vector2.new(48, 0)
+	end
 end
 
 function class:ToggleCollapsed()

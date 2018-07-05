@@ -107,15 +107,15 @@ function module.Start(parent)
 	end)
 end
 
-function module.Prompt(title, message)
-	title, message = module.Package.Utils.Tests.GetArguments(
-		{'string', title},
-		{'string', message}
+function module.Prompt(localizationTitleIndex, localizationMessageIndex)
+	localizationTitleIndex, localizationMessageIndex = module.Package.Utils.Tests.GetArguments(
+		{'string', localizationTitleIndex},
+		{'string', localizationMessageIndex}
 	)
-	module.dialog.Window.TitleBar.DialogTitle.Text = title
-	module.dialog.Window.Content.Message.Text = message
+	module.dialog.Window.TitleBar.DialogTitle.Text = module.Package.Localization.GetEntry(localizationTitleIndex)
+	module.dialog.Window.Content.Message.Text = module.Package.Localization.GetEntry(localizationMessageIndex)
 	module.dialog.Visible = true
-	-- wait until event is fied
+	-- wait until event is fired
 	local result = module.bin.Event:Wait()
 	module.dialog.Visible = false
 	return result

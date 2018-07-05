@@ -72,23 +72,17 @@ function class.New(o, parent, funcNode)
 	)
 
 	for _, arg in ipairs(funcNode:GetArguments()) do
-		o:AddConnector(arg, o.connectorContainer.In)
+		o:AddConnector(o.connectorContainer.In, false, arg:GetType(), arg:GetName())
 	end
 	for _, tv in ipairs(funcNode:GetReturnValues()) do
-		o:AddConnector(tv, o.connectorContainer.Out)
+		o:AddConnector(o.connectorContainer.Out, true, tv:GetType(), tv:GetName())
 	end
 
 	o:SetContent(o.connectorContainer)
 	o:SetTitle(funcNode:GetTitle())
+	o:SetNodeIcon("function")
 
 	return o
-end
-
-function class:AddConnector(arg, parent)
-	arg = class.Package.Utils.Tests.GetArguments(
-		{'TypedVariable', arg} -- The parent component.
-	)
-	class.Package.Classes.ConnectorView:New(parent, arg)
 end
 
 return class
