@@ -11,7 +11,10 @@ function class.Init()
 	class.__signals = {
 		NodeAdded = {
 			'Node' -- node
-        }
+		},
+		ConnectionAdded = {
+			'Connection' -- connection
+		}
     }
     classNameToClass = {
         FunctionNode = class.Package.Classes.FunctionNode,
@@ -81,7 +84,7 @@ function class:GetNodes()
 	return self.nodes
 end
 
-function class:GetNodeId()
+function class:GetNewId()
     local id = string.format('%X', self.newId)
     self.newId = self.newId + 1
     return id
@@ -93,7 +96,7 @@ function class:CreateNode(reference, x, y)
         {'number', x, 0}, -- The position on the x-axis of the node to create
         {'number', y, 0} -- The position on the y-axis of the node to create
     )
-    local id = self:GetNodeId()
+    local id = self:GetNewId()
     local referenceClass = reference:IsFunction()
     local node = nil
 
@@ -111,6 +114,37 @@ function class:CreateNode(reference, x, y)
         self.nodes[id] = node
         self.NodeAdded:Fire(node)
     end
+end
+
+function class:GetNodeId(node) --\ReturnType: string
+	--\Doc: Returns the Id linked with the given node. Returns nil if the node does not exist.
+	node = class.Package.Utils.Tests.GetArguments(
+		{'Node', node} -- The node
+	)
+	for id, sheetNode in pairs(self.nodes) do
+		if sheetNode == node then
+			return id
+		end
+	end
+	warn('Given node does not exist in that sheet.')
+end
+
+function class:ConnectNodes(startNode, endNode, startIndex, endIndex)
+    startNode, endNode, startIndex, endIndex = class.Package.Utils.Tests.GetArguments(
+        {'Node', startNode}, -- The node to connect from.
+        {'Node', endNode}, -- The node to connect to.
+		{'number', startIndex, 0}, -- The index of the connector (0 is the execution connector, then other numbers are the ).
+		{'number', endIndex, 0} -- 
+    )
+	local startNodeId = self:GetNodeId(startNode)
+	local endNodeId = self:GetNodeId(endNode)
+	if startNodeId and endNodeId then
+		local connection = class.Package.Classes.Connection:New(startNodeId, endNodeId, startIndex, endIndex)
+		table.insert(self.connections, connection)
+		self.ConnectionAdded:Fire(connection)
+		return true
+	end
+	return false
 end
 
 function class:GetSourceCode() --\ReturnType: string
