@@ -69,4 +69,9 @@ function class:GetTitle() --\ReturnType: string
 	return self.reference:GetTitle()
 end
 
+function class:GetReference() --\ReturnType: BaseReference
+	--\Doc: Returns the reference of the node.
+	return self.reference
+end
+
 return class

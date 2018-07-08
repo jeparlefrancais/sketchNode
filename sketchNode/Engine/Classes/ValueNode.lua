@@ -92,4 +92,9 @@ function class:GetConnectorName() --\ReturnType: string
 	return self.reference:IsA('ObjectReference') and self.reference:GetMember() or self.reference:GetTitle()
 end
 
+function class:GetReference() --\ReturnType: BaseReference
+	--\Doc: Returns the reference of the node.
+	return self.reference
+end
+
 return class

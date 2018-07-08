@@ -52,7 +52,7 @@ function class.New(o, obj, member) --\ReturnType: table
 	o.path = {}
 	local parent = obj
 	while parent ~= game do
-		table.insert(o.path, 1, parent.Name)
+		table.insert(o.path, 1, parent.Parent == game and parent.ClassName or parent.Name)
 		parent = parent.Parent
 	end
 	
@@ -179,6 +179,10 @@ end
 
 function class:IsValue() --\ReturnType: boolean
 	return class.Package.RobloxClasses.GetMemberType(self.className, self.member) == 'Property'
+end
+
+function class:GetPath() --\ReturnType: table
+	return self.path
 end
 
 return class
