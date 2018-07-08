@@ -288,4 +288,8 @@ function module.GetClassMembers(className) --\ReturnType: table
 	return members
 end
 
+function module.GetInputReference(typeString)
+	return module.Package.Classes.InputReference:New(typeString)
+end
+
 return module

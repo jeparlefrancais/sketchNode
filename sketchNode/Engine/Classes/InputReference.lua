@@ -51,7 +51,7 @@ function class:Serialize() --\ReturnType: table
 end
 
 function class:GetTitle() --\ReturnType: string
-	return string.format('%s', self.referenceName)
+	return string.format('%s', self.typeString)
 end
 
 function class:GetArguments() --\ReturnType: table

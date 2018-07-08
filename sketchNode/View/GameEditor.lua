@@ -1,12 +1,18 @@
 -- \Description: No description yet
 
-local services = {
+local SERVICES = {
 	'Lighting',
 	'ReplicatedFirst',
 	'ReplicatedStorage',
 	'RunService',
 	'ServerStorage',
 	'Workspace'
+}
+
+local INPUTS = {
+	'boolean',
+	'string',
+	'number'
 }
 
 local function Append(...)
@@ -141,6 +147,7 @@ function module.Start(parent)
 		os = module.Package.Classes.SectionView:New(module.panel.Nodes, 'os', true),
 		table = module.Package.Classes.SectionView:New(module.panel.Nodes, 'table', true),
 		global = module.Package.Classes.SectionView:New(module.panel.Nodes, 'global', true),
+		inputs = module.Package.Classes.SectionView:New(module.panel.Nodes, 'inputs', false)
 	}
 	local luaReferenceNames = module.engine.GetLuaReferenceNames()
 	for _, referenceName in pairs(luaReferenceNames) do
@@ -178,7 +185,7 @@ function module.Start(parent)
 		end)
 		nodeSections[sectionName]:AddElement(nodeButton)
 	end
-	for _, service in ipairs(services) do
+	for _, service in ipairs(SERVICES) do
 		local serviceSection = module.Package.Classes.SectionView:New(nodeSections.services:GetContainerInstance(), service, true)
 		local members = module.engine.GetClassMembers(service)
 		for _, member in ipairs(Append(members.Properties, members.Functions, members.Events)) do
@@ -191,7 +198,16 @@ function module.Start(parent)
 			end)
 			serviceSection:AddElement(nodeButton)
 		end
-		
+	end
+	for _, inputType in ipairs(INPUTS) do
+		local nodeButton = module.Package.Templates.SectionButton{
+			Name = inputType,
+			Text = inputType
+		}
+		nodeButton.MouseButton1Click:Connect(function()
+			module.Package.Grid.CreateNode(module.engine.GetInputReference(inputType))
+		end)
+		nodeSections.inputs:AddElement(nodeButton)
 	end
 
 	module.Package.Grid.Start(module.gridContainer)
