@@ -187,6 +187,20 @@ function module.ShowSheetFrame(sheet)
 	module.Update()
 end
 
+function module.RemoveSheetFrame(sheet)
+	--\Removes the frame linked with the sheet. Closes the frame if the sheet is currently opened.
+	sheet = module.Package.Utils.Tests.GetArguments(
+		{'SketchSheet', sheet} -- The sheet to view.
+	)
+	if module.sheetFrames[module.openedSheet] then
+		module.sheetFrames[module.openedSheet]:Destroy()
+	end
+	if module.openedSheet == sheet then
+		module.openedSheet = nil
+		module.noSheet.Visible = true
+	end
+end
+
 function module.GetCorners() --\ReturnType: table
 	--\Doc: Returns a list that contains the most top-left corner and the most bottom-right corner from all the nodes. 
 	local topLeftX = nil

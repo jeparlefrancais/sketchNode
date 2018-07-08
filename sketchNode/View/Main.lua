@@ -31,6 +31,7 @@ function module.Start(plugin, Engine)
 	module.Package.GameEditor.Start(editorContainer)
 
 	Engine.SheetAdded:Connect(module.AddSketchSheet)
+	Engine.SheetRemoved:Connect(module.RemoveSketchSheet)
 
 	if not Engine.IsSetup() then
 		local startPlugin = false
@@ -49,7 +50,12 @@ function module.GetEngine()
 end
 
 function module.AddSketchSheet(sheet)
-	module.Package.GameEditor.AddSketchSheet(sheet)
+	module.Package.Panels.GamePanel.AddSketchSheetButton(sheet)
+end
+
+function module.RemoveSketchSheet(sheet)
+	module.Package.Panels.GamePanel.RemoveSketchSheetButton(sheet)
+	module.Package.Grid.RemoveSheetFrame(sheet)
 end
 
 return module

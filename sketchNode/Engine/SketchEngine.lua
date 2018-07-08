@@ -19,6 +19,9 @@ function module.Init()
         },
         SheetAdded = {
             'SketchSheet' -- newSheet
+        },
+        SheetRemoved = {
+            'SketchSheet' -- sheet
         }
 	}
 end
@@ -234,13 +237,29 @@ function module.AddModule(moduleObject)
 	module.ModuleAdded:Fire(moduleObject)
 end
 
-function module.AddSheet(sheetName)
-    --\Doc: Adds a new sheet to the game project.
+function module.AddSheet(sheetName) --\ReturnType: SketchSheet
+    --\Doc: Adds a new sheet to the game project. Returns the created sheet.
 	sheetName = module.Package.Utils.Tests.GetArguments(
         {'string', sheetName, 'NewSheet'} -- Name of the sheet to create.
     )
 	local sheet = module.Package.Classes.SketchSheet:New(sheetName)
-    module.SheetAdded:Fire(sheet)
+	table.insert(module.sheets, sheet)
+	module.SheetAdded:Fire(sheet)
+	return sheet
+end
+
+function module.DeleteSheet(sheet)
+    --\Doc: Deletes the sheet from the project.
+	sheet = module.Package.Utils.Tests.GetArguments(
+		{'SketchSheet', sheet} -- The sheet to delete.
+	)
+	for i, currentSheet in ipairs(module.sheets) do
+		if sheet == currentSheet then
+			table.remove(module.sheets, i)
+			module.SheetRemoved:Fire(sheet)
+			return
+		end
+	end
 end
 
 function module.GetLuaReference(referenceName) --\ReturnType: LuaReference

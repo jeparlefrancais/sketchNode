@@ -23,4 +23,19 @@ module.Icons = {
     ['favorited'] = 'rbxassetid://2023777394',
 }
 
+module.NodesFolderInputs = {
+	'boolean',
+	'string',
+	'number'
+}
+
+module.NodesFolderServices = {
+	'Lighting',
+	'ReplicatedFirst',
+	'ReplicatedStorage',
+	'RunService',
+	'ServerStorage',
+	'Workspace'
+}
+
 return module

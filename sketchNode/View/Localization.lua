@@ -14,6 +14,8 @@ local English = {
 	['LibraryPanel'] = 'Library',
 	['NodesPanel'] = 'Nodes',
 	['AddSheetPlaceholderText'] = 'Add new Sheet..',
+	['DeleteSheetPromptTitle'] = 'Delete Sheet?',
+	['DeleteSheetPromptMessage'] = 'Are you sure you want to delete this sheet?'
 }
 
 local Translations = {
@@ -21,18 +23,20 @@ local Translations = {
 		__langage = 'French',
 		['tooltiptest'] = 'thats pretty kewl',
 		['NewProjectPromptTitle'] = 'Nouveau Projet',
-		['NewProjectPromptMessage'] = 'Voulez vous créer un projet SketchNode?',
+		['NewProjectPromptMessage'] = 'Voulez-vous créer un projet SketchNode?',
 		['NoSheetOpenedMessage'] = 'Ouvre ou crée une nouvelle Sheet\nLibrairie > Game Sheets',
 		['DialogYesButton'] = 'Oui',
 		['DialogNoButton'] = 'Non',
 		['SaveButton'] = 'SAUVEGARDER',
-		['BuildButton'] = 'CONSTRUIRE',
+		['BuildButton'] = 'COMPILER',
 		['PreferencesButton'] = 'PRÉFERENCES',
 		['BugButton'] = 'ERREUR',
 		['HelpButton'] = 'AIDE',
-		['LibraryPanel'] = 'Librarie',
+		['LibraryPanel'] = 'Librairie',
 		['NodesPanel'] = 'Nodes',
 		['AddSheetPlaceholderText'] = 'Ajouter une Sheet..',
+		['DeleteSheetPromptTitle'] = 'Supprimer la Sheet?',
+		['DeleteSheetPromptMessage'] = 'Êtes-vous certain de vouloir supprimer la Sheet?'
 	}
 }
 
