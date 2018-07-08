@@ -67,11 +67,11 @@
         </tr>
     
         <tr>
-            <td class="methodTypeColumn typeString">void</td>
+            <td class="methodTypeColumn typeString">SketchSheet</td>
             
                 <td class="methodNameColumn"><span class="methodName">AddSheet</span>()</td>
             
-            <td class="methodDescriptionColumn">Adds a new sheet to the game project.</td>
+            <td class="methodDescriptionColumn">Adds a new sheet to the game project. Returns the created sheet.</td>
         </tr>
     
         <tr>
@@ -88,6 +88,16 @@
                 <td class="methodNameColumn"><span class="methodName">Compile</span>()</td>
             
             <td class="methodDescriptionColumn">Compiles the SketchNode project into the place. Overwrites the actual compiled version.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">void</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">DeleteSheet</span>(<span class="typeString">SketchSheet</span> sheet)
+                </td>
+            
+            <td class="methodDescriptionColumn">Deletes the sheet from the project.</td>
         </tr>
     
         <tr>
@@ -233,6 +243,16 @@
                 
                     <td class="methodNameColumn">
                         <span class="methodName">SheetAdded</span>(<span class="typeString">SketchSheet</span> newSheet)
+                    </td>
+                
+                <td class="methodDescriptionColumn"></td>
+            </tr>
+        
+            <tr>
+                <td class="methodTypeColumn typeString"></td>
+                
+                    <td class="methodNameColumn">
+                        <span class="methodName">SheetRemoved</span>(<span class="typeString">SketchSheet</span> sheet)
                     </td>
                 
                 <td class="methodDescriptionColumn"></td>
