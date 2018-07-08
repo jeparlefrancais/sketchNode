@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="main.css">
+    <link href='https://fonts.googleapis.com/css?family=Arapey' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Reenie Beanie' rel='stylesheet'>
+    <title>SketchNode</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body style="height: 100%">
+
+    <div class="header">
+        <h1 class="title noselect">SketchNode</h1>
+        <nav>
+            <ul>
+                
+                    
+                        <li class="noselect"><a href="index.html">Home</a></li>
+                    
+                
+                    
+                        <li class="noselect"><a href="api.html">Reference</a></li>
+                    
+                
+                    
+                        <li class="noselect"><a href="about.html">About</a></li>
+                    
+                
+            </ul>
+        </nav>
+    </div>
+    <div class="content">
+        <div>
+            
+<h1>ScriptBuilder</h1>
+<br>
+<p>
+    Add a description
+</p>
+
+<br>
+
+<!-- Maybe add link to the github file-->
+
+<h2>Methods</h2>
+
+<br>
+
+<table class="methodTable">
+    
+        <tr>
+            <td class="methodTypeColumn typeString">void</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">AddConstant</span>(<span class="typeString">string</span> identifier, <span class="typeString">string</span> codeValue)
+                </td>
+            
+            <td class="methodDescriptionColumn">Adds the identifier to the constant list</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">void</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">AddEventConnection</span>(<span class="typeString">string</span> identifier, <span class="typeString">table</span> parameters, <span class="typeString">table</span> contentLines)
+                </td>
+            
+            <td class="methodDescriptionColumn">Adds code to connect an event.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">string</td>
+            
+                <td class="methodNameColumn"><span class="methodName">AddObjectReference</span>()</td>
+            
+            <td class="methodDescriptionColumn">Adds a constant for the object reference and returns the identifier of that constant.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">boolean</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">AddService</span>(<span class="typeString">string</span> serviceName)
+                </td>
+            
+            <td class="methodDescriptionColumn">Returns true if the service was added, or false if it was already there.</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">string</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">GetCleanIdentifier</span>(<span class="typeString">string</span> identifier)
+                </td>
+            
+            <td class="methodDescriptionColumn">Take a potential identifier and returns a clean version (remove the spaces, ponctuations, operators, etc)</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">string</td>
+            
+                <td class="methodNameColumn"><span class="methodName">GetCode</span>()</td>
+            
+            <td class="methodDescriptionColumn"></td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">string</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">GetServiceVariable</span>(<span class="typeString">string</span> serviceName)
+                </td>
+            
+            <td class="methodDescriptionColumn">Take the service class name and returns the variable identifier</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">boolean</td>
+            
+                <td class="methodNameColumn"><span class="methodName">IsIdentifierUsed</span>()</td>
+            
+            <td class="methodDescriptionColumn"></td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">boolean</td>
+            
+                <td class="methodNameColumn">
+                    <span class="methodName">IsServiceAdded</span>(<span class="typeString">string</span> serviceName)
+                </td>
+            
+            <td class="methodDescriptionColumn">Returns if the service is already in the list</td>
+        </tr>
+    
+        <tr>
+            <td class="methodTypeColumn typeString">table</td>
+            
+                <td class="methodNameColumn"><span class="methodName">New</span>()</td>
+            
+            <td class="methodDescriptionColumn"></td>
+        </tr>
+    
+</table>
+
+
+    
+
+
+<br>
+
+<h2>Events</h2>
+
+<br>
+
+
+
+
+    
+
+
+
+    
+
+
+
+        </div>
+    </div>
+</body>
+</html>
