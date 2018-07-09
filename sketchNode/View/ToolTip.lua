@@ -81,7 +81,7 @@ function module.Bind(guiObject, localizationMessageIndex)
 		{'string', localizationMessageIndex} -- The entry in the localization table.
 	)
 	local enteredId = 0
-	guiObject.MouseEnter(function(x, y)
+	guiObject.MouseEnter:Connect(function(x, y)
 		enteredId = enteredId + 1
 		local current = enteredId
 		wait(module.Package.ViewSettings.ToolTipWaitTime)
