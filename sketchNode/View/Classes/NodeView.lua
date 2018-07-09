@@ -28,7 +28,7 @@ function class.New(o, parent, node, triggers)
 		Parent = parent,
 		class.Package.Utils.Create'UISizeConstraint'{Name = 'UISizeConstraint'}
 	}
-  	local nodeTitle = class.Package.Utils.Create'ImageButton'{ 
+  	o.nodeTitle = class.Package.Utils.Create'ImageButton'{ 
 		AnchorPoint = Vector2.new(0.5, 0),
 		BackgroundTransparency = 1,
 		Name = 'TitleBar',
@@ -47,7 +47,7 @@ function class.New(o, parent, node, triggers)
 		Image = "rbxassetid://2005814826",
 		ImageRectSize = Vector2.new(24, 24),
 		ImageTransparency = 0.3,
-		Parent = nodeTitle,
+		Parent = o.nodeTitle,
 	}
   	o.nodeTextLabel = class.Package.Utils.Create'TextLabel'{
 		BackgroundTransparency = 1,
@@ -58,18 +58,29 @@ function class.New(o, parent, node, triggers)
 		Text = 'NodeName',
 		TextSize = 28;
 		TextXAlignment = Enum.TextXAlignment.Left,
-		Parent = nodeTitle
+		Parent = o.nodeTitle
 	}
 	o.content = class.Package.Templates.Container{
 		AnchorPoint = Vector2.new(0.5, 0),
 		Name = 'Content',
 		Position = UDim2.new(0.5, 0, 0, 40),
 		Size = UDim2.new(1, -20, 0, 30),
+		ZIndex = 2,
 		Parent = o.ui
+	}
+	o.selectionGlow = class.Package.Utils.Create'ImageLabel'{
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, 0, 1, 0),
+		Name = 'SelectionGlow',
+		Image = 'rbxassetid://2047642076',
+		ImageColor3 = Color3.fromRGB(255, 150, 0),
+		ScaleType = Enum.ScaleType.Slice,
+		SliceCenter = Rect.new(16, 16, 48, 48),
+		Visible = false
 	}
 	-- Setup for themes
 	class.Package.Themes.Bind(o.ui, 'Image', 'NodeImage')
-	class.Package.Themes.Bind(nodeTitle, 'Image', 'NodeTitleImage')
+	class.Package.Themes.Bind(o.nodeTitle, 'Image', 'NodeTitleImage')
 	class.Package.Themes.Bind(o.nodeTextLabel, 'TextColor3', 'NodeTitleTextColor')
 
 	-- triggers
@@ -125,10 +136,10 @@ function class.New(o, parent, node, triggers)
 	local currentPosition = node:GetPosition()
 	o:SetPosition(currentPosition.X, currentPosition.Y, false)
 
-	nodeTitle.MouseButton1Down:Connect(function(x, y)
+	o.nodeTitle.MouseButton1Down:Connect(function(x, y)
 		class.Package.Grid.StartNodeMovement(node, x, y)
 	end)
-	nodeTitle.MouseButton1Up:Connect(class.Package.Grid.SendMouseUp)
+	o.nodeTitle.MouseButton1Up:Connect(class.Package.Grid.SendMouseUp)
 
 	return o
 end
@@ -154,6 +165,14 @@ function class:SetPosition(x, y, tween)
 	else
 		self.ui.Position = UDim2.new(0.5, x, 0.5, y)
 	end
+end
+
+function class:Select()
+	o.selectionGlow.Visible = true
+end
+
+function class:Deselect()
+	o.selectionGlow.Visible = false
 end
 
 function class:SetTitle(title)
@@ -185,10 +204,13 @@ function class:SetNodeIcon(nodeType)
 	)
 	if nodeType == "function" then
 		self.nodeIcon.ImageRectOffset = Vector2.new(0, 0)
+		self.nodeTitle.ImageColor3 = Color3.fromRGB(200, 75, 75)
 	elseif nodeType == "value" then
 		self.nodeIcon.ImageRectOffset = Vector2.new(24, 0)
+		self.nodeTitle.ImageColor3 = Color3.fromRGB(75, 200, 75)
 	elseif nodeType == "event" then
 		self.nodeIcon.ImageRectOffset = Vector2.new(48, 0)
+		self.nodeTitle.ImageColor3 = Color3.fromRGB(75, 75, 200)
 	end
 end
 
