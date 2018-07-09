@@ -83,7 +83,7 @@ function class.New(o, parent, node, triggers)
 			Parent = o.content,
 		}
 		if triggers == "both" or triggers == "input" then
-			local inputTrigger = class.Package.Utils.Create'ImageLabel'{
+			local inputTrigger = class.Package.Utils.Create'ImageButton'{
 				AnchorPoint = Vector2.new(0, 0),
 				BackgroundTransparency = 1,
 				Name = 'Input',
@@ -93,10 +93,18 @@ function class.New(o, parent, node, triggers)
 				Parent = o.triggers,
 			}
 			class.Package.Themes.Bind(inputTrigger, 'ImageColor3', 'TriggerColor')
+			outputTrigger.MouseButton1Down:Connect(function()
+				local position = outputTrigger.AbsolutePosition + (.5 * outputTrigger.AbsoluteSize)
+				class.Package.Grid.StartConnection(node, 0, true, position.X, position.Y)
+			end)
+			outputTrigger.MouseButton1Up:Connect(function(x, y)
+				local position = outputTrigger.AbsolutePosition + (.5 * outputTrigger.AbsoluteSize)
+				class.Package.Grid.EndConnection(node, 0, true, position.X, position.Y)
+			end)
 		end
 
 		if triggers == "both" or triggers == "output" then
-			local outputTrigger = class.Package.Utils.Create'ImageLabel'{
+			local outputTrigger = class.Package.Utils.Create'ImageButton'{
 				AnchorPoint = Vector2.new(1, 0),
 				BackgroundTransparency = 1,
 				Name = 'Output',
@@ -111,7 +119,8 @@ function class.New(o, parent, node, triggers)
 				class.Package.Grid.StartConnection(node, 0, false, position.X, position.Y)
 			end)
 			outputTrigger.MouseButton1Up:Connect(function(x, y)
-				
+				local position = outputTrigger.AbsolutePosition + (.5 * outputTrigger.AbsoluteSize)
+				class.Package.Grid.EndConnection(node, 0, false, position.X, position.Y)
 			end)
 		end
 	end

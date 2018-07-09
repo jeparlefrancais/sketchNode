@@ -145,15 +145,28 @@ function module.VerifyConnection(node, index, isInput) --\ReturnType: string
 	return string.format('ConnectionWarnings.%s', warning)
 end
 
-function module.EndConnection(node, index, isInput)
-	if module.nodeToConnect then
-		if isInput ~= module.nodeToConnectIsInput then
-
-		else
-
-		end
+function module.EndConnection(node, index, isInput, x, y) --\ReturnType: string
+	--\Doc: Tries to make a connection. Returns the result of Grid.VerifyConnection.
+	node, index, isInput, x, y = module.Package.Utils.Tests.GetArguments(
+		{'Node', node}, -- The node to move.
+		{'number', index}, -- The index of the connector.
+		{'boolean', isInput}, -- If the connector is an input.
+		{'number', x}, --The position of the mouse click on the x-axis.
+		{'number', y} -- The position of the mouse click on the y-axis.
+	)
+	local result = module.VerifyConnection(node, index, isInput)
+	if result == 'Success' then
+		module.openedSheet:ConnectNodes(
+			isInput and node or module.nodeToConnect,
+			isInput and module.nodeToConnect or node,
+			isInput and index or module.nodeToConnectIndex,
+			isInput and module.nodeToConnectIndex or index
+		)
+	else
+		module.Package.ToolTip.Show(result, x, y)
 	end
 	module.SendMouseUp(0, 0)
+	return result
 end
 
 function module.SendMouseUp(x, y)
@@ -185,6 +198,7 @@ function module.MouseMove(x, y)
 			module.world.Position = UDim2.new(0, position.X, 0, position.Y)	
 		end
 	end
+	module.Package.ToolTip.Hide()
 end
 
 function module.EditSheet(sheet) --\ReturnType: boolean

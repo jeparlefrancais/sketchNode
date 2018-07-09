@@ -39,5 +39,6 @@ module.NodesFolderServices = {
 }
 
 module.ToolTipWaitTime = 1
+module.ToolTipMinimumTime = .5
 
 return module
