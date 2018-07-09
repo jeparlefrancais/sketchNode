@@ -210,6 +210,10 @@ function module.EditSheet(sheet) --\ReturnType: boolean
 		if not module.sheetFrames[sheet] then
 			local sheetFrame = module.Package.Templates.Container{
 				Name = 'NodeContainer',
+				ZIndex = 3
+			}
+			local connectionFrame = module.Package.Templates.Container{
+				Name = 'ConnectionContainer',
 				ZIndex = 2
 			}
 
