@@ -106,6 +106,13 @@ function class.New(o, parent, node, triggers)
 				Parent = o.triggers,
 			}
 			class.Package.Themes.Bind(outputTrigger, 'ImageColor3', 'TriggerColor')
+			outputTrigger.MouseButton1Down:Connect(function()
+				local position = outputTrigger.AbsolutePosition + (.5 * outputTrigger.AbsoluteSize)
+				class.Package.Grid.StartConnection(node, 0, false, position.X, position.Y)
+			end)
+			outputTrigger.MouseButton1Up:Connect(function(x, y)
+				
+			end)
 		end
 	end
 	local listLayout = class.Package.Templates.ResponsiveList(

@@ -38,4 +38,6 @@ module.NodesFolderServices = {
 	'Workspace'
 }
 
+module.ToolTipWaitTime = 1
+
 return module

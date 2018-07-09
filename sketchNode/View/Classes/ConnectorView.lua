@@ -12,16 +12,16 @@ local function GetConnectorColor(typedVariable)
 	)
 	if typedVariable:IsA('Argument') then
 		if typedVariable:GetDefaultValue() ~= nil then
-			return Color3.fromRGB(95, 180, 105) -- il y a une valeur par default alors cest chill
+			return Color3.fromRGB(95, 180, 105)
 		else
-			if typedVariable:GetCanBeNil() then -- if its NEEDED
-				return Color3.fromRGB(80, 147, 218) -- ca peut etre nil donc c'est risque un peu
+			if typedVariable:GetCanBeNil() then
+				return Color3.fromRGB(80, 147, 218)
 		 	else
-				return Color3.fromRGB(218, 79, 79) -- oblige de connecter
+				return Color3.fromRGB(218, 79, 79)
 			end
 		end
 	end
-	return Color3.fromRGB(95, 180, 105) -- pour les valeurs de retour
+	return Color3.fromRGB(95, 180, 105)
 end
 
 
@@ -32,16 +32,11 @@ end
 function class.New(o, parent, isOutput, typeString, nameString)
 	parent, isOutput, typeString, nameString = class.Package.Utils.Tests.GetArguments(
 		{'Instance', parent}, -- The parent component.
-		{'boolean', isOutput},  -- The argument component.
-		{'string', typeString},  -- The argument component.
-		{'string', nameString}  -- The argument component.
+		{'boolean', isOutput},  -- If the connector is an output or an input.
+		{'string', typeString},  -- The type of the connector.
+		{'string', nameString}  -- The name of the connector.
 	)
 	if o == class then o = class.Package.Utils.Inherit(class) end
-
-	--o.typedVariable = typedVariableOrArgument
-	--local isOutput = not typedVariableOrArgument:IsA('Argument')
-
-	--parent = isRight and parent:FindFirstChild('Out') or parent:FindFirstChild('In')
 	
 	o.connectorView = class.Package.Templates.Container{
 		Name = nameString,
@@ -49,18 +44,18 @@ function class.New(o, parent, isOutput, typeString, nameString)
 		Parent = parent,
 		class.Package.Templates.ImageLabel{
 			AnchorPoint = Vector2.new(0.5, 0.5),
-			Name = "ConnectorStroke",
+			Name = 'ConnectorStroke',
 			Position = isOutput and UDim2.new(1, 4, 0.5, 0) or UDim2.new(0, -4, 0.5, 0),
 			Size = UDim2.new(0, 20, 0, 20),
-			Image = "rbxassetid://1840922184",
+			Image = 'rbxassetid://1840922184',
 
 			class.Package.Templates.ImageButton{
 				AnchorPoint = Vector2.new(0.5, 0.5),
-				Name = "Connector",
+				Name = 'Connector',
 				Position = UDim2.new(0.5, 0, 0.5, 0),
 				Size = UDim2.new(0.7, 0, 0.7, 0),
 				ZIndex = 40,
-				Image = "rbxassetid://1841010009",
+				Image = 'rbxassetid://1841010009',
 				ImageColor3 = Color3.fromRGB(137, 180, 137)
 			}
 		}
@@ -71,7 +66,7 @@ function class.New(o, parent, isOutput, typeString, nameString)
 		class.Package.Templates.MinimalText(typeString, {
 			BackgroundTransparency = 1,
 			LayoutOrder = 0,
-			Name = "ConnectorType",
+			Name = 'ConnectorType',
 			ZIndex = 60,
 			Font = Enum.Font.SourceSansItalic,
 			Text = typeString,
@@ -81,7 +76,7 @@ function class.New(o, parent, isOutput, typeString, nameString)
 		class.Package.Templates.MinimalText(nameString, {
 			BackgroundTransparency = 1,
 			LayoutOrder = 1,
-			Name = "ConnectorValue",
+			Name = 'ConnectorValue',
 			ZIndex = 60,
 			Font = Enum.Font.SourceSans,
 			Text = nameString,
@@ -105,6 +100,13 @@ function class.New(o, parent, isOutput, typeString, nameString)
 	class.Package.Themes.Bind(container.ConnectorValue, 'TextColor3', 'ConnectorValueColor')
 
 	o.SetConnected(o, false)
+
+	o.connectorView.ConnectorStroke.Connector.MouseButton1Down:Connect(function()
+		print('Mouse down in connector')
+	end)
+	o.connectorView.ConnectorStroke.Connector.MouseButton1Up:Connect(function()
+		print('Mouse up in connector')
+	end)
 
 	return o
 end

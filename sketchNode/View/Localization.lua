@@ -15,7 +15,14 @@ local English = {
 	['NodesPanel'] = 'Nodes',
 	['AddSheetPlaceholderText'] = 'Add new Sheet..',
 	['DeleteSheetPromptTitle'] = 'Delete Sheet?',
-	['DeleteSheetPromptMessage'] = 'Are you sure you want to delete this sheet?'
+	['DeleteSheetPromptMessage'] = 'Are you sure you want to delete this sheet?',
+
+	['ConnectionWarnings.FirstNodeMissing'] = "Something went wrong, can't find first node",
+	['ConnectionWarnings.SameNode'] = "You can't connect a node to itself",
+	['ConnectionWarnings.BothInputs'] = "You can't connect two inputs together",
+	['ConnectionWarnings.BothOutputs'] = "You can't connect two outputs together",
+	['ConnectionWarnings.TriggerToOther'] = 'You need to connect your trigger to another trigger',
+	['ConnectionWarnings.WrongTypes'] = "Connectors' types don't match",
 }
 
 local Translations = {

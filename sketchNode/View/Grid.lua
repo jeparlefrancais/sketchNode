@@ -95,6 +95,67 @@ function module.StartNodeMovement(node, x, y)
 	module.nodeToMoveClickPosition = Vector2.new(x, y)
 end
 
+function module.StartConnection(node, index, isInput, x, y)
+	node, index, isInput, x, y = module.Package.Utils.Tests.GetArguments(
+		{'Node', node}, -- The node to move.
+		{'number', index}, -- The index of the connector.
+		{'boolean', isInput}, -- If the connector is an input.
+		{'number', x}, --The position of the mouse click on the x-axis.
+		{'number', y} -- The position of the mouse click on the y-axis.
+	)
+	module.nodeToConnect = node
+	module.nodeToConnectIndex = index
+	module.nodeToConnectIsInput = isInput
+end
+
+function module.VerifyConnection(node, index, isInput) --\ReturnType: string
+	--\Doc: Return 'Success' if the connection can be made, or an entry in the localization table that explains what is wrong with the connection.
+	node, index, isInput = module.Package.Utils.Tests.GetArguments(
+		{'Node', node}, -- The node to move.
+		{'number', index}, -- The index of the connector.
+		{'boolean', isInput} -- If the connector is an input.
+	)
+	local warning
+	if module.nodeToConnect then
+		if module.nodeToConnect ~= node then
+			if module.nodeToConnectIsInput ~= isInput then
+				if module.nodeToConnectIndex == 0 then
+					if index == 0 then
+						return 'Success'
+					else
+						warning = 'TriggerToOther'
+					end
+				else
+					if index == 0 then
+						warning = 'TriggerToOther'
+					else
+						-- check if type matches
+						warning = 'WrongTypes'
+					end
+				end
+			else
+				warning = isInput and 'BothInputs' or 'BothOutputs'
+			end
+		else
+			warning = 'SameNode'
+		end
+	else
+		warning = 'FirstNodeMissing'
+	end
+	return string.format('ConnectionWarnings.%s', warning)
+end
+
+function module.EndConnection(node, index, isInput)
+	if module.nodeToConnect then
+		if isInput ~= module.nodeToConnectIsInput then
+
+		else
+
+		end
+	end
+	module.SendMouseUp(0, 0)
+end
+
 function module.SendMouseUp(x, y)
 	if module.nodeToMove then
 		local translation = Vector2.new(x, y) - module.nodeToMoveClickPosition
@@ -108,6 +169,7 @@ function module.SendMouseUp(x, y)
 		end
 	end
 	module.nodeToMove = nil
+	module.nodeToConnect = nil
 	module.gridClickPosition = nil
 end
 
