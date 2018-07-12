@@ -37,4 +37,4 @@ See also the list of [contributors](https://github.com/your/project/contributors
 
 ## Acknowledgments
 
-* Stravant for his code parser
+* Stravant for his [code parser](https://github.com/stravant/LuaMinify)
