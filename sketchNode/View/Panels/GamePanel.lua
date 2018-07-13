@@ -179,6 +179,8 @@ function module.Start(parent)
 	module.sheetButtons = {}
 end
 
+local selectedSheetButton = nil
+
 function module.AddSketchSheetButton(sheet)
 	--\Doc: Creates a button in the Game panel to be able to open that sheet.
 	sheet = module.Package.Utils.Tests.GetArguments(
@@ -210,7 +212,12 @@ function module.AddSketchSheetButton(sheet)
 		deleteButton.Visible = false
 	end)
 	sheetButton.MouseButton1Click:Connect(function()
+		if selectedSheetButton then
+			selectedSheetButton.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
+		end
 		module.Package.Grid.EditSheet(sheet)
+		selectedSheetButton = sheetButton
+		sheetButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
 	end)
 	labelButton.MouseEnter:connect(function()
 		labelButton.ImageColor3 = Color3.fromRGB(102, 102, 255)

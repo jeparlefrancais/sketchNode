@@ -136,7 +136,8 @@ end
 
 function module.SectionButton(properties)
 	local sectionButton = module.Package.Utils.Create'TextButton'(Merge({
-		BackgroundTransparency = 1,
+		BackgroundColor3 = Color3.fromRGB(38, 38, 38),
+		BorderSizePixel = 0,
 		Size = UDim2.new(1, 0, 0, 18),
 		Font = Enum.Font.SourceSans,
 		TextColor3 = Color3.fromRGB(193, 193, 193),
@@ -144,10 +145,10 @@ function module.SectionButton(properties)
 		TextXAlignment = Enum.TextXAlignment.Left,
 	}, properties))
 	sectionButton.MouseEnter:connect(function()
-		sectionButton.BackgroundTransparency = 0.9
+		--sectionButton.BackgroundTransparency = 0.9
 	end)
 	sectionButton.MouseLeave:connect(function()
-		sectionButton.BackgroundTransparency = 1
+		--sectionButton.BackgroundTransparency = 1
 	end)
 
 	return sectionButton
